@@ -6,7 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import n2Ecommerce.ec.beans.Produto;
+import n2Ecommerce.ec.model.ProdutoDao;
+
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Servlet implementation class Api
@@ -42,7 +46,38 @@ public class Api extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served GET at: ").append(request.getContextPath()).append(" - ").append("oi");)
-		response.getWriter().append("Served GET at: ").append(request.getContextPath()).append(" - ").append("oi");
+		//response.getWriter().append("Served GET at: ").append(request.getContextPath()).append(" - ").append("oi");
+		System.out.println("Produto get - " + new Date());
+
+		// TODO Auto-generated method stub
+		Produto p = new Produto();
+		
+		// Note que getParamtere retorna string, 
+		// a conversão é feita na classe Client (seters)
+		
+		p.setId(request.getParameter("ID"));
+		p.setNome(request.getParameter("NOME"));
+		p.setPreco(request.getParameter("PRECO"));
+		p.setDescricao(request.getParameter("DESCRICAO"));
+		p.setFoto(request.getParameter("FOTO"));
+		p.setQuantidade(request.getParameter("QUANTIDADE"));
+		p.setDesconto(request.getParameter("DESCONTO"));
+		p.setQuantidadeEmOrdem(request.getParameter("QUANTIDADEEMORDEM"));
+		p.setIdCategoria(request.getParameter("IDCATEGORIA"));
+		
+		ProdutoDao produtoDao = new ProdutoDao();
+		
+		produtoDao.insert(p);
+
+        //TODO: Gerenciar e propagar erro...		
+		
+		//System.out.println(request.getContentLength());
+		
+		if (request.getContentLength() < 1) {
+			response.getWriter().append("{\"count\":" + produtoDao.count() + "}");
+		} else {
+			response.getWriter().append("Produto Criado...");
+		} //if
 	}
 
 	/**

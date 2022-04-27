@@ -127,7 +127,7 @@ public class ProdutoDao implements Dao<Produto> {
         
     	try {
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT * FROM FTT.CLIENT WHERE ID=?");
+                    prepareStatement("SELECT * FROM n2_ecommerce.tbProdutos WHERE ID=?");
             
             preparedStatement.setLong(1, produto.getId());
             ResultSet rs = preparedStatement.executeQuery();

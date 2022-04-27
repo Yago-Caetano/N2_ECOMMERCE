@@ -70,7 +70,7 @@ public class ProdutoApi extends HttpServlet {
 
         //TODO: Gerenciar e propagar erro...		
 		
-		//System.out.println(request.getContentLength());
+		System.out.println(request.getContentLength());
 		
 		if (request.getContentLength() < 1) {
 			response.getWriter().append("{\"count\":" + produtoDao.count() + "}");
