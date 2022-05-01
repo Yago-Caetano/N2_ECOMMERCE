@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.Beans.Pedido;
 import com.example.demo.Beans.Produto;
 import com.example.demo.Model.DbUtil;
 import com.example.demo.Model.*;
@@ -32,31 +33,33 @@ import com.example.demo.Model.*;
  * 
  */
 
-public class ProdutoDAO implements IRepositoryService<Produto> {
+public class PedidoDAO implements IRepositoryService<Pedido> {
 	
 	private Connection connection;
 	
 	//Constructor
-	public ProdutoDAO() throws Exception {
+	public PedidoDAO() throws Exception {
 		this.connection = DbUtil.CreatesConnectionToMYSQL();
 	}
 
 	@Override
-	public void insert(Produto produto) {
+	public void insert(Pedido pedido) {
 
 		try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO tbprodutos (ID, NOME, PRECO, DESCRICAO, FOTO, QUANTIDADE, DESCONTO, IDCATEGORIA) VALUES (?,?, ?, ?, ?, ?, ?, ?)");
+                    .prepareStatement("INSERT INTO n2_ecommerce.tbpedidos (ID, IDSTATUS, IDUSUARIO, IDENDERECO, DATA) VALUES (?,?, ?, ?, ?)");
             
             // Parameters start with 1
-            preparedStatement.setInt(1, produto.getId());
-            preparedStatement.setString(2, produto.getNome());
-            preparedStatement.setDouble(3, produto.getPreco());
-            preparedStatement.setString(4, produto.getDescricao());
-            preparedStatement.setBytes(5, produto.getFoto());
-            preparedStatement.setInt(6, produto.getQuantidade());
-            preparedStatement.setDouble(7, produto.getDesconto());          
-            preparedStatement.setInt(8, produto.getIdCategoria());
+            preparedStatement.setInt(1, pedido.getId());
+            preparedStatement.setInt(2, pedido.getIdStatus());
+            preparedStatement.setInt(3, pedido.getIdUsuario());
+            preparedStatement.setInt(4, pedido.getIdEndereco());
+            
+            java.util.Date dt = pedido.getDataPedido();
+            java.sql.Date d = new java.sql.Date (dt.getTime());
+            
+            preparedStatement.setDate(5, d);
+
             
             preparedStatement.executeUpdate();
 
@@ -68,31 +71,29 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 	}
 
 	@Override
-	public void update(Produto produto) {
+	public void update(Pedido pedido) {
 		
 		try {
 			//Java 13 - text block -  """   """
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE tbprodutos SET NOME=?, " 
-                    		                           + "PRECO=?, "
-                    		                           + "DESCRICAO=?, "
-                    		                           + "FOTO=?, "
-                    		                           + "QUANTIDADE=?, "
-                    		                           + "DESCONTO=?, " 
-                    		                           + "IDCATEGORIA=? "  
+                    .prepareStatement("UPDATE n2_ecommerce.tbpedidos SET IDSTATUS=?, " 
+                    		                           + "IDUSUARIO=?, "
+                    		                           + "IDENDERECO=?, "
+                    		                           + "DATA=? "
                                                 + "WHERE ID=?");
             
             // Parameters start with 1
             // preparedStatement previne SQL Injection...
-            preparedStatement.setString(1, produto.getNome());
-            preparedStatement.setDouble(2, produto.getPreco());
-            preparedStatement.setString(3, produto.getDescricao());
-            preparedStatement.setBytes(4, produto.getFoto());
-            preparedStatement.setInt(5, produto.getQuantidade());
-            preparedStatement.setDouble(6, produto.getDesconto());  
-            preparedStatement.setInt(7, produto.getIdCategoria());
+            preparedStatement.setInt(1, pedido.getIdStatus());
+            preparedStatement.setInt(2, pedido.getIdUsuario());
+            preparedStatement.setInt(3, pedido.getIdEndereco());
+            
+            java.util.Date dt = pedido.getDataPedido();
+            java.sql.Date d = new java.sql.Date (dt.getTime());
+            
+            preparedStatement.setDate(4, d);
 
-            preparedStatement.setInt(8, produto.getId());
+            preparedStatement.setInt(5, pedido.getId());
             
             preparedStatement.executeUpdate();
 
@@ -107,7 +108,7 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 		try {
             
         	PreparedStatement preparedStatement = connection
-                    .prepareStatement("DELETE FROM tbprodutos WHERE ID=?");
+                    .prepareStatement("DELETE FROM n2_ecommerce.tbpedidos WHERE ID=?");
             
             // Parameters start with 1
             preparedStatement.setInt(1, id);
@@ -120,26 +121,24 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 	} //delete 
 
 	@Override
-	public Produto find(int id) {
+	public Pedido find(int id) {
 		
-		Produto p = new Produto();
+		Pedido p = new Pedido();
         
     	try {
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT * FROM n2_ecommerce.tbprodutos WHERE ID=?");
+                    prepareStatement("SELECT * FROM n2_ecommerce.tbpedidos WHERE ID=?");
             
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
                 p.setId(rs.getInt("ID"));
-                p.setNome(rs.getString("NOME"));
-                p.setPreco(rs.getDouble("PRECO"));
-                p.setDescricao(rs.getString("DESCRICAO"));
-                p.setFoto(rs.getBytes("FOTO"));
-                p.setQuantidade(rs.getInt("QUANTIDADE"));               
-                p.setDesconto(rs.getDouble("DESCONTO"));              
-                p.setIdCategoria(rs.getInt("IDCATEGORIA"));
+                p.setIdStatus(rs.getInt("IDSTATUS"));
+                p.setIdUsuario(rs.getInt("IDUSUARIO"));
+                p.setIdEndereco(rs.getInt("IDENDERECO"));
+                p.setDataPedido(rs.getDate("DATA"));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,29 +149,26 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 	} //find
 
 	@Override
-	public ArrayList<Produto> findAll(Produto produto) {
+	public ArrayList<Pedido> findAll(Pedido pedido) {
 		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
 		
-		ArrayList<Produto> pList = new ArrayList<Produto>();
+		ArrayList<Pedido> pList = new ArrayList<Pedido>();
         
         try {
         	
             Statement statement = connection.createStatement();
             
-            ResultSet rs = statement.executeQuery("SELECT * FROM tbprodutos");
+            ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbpedidos");
             
             while (rs.next()) {
                 
-            	Produto p = new Produto();
+            	Pedido p = new Pedido();
                 
-            	p.setId(rs.getInt("ID"));
-                p.setNome(rs.getString("NOME"));
-                p.setPreco(rs.getDouble("PRECO"));
-                p.setDescricao(rs.getString("DESCRICAO"));
-                p.setFoto(rs.getBytes("FOTO"));
-                p.setQuantidade(rs.getInt("QUANTIDADE"));               
-                p.setDesconto(rs.getDouble("DESCONTO"));
-                p.setIdCategoria(rs.getInt("IDCATEGORIA"));
+                p.setId(rs.getInt("ID"));
+                p.setIdStatus(rs.getInt("IDSTATUS"));
+                p.setIdUsuario(rs.getInt("IDUSUARIO"));
+                p.setIdEndereco(rs.getInt("IDENDERECO"));
+                p.setDataPedido(rs.getDate("DATA"));
 
                 pList.add(p);
                 
@@ -193,7 +189,7 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 		try {
 			
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT COUNT(1) QTD FROM tbprodutos");
+                    prepareStatement("SELECT COUNT(1) QTD FROM n2_ecommerce.tbpedidos");
             
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -217,7 +213,7 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 		try {
 			
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT MAX(ID) MAX_ID FROM tbprodutos");
+                    prepareStatement("SELECT MAX(ID) MAX_ID FROM n2_ecommerce.tbpedidos");
             
             ResultSet rs = preparedStatement.executeQuery();
 

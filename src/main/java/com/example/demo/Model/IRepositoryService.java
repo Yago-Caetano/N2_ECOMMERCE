@@ -8,7 +8,7 @@ public interface IRepositoryService<DomainObject> {
 	
 	public  void update(DomainObject obj);
 	
-	public  void delete(DomainObject obj);
+	public  void delete(int id);
 	
 	public  DomainObject find(int id);
 	
