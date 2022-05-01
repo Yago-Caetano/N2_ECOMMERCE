@@ -15,7 +15,7 @@ public class DbUtil {
 	
 	private static final String USERNAME = "root";
 	
-	private static final String PASSWORD = "1234";
+	private static final String PASSWORD = "123456";
 	
 	private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/n2_ecommerce";
 	
