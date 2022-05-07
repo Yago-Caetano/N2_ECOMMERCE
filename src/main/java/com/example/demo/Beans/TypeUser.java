@@ -1,10 +1,9 @@
 package com.example.demo.Beans;
 
-import java.time.LocalDate;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 
@@ -12,16 +11,16 @@ import javax.persistence.Id;
 public class TypeUser {
 	
 	@Id
-	@Basic
-	private int id;
+	@GeneratedValue
+	private Long id;
 	@Column
 	@Basic
 	private String tipo;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getTipo() {

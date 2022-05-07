@@ -62,7 +62,7 @@ public class TypeUserDAO  {
             // Parameters start with 1
             // preparedStatement previne SQL Injection...
             preparedStatement.setString(1, tipo.getTipo());
-            preparedStatement.setInt(2, tipo.getId());          
+            preparedStatement.setLong(2, tipo.getId());          
             preparedStatement.executeUpdate();
             this.connection.close();
 		
@@ -72,7 +72,7 @@ public class TypeUserDAO  {
 		
 	} //delete 
 
-	public TypeUser find(int id) throws Exception {
+	public TypeUser find(Long id) throws Exception {
 		
 		TypeUser tipo = new TypeUser();
 
@@ -83,7 +83,7 @@ public class TypeUserDAO  {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
-            	tipo.setId(rs.getInt("id"));
+            	tipo.setId(rs.getLong("id"));
             	tipo.setTipo(rs.getString("Tipo"));
             }
             this.connection.close();
@@ -104,7 +104,7 @@ public TypeUser find(String tipoNome) throws Exception {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
-            	tipo.setId(rs.getInt("id"));
+            	tipo.setId(rs.getLong("id"));
             	tipo.setTipo(rs.getString("Tipo"));
             }
             this.connection.close();
@@ -128,7 +128,7 @@ public TypeUser find(String tipoNome) throws Exception {
                 
             	TypeUser p = new TypeUser();
                 
-            	p.setId(rs.getInt("id"));
+            	p.setId(rs.getLong("id"));
                 p.setTipo(rs.getString("Tipo"));
                 pList.add(p);
                 

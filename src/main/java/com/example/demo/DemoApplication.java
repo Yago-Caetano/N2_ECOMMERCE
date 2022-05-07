@@ -16,9 +16,12 @@ import com.example.demo.Beans.Produto;
 import com.example.demo.Model.DAO.ProdutoDAO;
 import com.example.demo.Model.DAO.ProdutoRepository;
 import com.example.demo.Beans.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages={"com.example.Restservice"})
-@RestController
+//@SpringBootApplication(scanBasePackages={"com.example.Restservice","com.controller","com.example.config","com.service","com.DAO","com.model"})
+@SpringBootApplication
+//@RestController
 public class DemoApplication {
 	 
 	

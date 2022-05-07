@@ -60,7 +60,7 @@ public class TypeUserController {
 		
 	}
 	@GetMapping("/typeUser")
-	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "0") Long id) {
 		try
 		{
 			//Retorna todos os tipos cadastrados
