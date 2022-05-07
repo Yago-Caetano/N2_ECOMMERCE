@@ -1,42 +1,34 @@
 package com.example.Restservice;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpHeaders;
-import java.util.concurrent.atomic.AtomicLong;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import com.example.demo.Beans.TypeUser;
 import com.example.demo.Model.DAO.TypeUserDAO;
 
-import net.bytebuddy.agent.builder.ResettableClassFileTransformer.AbstractBase;
 
 @RestController
+@CrossOrigin
 public class TypeUserController {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GreetingController.class, args);
 	}
 	
-	private static final String template = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
 	
 	@PostMapping("/typeUser")
-	public ResponseEntity create(@RequestBody TypeUser type) 
+	public ResponseEntity<?> create(@RequestBody TypeUser type) 
 	{
 		try
 		{
@@ -68,7 +60,7 @@ public class TypeUserController {
 		
 	}
 	@GetMapping("/typeUser")
-	public ResponseEntity GetData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
 		try
 		{
 			//Retorna todos os tipos cadastrados
@@ -94,7 +86,7 @@ public class TypeUserController {
 		}
 	}
 	@PutMapping("/typeUser")
-	public ResponseEntity Update(@RequestBody TypeUser type) {
+	public ResponseEntity<?> Update(@RequestBody TypeUser type) {
 		try
 		{
 			//Retorna todos os tipos cadastrados

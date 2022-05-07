@@ -2,12 +2,16 @@ package com.example.demo.Beans;
 
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.Id;
+
+import antlr.collections.List;
 
 @Entity
 public class User {
@@ -26,7 +30,7 @@ public class User {
 	private String email;
 	@Column
 	@Basic
-	private String senha;
+	private String senha ;
 	@Column
 	@Basic
 	private String cpf;
@@ -36,6 +40,50 @@ public class User {
 	@Column
 	@Basic
 	private boolean statusUsuario;
+	
+    public User(String username, String password, String roles, String permissions){
+        this.email = username;
+        this.senha = password;
+        this.roles = roles;
+        this.permissions = permissions;
+        this.active = 1;
+    }
+    
+    protected User(){}
+    
+	private int active;
+	
+    private String roles = "";
+
+    private String permissions = "";
+    
+    
+    public int getActive() {
+        return active;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+    
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public java.util.List<String> getRoleList(){
+        if(this.roles.length() > 0){
+            return  Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    public java.util.List<String> getPermissionList(){
+        if(this.permissions.length() > 0){
+            return Arrays.asList(this.permissions.split(","));
+        }
+        return new ArrayList<>();
+    }
+	
 	public int getId() {
 		return id;
 	}
