@@ -18,7 +18,6 @@ import com.example.demo.DAO.TypeUserDAO;
 public class TypeUserController {
 	
 	@PostMapping("/typeUser")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> create(@RequestBody TypeUser type) 
 	{
 		try
@@ -28,11 +27,9 @@ public class TypeUserController {
 		    } else {
 		    	
 		    	TypeUserDAO dao = new TypeUserDAO();
+		    	type.GenerateID();
 		    	dao.insert(type);
-		    	//Procura o item para descobrir o ID
-		    	dao = new TypeUserDAO();
-		    	TypeUser tipo = dao.find(type.getTipo());
-		    	return ResponseEntity.ok(tipo);
+		    	return ResponseEntity.ok(type);
 		    }
 		}
 		catch(Exception e)
@@ -43,14 +40,13 @@ public class TypeUserController {
 	}
 	
 	@GetMapping("/typeUser")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 		try
 		{
 			//Retorna todos os tipos cadastrados
-		    if (id == 0) {
+		    if (id.equals("")|| id.equals(null)) {
 		    	TypeUserDAO dao = new TypeUserDAO();
-		    	var itens=dao.findAll(null);
+		    	var itens=dao.findAll();
 		    	return ResponseEntity.ok(itens);
 		    	
 		    } else {
@@ -58,7 +54,7 @@ public class TypeUserController {
 		    	TypeUserDAO dao = new TypeUserDAO();
 		    	TypeUser tipo =dao.find(id);
 		    	// Tipo não encontrado
-		    	if (tipo.getId()==0)
+		    	if (tipo.getId()==null)
 		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
 		    	else
 		    		return ResponseEntity.ok(tipo);
@@ -70,12 +66,11 @@ public class TypeUserController {
 		}
 	}
 	@PutMapping("/typeUser")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> Update(@RequestBody TypeUser type) {
 		try
 		{
 			//Retorna todos os tipos cadastrados
-		    if (type.getId() <= 0) {
+		    if (type.getId() ==null) {
 		    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
 		    	
 		    } else {
@@ -83,7 +78,7 @@ public class TypeUserController {
 		    	TypeUserDAO dao = new TypeUserDAO();
 		    	TypeUser tipo =dao.find(type.getId());
 		    	// Tipo não encontrado
-		    	if (tipo.getId()==0)
+		    	if (tipo.getId()==null)
 		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
 		    	else
 		    	{

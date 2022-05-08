@@ -2,23 +2,20 @@ package com.example.demo.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.example.demo.models.PadraoModel;
 
 
 @Entity
-public class TypeUser {
-	
-	@Id
-	private int id;
+public class TypeUser extends PadraoModel  {
+
 	@Column
 	private String tipo;
 	
-	public int getId() {
-		return id;
+	public TypeUser()
+	{
+		this.GenerateID();
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getTipo() {
 		return tipo;
 	}

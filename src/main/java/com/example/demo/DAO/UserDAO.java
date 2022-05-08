@@ -22,42 +22,33 @@ public class UserDAO implements IRepositoryService<User> {
 	}
 
 	@Override
-	public void insert(User user) {
+	public void insert(User user) throws Exception {
 
-		try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("INSERT INTO tbusuario (ID, NOME,  EMAIL, SENHA, CPF, IDTIPOUSUARIO, STATUSUSUARIO) VALUES (?, ?, ?, ?, ?, ?, ?)");
             
             // Parameters start with 1
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setString(1, user.getId());
             preparedStatement.setString(2, user.getNome());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getSenha());
             preparedStatement.setString(5, user.getCpf());          
-            preparedStatement.setInt(6, user.getIdTipoUsuario());
+            preparedStatement.setString(6, user.getIdTipoUsuario());
             preparedStatement.setBoolean(7, user.isStatusUsuario());
             
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
-		
+            preparedStatement.executeUpdate();			
 	}
 
 	@Override
-	public void update(User user) {
+	public void update(User user) throws Exception{
 		
-		try {
-			//Java 13 - text block -  """   """
             PreparedStatement preparedStatement = connection
                     .prepareStatement("UPDATE tbusuario SET NOME=?, " 
                     		                           + "EMAIL=?, "
                     		                           + "SENHA=?, "
                     		                           + "CPF=?, "
                     		                           + "IDTIPOUSUARIO=?, " 
-                    		                           + "STATUSUSUARIO=?, "                     		                          
+                    		                           + "STATUSUSUARIO=? "                     		                          
                                                 + "WHERE ID=?");
             
             // Parameters start with 1
@@ -66,98 +57,99 @@ public class UserDAO implements IRepositoryService<User> {
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getSenha());
             preparedStatement.setString(4, user.getCpf());
-            preparedStatement.setInt(5, user.getIdTipoUsuario());  
+            preparedStatement.setString(5, user.getIdTipoUsuario());  
             preparedStatement.setBoolean(6, user.isStatusUsuario());
 
-            preparedStatement.setInt(7, user.getId());
+            preparedStatement.setString(7, user.getId());
             
             preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 		
 	} 
 
 	@Override
-	public void delete(int id) {
-
-		try {
-            
+	public void delete(String id) throws Exception {
         	PreparedStatement preparedStatement = connection
                     .prepareStatement("DELETE FROM tbusuario WHERE ID=?");
             
             // Parameters start with 1
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-        		e.printStackTrace();
-        } 
-		
 	} 
 
 	@Override
-	public User find(int id) {
+	public User find(String string) throws Exception {
 		
 		User u = new User();
         
-    	try {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("SELECT * FROM n2_ecommerce.tbusuario WHERE ID=?");
             
-            preparedStatement.setLong(1, id);
+            preparedStatement.setString(1, string);
             ResultSet rs = preparedStatement.executeQuery();
-
+           
             if (rs.next()) {
-                u.setId(rs.getInt("ID"));
+                u.setId(rs.getString("ID"));
                 u.setNome(rs.getString("NOME"));
                 u.setEmail(rs.getString("EMAIL"));
                 u.setSenha(rs.getString("SENHA"));
                 u.setCpf(rs.getString("CPF"));               
-                u.setIdTipoUsuario(rs.getInt("IDTIPOUSUARIO"));              
+                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
                 u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
+
+        return u;
+		
+	} 
+	public User findByEmail(String email) throws Exception {
+		
+ 		User u = new User();
+        
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("SELECT * FROM n2_ecommerce.tbusuario WHERE email=?");
+            
+            preparedStatement.setString(1, email);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                u.setId(rs.getString("ID"));
+                u.setNome(rs.getString("NOME"));
+                u.setEmail(rs.getString("EMAIL"));
+                u.setSenha(rs.getString("SENHA"));
+                u.setCpf(rs.getString("CPF"));               
+                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
+                u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
+            }
 
         return u;
 		
 	} 
 
+
 	@Override
-	public ArrayList<User> findAll() {
+	public ArrayList<User> findAll() throws Exception{
 		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
-		
 		ArrayList<User> uList = new ArrayList<User>();
         
-        try {
-        	
             Statement statement = connection.createStatement();
             
-            ResultSet rs = statement.executeQuery("SELECT * FROM tbprodutos");
+            ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbusuario");
             
             while (rs.next()) {
                 
             	User u = new User();
                 
-            	u.setId(rs.getInt("ID"));
+            	u.setId(rs.getString("ID"));
                 u.setNome(rs.getString("NOME"));
                 u.setEmail(rs.getString("EMAIL"));
-                u.setSenha(rs.getString("SENHA"));
+                //u.setSenha(rs.getString("SENHA"));
                 u.setCpf(rs.getString("CPF"));               
-                u.setIdTipoUsuario(rs.getInt("IDTIPOUSUARIO"));              
+                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
                 u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
 
                 uList.add(u);
                 
             } 
             
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-
         return uList;
 		
 	} 

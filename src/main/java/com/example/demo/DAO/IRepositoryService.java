@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public interface IRepositoryService<DomainObject> {
 	
-	public  void insert(DomainObject obj);	
+	public  void insert(DomainObject obj) throws Exception;	
 	
-	public  void update(DomainObject obj);
+	public  void update(DomainObject obj)throws Exception;
 	
-	public  void delete(int id);
+	public  void delete(String id)throws Exception;
 	
-	public  DomainObject find(int id);
+	public  DomainObject find(String id)throws Exception;
 	
-	public  ArrayList<DomainObject> findAll();
+	public  ArrayList<DomainObject> findAll()throws Exception;
 	
 }

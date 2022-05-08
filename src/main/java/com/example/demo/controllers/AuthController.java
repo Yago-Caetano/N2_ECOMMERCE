@@ -73,7 +73,7 @@ public class AuthController {
                          userDetails.getEmail(), 
                          roles));
   }
-	@PostMapping("/register")
+	/*@PostMapping("/register")
 	public ResponseEntity<?> insertUser(@RequestBody  User user) throws Exception {	
 		try {
 			if (user == null) {
@@ -89,11 +89,11 @@ public class AuthController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
-	}
+	}*/
 
-  @PostMapping("/signup")
+  /*@PostMapping("/signup")
   public ResponseEntity<?> registerUser( @RequestBody SignupRequest signUpRequest) {
-    /*if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()
           .body(new MessageResponse("Error: Username is already taken!"));
@@ -103,7 +103,7 @@ public class AuthController {
       return ResponseEntity
           .badRequest()
           .body(new MessageResponse("Error: Email is already in use!"));
-    }*/
+    }
 
     // Create new user's account
     User user = new User(signUpRequest.getUsername(), 
@@ -144,5 +144,5 @@ public class AuthController {
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-  }
+  }*/
 }

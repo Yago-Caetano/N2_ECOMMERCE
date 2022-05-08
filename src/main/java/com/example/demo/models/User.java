@@ -9,13 +9,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tbUsuario")
-public class User {
-    @Id
-    private int id;
+public class User extends PadraoModel{
+	
+	
     @Column
 	private String nome;
-	@Column
-	private Date nascimento;
 	@Column
 	private String email;
 	@Column
@@ -23,7 +21,7 @@ public class User {
 	@Column
 	private String cpf;
 	@Column
-	private int idTipoUsuario;	
+	private String idTipoUsuario;	
 	@Column
 	private boolean statusUsuario;
 	
@@ -32,25 +30,15 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 	public User()
-	{}
+	{
+		this.GenerateID();
+	}
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public Date getNascimento() {
-		return nascimento;
-	}
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
 	}
 	public String getEmail() {
 		return email;
@@ -70,10 +58,10 @@ public class User {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public int getIdTipoUsuario() {
+	public String getIdTipoUsuario() {
 		return idTipoUsuario;
 	}
-	public void setIdTipoUsuario(int idTipoUsuario) {
+	public void setIdTipoUsuario(String idTipoUsuario) {
 		this.idTipoUsuario = idTipoUsuario;
 	}
 	public boolean isStatusUsuario() {

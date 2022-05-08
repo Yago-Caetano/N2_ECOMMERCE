@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	  
 	try {
 		dao= new UserDAO();
-		user= dao.find(1);
+		user= dao.findByEmail(username);
 		
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
