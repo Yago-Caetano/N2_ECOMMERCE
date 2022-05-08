@@ -88,7 +88,7 @@ public class ProdutoPedidoDAO implements IRepositoryService<ProdutoPedido> {
 		
 		try {
 			PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE n2_ecommerce.tbPedidosxProdutos SET QUANTITY=? " 
+                    .prepareStatement("UPDATE n2_ecommerce.tbPedidosxProdutos SET QUANTIDADE=? " 
                                                 + "WHERE IDPEDIDO=? AND IDPRODUTO=?");
 			
             

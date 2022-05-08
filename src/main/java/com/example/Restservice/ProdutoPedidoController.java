@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpHeaders;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.naming.Context;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -78,32 +81,34 @@ public class ProdutoPedidoController {
 						
 		
 	}
-	/*@GetMapping("/produto")
-	public ResponseEntity GetData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	@RequestMapping(value = "/produtoPedido", method = RequestMethod.GET)   
+	public ResponseEntity GetData(@RequestParam(value = "idPedido", required = false) String idPedido ,
+			@RequestParam(value = "idProduto", required = false) String idProduto) {
 		try
 		{
 			//Retorna todos os tipos cadastrados
-		    if (id == 0) {
-		    	ProdutoDAO dao = new ProdutoDAO();
+		    if (idPedido == "" || idPedido == "0" || Integer.valueOf(idProduto) == 0
+		    		|| idProduto == "" || idProduto == "0" || Integer.valueOf(idProduto) == 0) {
+				ProdutoPedidoDAO dao = new ProdutoPedidoDAO();
 		    	var itens=dao.findAll(null);
-		    	return ResponseEntity.ok(itens);
-		    	
-		    } else {
+		    	return ResponseEntity.ok(itens);			  	
+			    }
+			 else {
 
-		    	ProdutoDAO dao = new ProdutoDAO();
-		    	Produto produto =dao.find(id);
+				 ProdutoPedidoDAO dao = new ProdutoPedidoDAO();
+		    	ProdutoPedido produtoPedido =dao.find(idPedido,idProduto);
 		    	// Tipo não encontrado
-		    	if (produto.getId()==0)
-		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
+		    	if (produtoPedido.getIdPedido()== null)
+		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto do Pedido não encontrado");
 		    	else
-		    		return ResponseEntity.ok(produto);
+		    		return ResponseEntity.ok(produtoPedido);
 		    }
 		}
 		catch(Exception e)
 		{
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
-	}*/
+	}
 	@PutMapping("/produtoPedido")
 	public ResponseEntity Update(@RequestBody ProdutoPedido produtoPedido) {
 		try
@@ -129,25 +134,28 @@ public class ProdutoPedidoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
-	/*@DeleteMapping("/produto")
-	public ResponseEntity DeleteData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	@RequestMapping(value = "/produtoPedido", method = RequestMethod.DELETE)   
+	public ResponseEntity DeleteData(@RequestParam(value = "idPedido", required = true) String idPedido ,
+						@RequestParam(value = "idProduto", required = true) String idProduto) {
 		try
 		{
 			//Se não passar Id
-		    if (id == 0) {
-		    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
+		    if (idPedido == "" || idPedido == "0" || Integer.valueOf(idProduto) == 0
+		    		|| idProduto == "" || idProduto == "0" || Integer.valueOf(idProduto) == 0) {
+		    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto do pedido não encontrado");
 		    	
 		    } else {
 
-		    	ProdutoDAO dao = new ProdutoDAO();
-		    	Produto produto = dao.find(id);
+		    	ProdutoPedidoDAO dao = new ProdutoPedidoDAO();
+		    	ProdutoPedido produtoPedido = dao.find(idPedido,idProduto);
 		    	// Produto não encontrado
-		    	if (produto.getId()==0)
-		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
+		    	if (Integer.valueOf(produtoPedido.getIdProduto()) == 0 || produtoPedido.getIdProduto() == null
+		    			|| Integer.valueOf(produtoPedido.getIdPedido()) == 0 || produtoPedido.getIdPedido() == null)
+		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto do pedido não encontrado");
 		    	
-		    	dao.delete(id);
+		    	dao.delete(idPedido, idProduto);
 		    			    		    	
-		    		return ResponseEntity.ok("Produto Deletado");
+		    		return ResponseEntity.ok("Produto do pedido Deletado");
 		    }
 		}
 		catch(Exception e)
@@ -155,4 +163,4 @@ public class ProdutoPedidoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
-*/}
+}
