@@ -32,7 +32,6 @@ import com.example.demo.Model.DAO.UserDAO;
 @RestController
 public class EnderecoController {
 		
-	// ================ CRUD USU¡RIO ============================
 	
 		@GetMapping("/endereco")
 		public ResponseEntity endereco(@RequestBody  int userID) throws Exception {				
@@ -52,7 +51,7 @@ public class EnderecoController {
 			
 		}	
 		
-		// Talvez o segundo requestBody n„o seja bom
+		// Talvez o segundo requestBody n√£o seja bom
 		@PostMapping("/endereco")		
 		public ResponseEntity create(@RequestBody  Endereco endereco, @RequestBody int userID) throws Exception {	
 			try {
@@ -98,7 +97,7 @@ public class EnderecoController {
 					Endereco end = edao.find(id);
 					edao.delete(id);
 					
-					// Eu deletei o usu·rio. Preciso mesmo retornar?
+					// Eu deletei o usu√°rio. Preciso mesmo retornar?
 					return ResponseEntity.ok(null);
 				}
 			} catch (Exception e) {
