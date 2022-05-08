@@ -7,13 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+import com.example.demo.models.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-
-import com.example.demo.entity.User;
-import com.example.demo.DAO.IRepositoryService;
 
 public class UserDAO implements IRepositoryService<User> {
 	
@@ -31,17 +26,16 @@ public class UserDAO implements IRepositoryService<User> {
 
 		try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO tbusuario (ID, NOME, NASCIMENTO, EMAIL, SENHA, CPF, IDTIPOUSUARIO, STATUSUSUARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    .prepareStatement("INSERT INTO tbusuario (ID, NOME,  EMAIL, SENHA, CPF, IDTIPOUSUARIO, STATUSUSUARIO) VALUES (?, ?, ?, ?, ?, ?, ?)");
             
             // Parameters start with 1
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setString(2, user.getNome());
-            preparedStatement.setDate(3, user.getNascimento());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getSenha());
-            preparedStatement.setString(6, user.getCpf());          
-            preparedStatement.setInt(7, user.getIdTipoUsuario());
-            preparedStatement.setBoolean(8, user.isStatusUsuario());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getSenha());
+            preparedStatement.setString(5, user.getCpf());          
+            preparedStatement.setInt(6, user.getIdTipoUsuario());
+            preparedStatement.setBoolean(7, user.isStatusUsuario());
             
             preparedStatement.executeUpdate();
 
@@ -59,7 +53,6 @@ public class UserDAO implements IRepositoryService<User> {
 			//Java 13 - text block -  """   """
             PreparedStatement preparedStatement = connection
                     .prepareStatement("UPDATE tbusuario SET NOME=?, " 
-                    		                           + "NASCIMENTO=?, "
                     		                           + "EMAIL=?, "
                     		                           + "SENHA=?, "
                     		                           + "CPF=?, "
@@ -70,14 +63,13 @@ public class UserDAO implements IRepositoryService<User> {
             // Parameters start with 1
             // preparedStatement previne SQL Injection...
             preparedStatement.setString(1, user.getNome());
-            preparedStatement.setDate(2, user.getNascimento());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getSenha());
-            preparedStatement.setString(5, user.getCpf());
-            preparedStatement.setInt(6, user.getIdTipoUsuario());  
-            preparedStatement.setBoolean(7, user.isStatusUsuario());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getSenha());
+            preparedStatement.setString(4, user.getCpf());
+            preparedStatement.setInt(5, user.getIdTipoUsuario());  
+            preparedStatement.setBoolean(6, user.isStatusUsuario());
 
-            preparedStatement.setInt(8, user.getId());
+            preparedStatement.setInt(7, user.getId());
             
             preparedStatement.executeUpdate();
 
@@ -120,7 +112,6 @@ public class UserDAO implements IRepositoryService<User> {
             if (rs.next()) {
                 u.setId(rs.getInt("ID"));
                 u.setNome(rs.getString("NOME"));
-                u.setNascimento(rs.getDate("NASCIMENTO"));
                 u.setEmail(rs.getString("EMAIL"));
                 u.setSenha(rs.getString("SENHA"));
                 u.setCpf(rs.getString("CPF"));               
@@ -153,7 +144,6 @@ public class UserDAO implements IRepositoryService<User> {
                 
             	u.setId(rs.getInt("ID"));
                 u.setNome(rs.getString("NOME"));
-                u.setNascimento(rs.getDate("NASCIMENTO"));
                 u.setEmail(rs.getString("EMAIL"));
                 u.setSenha(rs.getString("SENHA"));
                 u.setCpf(rs.getString("CPF"));               

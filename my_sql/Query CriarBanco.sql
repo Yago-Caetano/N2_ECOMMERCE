@@ -2,20 +2,20 @@ Create database N2_ecommerce;
 
 Use N2_ecommerce;
 
+
 create table tbTipoUsuario(
-	id varchar(36) not null,
+	id int auto_increment,
 	Tipo varchar(20) not null unique,
 	primary key(id)
 );
 
 create table tbUsuario(
-	id varchar(36) not null,
+	id int auto_increment,
 	Nome varchar(20) not null,
-	Nascimento datetime not null,
 	email varchar(30) unique not null,
-	senha varchar(30) not null,
+	senha varchar(80) not null,
 	cpf varchar(20) not null unique,
-	idTipoUsuario varchar(36),
+	idTipoUsuario int,
     foreign key(idTipoUsuario) references tbTipoUsuario(id),
 	statusUsuario BIT default 1, -- indica se o usuario est� ativo ou n�o
 	primary key(id)

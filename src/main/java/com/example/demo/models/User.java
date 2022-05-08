@@ -1,8 +1,4 @@
-package com.example.demo.entity;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package com.example.demo.models;
 
 import java.sql.Date;
 
@@ -11,9 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "tbUsuario")
 public class User {
@@ -33,6 +26,14 @@ public class User {
 	private int idTipoUsuario;	
 	@Column
 	private boolean statusUsuario;
+	
+	
+	public User(String username, String email2, String encode) {
+		// TODO Auto-generated constructor stub
+	}
+	public User()
+	{}
+
 	public int getId() {
 		return id;
 	}
