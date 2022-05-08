@@ -60,7 +60,7 @@ public class ProdutoController {
 		    	//Procura o item para descobrir o ID
 		    	dao = new ProdutoDAO();
 		    	Produto prod = dao.find(produto.getId());
-		    	return ResponseEntity.ok(prod);
+		    	return ResponseEntity.ok(produto);
 		    }
 		}
 		catch(Exception e)
@@ -70,11 +70,11 @@ public class ProdutoController {
 		
 	}
 	@GetMapping("/produto")
-	public ResponseEntity GetData(@RequestParam(value = "id", defaultValue = "0") Integer id) {
+	public ResponseEntity GetData(@RequestParam(value = "id", defaultValue = "0") String id) {
 		try
 		{
 			//Retorna todos os tipos cadastrados
-		    if (id == 0) {
+		    if (Integer.valueOf(id) == 0) {
 		    	ProdutoDAO dao = new ProdutoDAO();
 		    	var itens=dao.findAll(null);
 		    	return ResponseEntity.ok(itens);
@@ -106,7 +106,7 @@ public class ProdutoController {
 		    } else {
 
 		    	ProdutoDAO dao = new ProdutoDAO();
-		    	Produto prod =dao.find(produto.getId());
+		    	Produto prod =dao.find(String.valueOf(produto.getId()));
 		    	// Tipo não encontrado
 		    	if (prod.getId()==0)
 		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
@@ -135,7 +135,7 @@ public class ProdutoController {
 		    } else {
 
 		    	ProdutoDAO dao = new ProdutoDAO();
-		    	Produto produto = dao.find(id);
+		    	Produto produto = dao.find(String.valueOf(id));
 		    	// Produto não encontrado
 		    	if (produto.getId()==0)
 		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");

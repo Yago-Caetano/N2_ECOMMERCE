@@ -7,12 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.SystemException;
-import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +20,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +39,7 @@ import net.bytebuddy.agent.builder.ResettableClassFileTransformer.AbstractBase;
 
 @RestController
 @EnableTransactionManagement
+@Transactional
 public class CarrinhoController {
 
 	public static void main(String[] args) {
@@ -55,8 +52,10 @@ public class CarrinhoController {
     //private UserTransaction userTransaction = new UserTransactionImp();
 	
 	@PostMapping("/carrinho")
+	@Transactional
 	public ResponseEntity create(@RequestBody List<Carrinho> carrinhos) 
 	{
+		
 		
 		   Pedido pedido = new Pedido();
 		   Date data = new Date();
@@ -109,7 +108,8 @@ public class CarrinhoController {
 	               item.setPreco(precoTotal);
 	               
 	               if(p.getQuantidade() - item.getQuantidade() < 0) {
-	            	   //erro
+	       			pedidoDAO.delete(Integer.valueOf(idNovoPedido));
+	            	   throw new Exception();
 	               }else {
 	            	   p.setQuantidade(p.getQuantidade() - item.getQuantidade());
 	            	   produtoDAO.update(p);
@@ -122,7 +122,7 @@ public class CarrinhoController {
 	           return ResponseEntity.ok("Carrinho inserido");	  
 	           
 		} catch (Exception e) {
-			// TODO Auto-generated catch block			
+			// TODO Auto-generated catch block		
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "36c57be7-6faf-4078-9bf3-414a8ed5aab9",
+		"_postman_id": "b9158c30-1a86-4754-acff-817cb862dbb4",
 		"name": "N2_ECOMMERCE",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -59,8 +59,8 @@
 								}
 							},
 							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n    \"token\":\"adgsajdgjhaksbdjkhanbdkjl24556\"\r\n}"
 						}
@@ -121,7 +121,7 @@
 							},
 							"code": 201,
 							"_postman_previewlanguage": "json",
-							"header": null,
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
 						}
@@ -182,10 +182,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "Usuario",
@@ -216,8 +216,8 @@
 								}
 							},
 							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
 						}
@@ -297,8 +297,8 @@
 								}
 							},
 							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
 							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
 						}
@@ -361,8 +361,8 @@
 								}
 							},
 							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n    \"status\":\"solicitação recebida com sucesso\"\r\n}"
 						}
@@ -429,7 +429,7 @@
 								}
 							},
 							"_postman_previewlanguage": "json",
-							"header": null,
+							"header": [],
 							"cookie": [],
 							"body": "{\r\n    \"status\":\"Removido com sucesso\"\r\n}"
 						}
@@ -549,6 +549,267 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {\r\n    \"id\" : 2,\r\n    \"nome\" : \"Algodão\",\r\n    \"preco\": \"180.87\",\r\n    \"descricao\": \"Algodão caro\",\r\n    \"foto\": 1,\r\n    \"quantidade\": 12,\r\n    \"desconto\": 24,\r\n    \"idCategoria\": 1\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/produto",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {\r\n    \"id\" : 2,\r\n    \"nome\" : \"Algodão\",\r\n    \"preco\": \"180.87\",\r\n    \"descricao\": \"Algodão caro que veio da Alemanha\",\r\n    \"foto\": 1,\r\n    \"quantidade\": 12,\r\n    \"desconto\": 24,\r\n    \"idCategoria\": 1\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/produto",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ENDPOINT}}/produto?id=2",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"produto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/produto?id=2",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"produto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produto do Pedido",
+			"item": [
+				{
+					"name": "Produto do Pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {\r\n    \"id\" : 2,\r\n    \"nome\" : \"Algodão\",\r\n    \"preco\": \"180.87\",\r\n    \"descricao\": \"Algodão caro\",\r\n    \"foto\": 1,\r\n    \"quantidade\": 12,\r\n    \"desconto\": 24,\r\n    \"idCategoria\": 1\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto do Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {\r\n    \"id\" : 2,\r\n    \"nome\" : \"Algodão\",\r\n    \"preco\": \"180.87\",\r\n    \"descricao\": \"Algodão caro que veio da Alemanha\",\r\n    \"foto\": 1,\r\n    \"quantidade\": 12,\r\n    \"desconto\": 24,\r\n    \"idCategoria\": 1\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto do Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/produtos?id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"produtos"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto do Pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/produto?id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"produto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carrinho",
+			"item": [
+				{
+					"name": "Carrinho",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n  {\r\n    \"id\" : 2,\r\n    \"nome\" : \"Algodão\",\r\n    \"preco\": \"180.87\",\r\n    \"descricao\": \"Algodão caro\",\r\n    \"foto\": 1,\r\n    \"quantidade\": 12,\r\n    \"desconto\": 24,\r\n    \"idCategoria\": 1\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "ENDPOINT",
+			"value": "http://localhost:8081"
 		}
 	]
 }
