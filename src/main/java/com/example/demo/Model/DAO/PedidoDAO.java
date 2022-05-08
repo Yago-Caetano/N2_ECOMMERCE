@@ -229,5 +229,35 @@ public class PedidoDAO implements IRepositoryService<Pedido> {
 		return maxId;
 		
 	} //maxId
+	
+	public String getId(Pedido pedido) {
+		
+		String id = "";
+        
+    	try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("SELECT ID FROM n2_ecommerce.tbpedidos WHERE DATA=?, IDSTATUS=?, IDENDERECO=?, IDUSUARIO=?");
+            
+            java.util.Date dt = pedido.getDataPedido();
+            java.sql.Date d = new java.sql.Date (dt.getTime());
+            
+            preparedStatement.setDate(1, d);
+            preparedStatement.setInt(2, pedido.getIdStatus());
+            preparedStatement.setInt(3, pedido.getIdEndereco());
+            preparedStatement.setInt(4, pedido.getIdUsuario());
+            ResultSet rs = preparedStatement.executeQuery();
+            
+
+
+            if (rs.next()) {
+                id = rs.getString("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } //try
+
+        return id;
+		
+	} //find
 
 } //ProdutoDao

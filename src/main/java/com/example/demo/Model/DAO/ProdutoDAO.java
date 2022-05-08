@@ -119,8 +119,7 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 		
 	} //delete 
 
-	@Override
-	public Produto find(int id) {
+	public Produto find(String id) {
 		
 		Produto p = new Produto();
         
@@ -128,7 +127,7 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("SELECT * FROM n2_ecommerce.tbprodutos WHERE ID=?");
             
-            preparedStatement.setLong(1, id);
+            preparedStatement.setString(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
@@ -233,5 +232,11 @@ public class ProdutoDAO implements IRepositoryService<Produto> {
 		return maxId;
 		
 	} //maxId
+
+	@Override
+	public Produto find(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 } //ProdutoDao
