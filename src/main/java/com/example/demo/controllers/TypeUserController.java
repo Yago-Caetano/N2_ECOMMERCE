@@ -44,9 +44,10 @@ public class TypeUserController {
 		try
 		{
 			//Retorna todos os tipos cadastrados
-		    if (id.equals("")|| id.equals(null)) {
+		    if (id.equals("") || id.equals(null)) {
 		    	TypeUserDAO dao = new TypeUserDAO();
 		    	var itens=dao.findAll();
+		    	
 		    	return ResponseEntity.ok(itens);
 		    	
 		    } else {
@@ -54,7 +55,7 @@ public class TypeUserController {
 		    	TypeUserDAO dao = new TypeUserDAO();
 		    	TypeUser tipo =dao.find(id);
 		    	// Tipo não encontrado
-		    	if (tipo.getId()==null)
+		    	if (tipo==null)
 		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
 		    	else
 		    		return ResponseEntity.ok(tipo);
@@ -78,7 +79,7 @@ public class TypeUserController {
 		    	TypeUserDAO dao = new TypeUserDAO();
 		    	TypeUser tipo =dao.find(type.getId());
 		    	// Tipo não encontrado
-		    	if (tipo.getId()==null)
+		    	if (tipo==null)
 		    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
 		    	else
 		    	{

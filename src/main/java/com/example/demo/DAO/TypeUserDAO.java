@@ -52,47 +52,53 @@ public class TypeUserDAO implements IRepositoryService<TypeUser>  {
 
 	@Override
 	public TypeUser find(String id) throws Exception {
-		TypeUser tipo = new TypeUser();
-
+		
         PreparedStatement preparedStatement = connection.
                 prepareStatement("SELECT * FROM n2_ecommerce.tbTipoUsuario WHERE id=?");
         
         preparedStatement.setString(1, id);
         ResultSet rs = preparedStatement.executeQuery();
+        
+        var data =this.FillObjectsFromResultSet(rs);
+        
+        if (data==null)
+        	return null;
+        else
+        	return data.get(0);
 
-        if (rs.next()) {
-        	tipo.setId(rs.getString("id"));
-        	tipo.setTipo(rs.getString("Tipo"));
-        }
-        this.connection.close();
-
-    return tipo;
 	}
 	
 	
 	@Override
 	public ArrayList<TypeUser> findAll() throws Exception {
 		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
-		
-				ArrayList<TypeUser> pList = new ArrayList<TypeUser>();
-		        
+		Statement statement = connection.createStatement();
+		            
+		ResultSet rs = statement.executeQuery("SELECT * FROM tbTipoUsuario");
+      
+		return this.FillObjectsFromResultSet(rs);
+	}
 
-		            Statement statement = connection.createStatement();
-		            
-		            ResultSet rs = statement.executeQuery("SELECT * FROM tbTipoUsuario");
-		            
-		            while (rs.next()) {
-		                
-		            	TypeUser p = new TypeUser();
-		                
-		            	p.setId(rs.getString("id"));
-		                p.setTipo(rs.getString("Tipo"));
-		                pList.add(p);
-		                
-		            } //while
-		            this.connection.close();
-		            
-		        return pList;
+	@Override
+	public ArrayList<TypeUser> FillObjectsFromResultSet(ResultSet rs) throws Exception {
+		
+		ArrayList<TypeUser> pList = new ArrayList<TypeUser>();
+		  if (!rs.next() ) {
+          	this.connection.close();
+          	return null;
+          } else {
+
+              do {
+              	TypeUser p = new TypeUser();
+	                
+	            	p.setId(rs.getString("id"));
+	                p.setTipo(rs.getString("Tipo"));
+	                pList.add(p);
+              } while (rs.next());
+          }
+          
+          this.connection.close();
+		return pList;
 	}
 
 	

@@ -20,23 +20,51 @@ public class UserDAO implements IRepositoryService<User> {
 		
 		this.connection = DbUtil.CreatesConnectionToMYSQL();
 	}
+	
+	@Override
+	public ArrayList<User> FillObjectsFromResultSet(ResultSet rs) throws Exception {
+		ArrayList<User> uList = new ArrayList<User>();
+		if (!rs.next() ) {
+    		this.connection.close();
+    		return null;
+    	} else {
+
+    	    do {
+            	User u = new User();
+                
+            	u.setId(rs.getString("ID"));
+                u.setNome(rs.getString("NOME"));
+                u.setEmail(rs.getString("EMAIL"));
+                u.setSenha(rs.getString("SENHA"));
+                u.setCpf(rs.getString("CPF"));               
+                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
+                u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
+                
+                uList.add(u);
+                
+    	    } while (rs.next());
+    	}
+		this.connection.close();
+		return uList;
+	}
 
 	@Override
 	public void insert(User user) throws Exception {
 
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO tbusuario (ID, NOME,  EMAIL, SENHA, CPF, IDTIPOUSUARIO, STATUSUSUARIO) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    .prepareStatement("INSERT INTO tbusuario "
+                    		+ "(ID, NOME,  EMAIL, SENHA, CPF, IDTIPOUSUARIO, STATUSUSUARIO) "
+                    		+ "VALUES (?, ?, ?, ?, ?, ?, ?)");
             
-            // Parameters start with 1
             preparedStatement.setString(1, user.getId());
             preparedStatement.setString(2, user.getNome());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getSenha());
             preparedStatement.setString(5, user.getCpf());          
             preparedStatement.setString(6, user.getIdTipoUsuario());
-            preparedStatement.setBoolean(7, user.isStatusUsuario());
-            
-            preparedStatement.executeUpdate();			
+            preparedStatement.setBoolean(7, user.isStatusUsuario());     
+            preparedStatement.executeUpdate();	
+            this.connection.close();
 	}
 
 	@Override
@@ -59,11 +87,10 @@ public class UserDAO implements IRepositoryService<User> {
             preparedStatement.setString(4, user.getCpf());
             preparedStatement.setString(5, user.getIdTipoUsuario());  
             preparedStatement.setBoolean(6, user.isStatusUsuario());
-
             preparedStatement.setString(7, user.getId());
             
             preparedStatement.executeUpdate();
-		
+            this.connection.close();
 	} 
 
 	@Override
@@ -74,6 +101,7 @@ public class UserDAO implements IRepositoryService<User> {
             // Parameters start with 1
             preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
+            this.connection.close();
 	} 
 
 	@Override
@@ -86,41 +114,30 @@ public class UserDAO implements IRepositoryService<User> {
             
             preparedStatement.setString(1, string);
             ResultSet rs = preparedStatement.executeQuery();
-           
-            if (rs.next()) {
-                u.setId(rs.getString("ID"));
-                u.setNome(rs.getString("NOME"));
-                u.setEmail(rs.getString("EMAIL"));
-                u.setSenha(rs.getString("SENHA"));
-                u.setCpf(rs.getString("CPF"));               
-                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
-                u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
-            }
-
-        return u;
+            
+            var data = this.FillObjectsFromResultSet(rs);
+            if (data==null)
+         	   return null;
+            else
+         	   return data.get(0);
 		
 	} 
 	public User findByEmail(String email) throws Exception {
 		
  		User u = new User();
         
-            PreparedStatement preparedStatement = connection.
+        PreparedStatement preparedStatement = connection.
                     prepareStatement("SELECT * FROM n2_ecommerce.tbusuario WHERE email=?");
             
-            preparedStatement.setString(1, email);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                u.setId(rs.getString("ID"));
-                u.setNome(rs.getString("NOME"));
-                u.setEmail(rs.getString("EMAIL"));
-                u.setSenha(rs.getString("SENHA"));
-                u.setCpf(rs.getString("CPF"));               
-                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
-                u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
-            }
-
-        return u;
+       preparedStatement.setString(1, email);
+       ResultSet rs = preparedStatement.executeQuery();
+       
+       var data = this.FillObjectsFromResultSet(rs);
+       
+       if (data==null)
+    	   return null;
+       else
+    	   return data.get(0);
 		
 	} 
 
@@ -128,29 +145,12 @@ public class UserDAO implements IRepositoryService<User> {
 	@Override
 	public ArrayList<User> findAll() throws Exception{
 		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
-		ArrayList<User> uList = new ArrayList<User>();
-        
-            Statement statement = connection.createStatement();
+		
+        Statement statement = connection.createStatement();
             
-            ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbusuario");
+        ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbusuario");
             
-            while (rs.next()) {
-                
-            	User u = new User();
-                
-            	u.setId(rs.getString("ID"));
-                u.setNome(rs.getString("NOME"));
-                u.setEmail(rs.getString("EMAIL"));
-                //u.setSenha(rs.getString("SENHA"));
-                u.setCpf(rs.getString("CPF"));               
-                u.setIdTipoUsuario(rs.getString("IDTIPOUSUARIO"));              
-                u.setStatusUsuario(rs.getBoolean("STATUSUSUARIO"));
-
-                uList.add(u);
-                
-            } 
-            
-        return uList;
+        return this.FillObjectsFromResultSet(rs);
 		
 	} 
 	
@@ -167,12 +167,13 @@ public class UserDAO implements IRepositoryService<User> {
 
             if (rs.next()) {
                 count = rs.getInt("QTD");
-                
+                this.connection.close();  
             } //if
             
         } catch (SQLException e) {
             e.printStackTrace();
         } //try
+		
 
 		return count;
 		
@@ -191,7 +192,7 @@ public class UserDAO implements IRepositoryService<User> {
 
             if (rs.next()) {
                 maxId = rs.getInt("MAX_ID");
-                
+              this.connection.close();
             } //if
             
         } catch (SQLException e) {
@@ -201,6 +202,8 @@ public class UserDAO implements IRepositoryService<User> {
 		return maxId;
 		
 	} //maxId
+
+	
 	
 
 } //ProdutoDao

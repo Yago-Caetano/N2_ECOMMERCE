@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.demo.models.TypeUser;
 import com.example.demo.models.User;
 import com.example.demo.security.services.UserDetailsImpl;
+import com.example.demo.DAO.EnderecoDAO;
 import com.example.demo.DAO.TypeUserDAO;
 import com.example.demo.DAO.UserDAO;
 
@@ -31,25 +32,11 @@ public class UserController {
 	
 	@Autowired
 	  PasswordEncoder encoder;
-	/*@PostMapping("/user")
-	public ResponseEntity<User> create(@RequestBody User usuario) 
-	    throws URISyntaxException {
-	    if (usuario == null) {
-	        return ResponseEntity.notFound().build();
-	    } else {
-	        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-	          .path("/{id}")
-	          .buildAndExpand(usuario.getId())
-	          .toUri();
 
-	        return ResponseEntity.created(uri)
-	          .body(usuario);
-	    }
-	}*/
 	@PostMapping("/register")
 	public ResponseEntity<?> create(@RequestBody  User user) throws Exception {	
 		try {
-			if (user == null && !user.getIdTipoUsuario().equals("") && !user.getIdTipoUsuario().equals(null) ) {
+			if (user == null || user.getIdTipoUsuario().equals("") || user.getIdTipoUsuario().equals(null) ) {
 				return ResponseEntity.badRequest().build();
 			} else {
 				TypeUserDAO tdao= new TypeUserDAO();
@@ -84,6 +71,9 @@ public class UserController {
 				    if (id.equals("")|| id.equals(null)) {
 				    	UserDAO dao = new UserDAO();
 				    	var itens=dao.findAll();
+				    	for(User user:itens)
+				    		user.setSenha("");
+
 				    	return ResponseEntity.ok(itens);
 				    	
 				    } else {
@@ -91,10 +81,18 @@ public class UserController {
 				    	UserDAO dao = new UserDAO();
 				    	User usuario =dao.find(id);
 				    	// Tipo não encontrado
-				    	if (usuario.getId().equals(null)|| usuario.getId().equals(""))
+				    	if (usuario==null)
 				    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id não encontrado");
 				    	else
+				    	{
+				    		TypeUserDAO tdao= new TypeUserDAO();
+				    		usuario.setTipoUsuario(tdao.find(usuario.getIdTipoUsuario()));
+				    		EnderecoDAO edao= new EnderecoDAO();
+				    		usuario.setEnderecos(edao.findAllAdressUser(usuario.getId()));
+				    		usuario.setSenha("");
 				    		return ResponseEntity.ok(usuario);
+				    	}
+				    		
 				    }
 				}
 				//se não administrador retorna somente o proprio usuario
@@ -120,7 +118,7 @@ public class UserController {
 			try
 			{
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				
+				user.setSenha(encoder.encode(user.getSenha()));
 				//se o usuario for administrador
 				if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")))
 				{
@@ -129,11 +127,12 @@ public class UserController {
 				    	UserDAO dao = new UserDAO();
 				    	User usuario=dao.find(user.getId());
 				    	
-				    	if (usuario.getEmail().equals("") || usuario.getEmail().equals(null))
+				    	if (usuario==null)
 				    		return ResponseEntity.notFound().build();
 				    	
 				    	dao = new UserDAO();
 				    	dao.update(user);
+				    	user.setSenha("");
 				    	return ResponseEntity.ok(user);
 				    	
 				    } else {

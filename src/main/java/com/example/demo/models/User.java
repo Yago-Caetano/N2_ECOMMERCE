@@ -1,37 +1,49 @@
 package com.example.demo.models;
 
-import java.sql.Date;
 
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "tbUsuario")
+
 public class User extends PadraoModel{
 	
-	
-    @Column
+
 	private String nome;
-	@Column
+
 	private String email;
-	@Column
+
 	private String senha;
-	@Column
+
 	private String cpf;
-	@Column
+
 	private String idTipoUsuario;	
-	@Column
+
 	private boolean statusUsuario;
 	
+	private TypeUser tipoUsuario;
 	
-	public User(String username, String email2, String encode) {
-		// TODO Auto-generated constructor stub
+	private ArrayList<EnderecoModel> enderecos;
+	
+	public TypeUser getTipoUsuario() {
+		return tipoUsuario;
 	}
+	public void setTipoUsuario(TypeUser tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+	public ArrayList<EnderecoModel> getEnderecos() {
+		return enderecos;
+	}
+	public void setEnderecos(ArrayList<EnderecoModel> enderecos) {
+		this.enderecos = enderecos;
+	}
+
 	public User()
 	{
 		this.GenerateID();
+		this.enderecos = new ArrayList<EnderecoModel>();
+		this.tipoUsuario= new TypeUser();
 	}
 
 	public String getNome() {

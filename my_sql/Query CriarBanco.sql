@@ -29,7 +29,7 @@ create table tbUsuario(
  
  
 create table tbEnderecos(
-	id varchar(36) not null,
+	id varchar(40) not null,
 	Rua varchar(50) not null,
 	Complemento varchar(20) not null,
 	numero int not null,
@@ -40,8 +40,8 @@ create table tbEnderecos(
 );
 
 create table tbUsuarioxEnderecos(
-	id_usuario varchar(36),
-	id_endereco varchar(36),
+	id_usuario varchar(40) ,
+	id_endereco varchar(40) ,
     foreign key(id_usuario) references tbUsuario (id),
     foreign key (id_endereco) references tbEnderecos (id),
 	primary key (id_usuario,id_endereco)
