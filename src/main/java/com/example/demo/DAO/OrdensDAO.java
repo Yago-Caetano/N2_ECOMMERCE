@@ -221,7 +221,14 @@ public class OrdensDAO implements IRepositoryService<OrdensModel> {
 
 	@Override
 	public void delete(String id) throws Exception {
-		// TODO Auto-generated method stub
+		 PreparedStatement preparedStatement = connection
+                 .prepareStatement("UPDATE tbPedidos SET idStatus='auihdbayuwidh2131313' where id=?");
+         
+         // Parameters start with 1
+         // preparedStatement previne SQL Injection...
+         preparedStatement.setString(1, id);
+         preparedStatement.executeUpdate();
+         this.connection.close();
 		
 	}
 

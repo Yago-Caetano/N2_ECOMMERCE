@@ -589,20 +589,39 @@ public class OrdensController {
 			}
 		}
 		
+	
+		
 		@DeleteMapping("/order")
-		@PreAuthorize("hasRole('ADMIN')")
-		public ResponseEntity<?> deleteUser(@RequestParam(value = "id", defaultValue = "") String id) {	
+		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+		public ResponseEntity<?> DeletarOrdem(@RequestParam(value = "id", defaultValue = "") String id) {	
 			try {
-				if (id =="" || id==null) {
-					return ResponseEntity.notFound().build();
+				if (id == null || id.equals(null)) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ordem não existe");
 				} else {
 					
-					UserDAO udao = new UserDAO();
-					User u = udao.find(id);
-					udao.delete(id);
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+					UserDetailsImpl userTemp = (UserDetailsImpl)auth.getPrincipal();
+				
+					OrdensDAO dao= new OrdensDAO();
+					OrdensModel ordemTemp=dao.find(id);
 					
-					// Eu deletei o usuário. Preciso mesmo retornar?
-					return ResponseEntity.ok(null);
+					//Verifica se a ordem pertence ao solicitante ou ordem não existe
+					if(ordemTemp==null )
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ordem não existe");
+					if(!ordemTemp.getIdUsuario().equals(userTemp.getId()))
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ordem não pertence ao usuário solicitante");
+					
+					//Só pode modificar item se a ordem estiver pendente
+					if(!ordemTemp.getIdStatus().equals("aoiuhwda23"))
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).
+								body("Não é permitido modificar itens em ordens"
+								+ " que não estão pendentes");
+										
+					
+					dao= new OrdensDAO();
+					dao.delete(id);
+					return ResponseEntity.status(HttpStatus.OK).body("Pedido cancelado");
+		
 				}
 			} catch (Exception e) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
