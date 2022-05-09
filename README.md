@@ -1,6 +1,12 @@
 # N2_ECOMMERCE
 Projeto da disciplina de Linguagem de Programação III
-O objetivo é criar API's de um CRUD, nosso CRUD se baseia em uma aplicação de ecommerce
+O objetivo é criar API's de um CRUD, nosso CRUD se baseia em uma aplicação de ecommerce.
+Os integrantes do grupo são:
+Rodrigo Emiliano de Oliveira - RA:081190004
+Gabriel Alves Gouveia -        RA:081190038
+Yago José Barros Caetano     - RA:081190027
+Lucas Santos Costa           - RA:081190004
+
 ## Tecnologias
 -Spring-boot
 -Java 17
@@ -19,6 +25,7 @@ Exemplo:
 ![Isso é uma imagem](doc/AppPropertiesScreen.png)
 
 ## Documentação da API
+A documentação da API foi realizada com o Postman, a collection foi disponibilizada no repositório:
 [Postman collection](doc/N2_ECOMMERCE.postman_collection.json)
 
 
