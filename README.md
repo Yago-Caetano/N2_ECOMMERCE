@@ -10,7 +10,7 @@ Gabriel Alves Gouveia -        RA:081190038
 
 Yago José Barros Caetano     - RA:081190027
 
-Lucas Santos Costa           - RA:081190004
+Lucas Santos Costa           - RA:081190015
 
 ## Tecnologias
 -Spring-boot
