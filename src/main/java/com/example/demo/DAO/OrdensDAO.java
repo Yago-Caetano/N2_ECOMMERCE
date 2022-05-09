@@ -128,6 +128,54 @@ public class OrdensDAO implements IRepositoryService<OrdensModel> {
         this.connection.close();
 		
 	}
+	
+	public ArrayList<ProdutosModel> FinalizarOrder(OrdensModel obj) throws Exception {
+		
+		ArrayList<ProdutosModel> pList = new ArrayList<ProdutosModel>();
+		
+		connection.setAutoCommit(false);
+		
+        PreparedStatement ps;
+        for(ProdutosModel prod:obj.getProdutos())
+        {
+        	int estoque=0;
+            ps = connection
+                    .prepareStatement("Select Quantidade from tbProdutos where id=?");
+            ps.setString(1, prod.getId());
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            	estoque=rs.getInt("Quantidade");                      
+            
+            if(estoque>=prod.getQuantidade())
+            {
+            	ps = connection
+                        .prepareStatement("Update tbProdutos Set Quantidade=? where id=?");
+                ps.setInt(1, estoque-prod.getQuantidade());
+                ps.setString(2, prod.getId());
+                ps.executeUpdate();
+            }
+            else
+            {
+            	pList.add(prod);
+            	connection.rollback();
+            	this.connection.close();
+            	return pList;
+            }
+            
+        }
+        ps = connection
+                .prepareStatement("Update tbPedidos Set idStatus=? where id=? ");
+        
+        ps.setString(1, "aiwujhac1235");
+        ps.setString(2, obj.getId());
+        ps.executeUpdate();
+        connection.commit();
+        this.connection.close();
+        return pList;
+		
+	}
 
 	@Override
 	public void update(OrdensModel obj) throws Exception {
@@ -206,12 +254,36 @@ public class OrdensDAO implements IRepositoryService<OrdensModel> {
 		return this.FillObjectsFromResultSet(rs);
 	}
 	
+	public ArrayList<OrdensModel> findAllByStatus(String idStatus) throws Exception {
+		
+	       PreparedStatement preparedStatement = connection.
+	                prepareStatement("SELECT * FROM n2_ecommerce.tbPedidos WHERE idStatus=?");
+	        
+	        preparedStatement.setString(1, idStatus);
+	        ResultSet rs = preparedStatement.executeQuery();
+	            
+		return this.FillObjectsFromResultSet(rs);
+	}
+	
 	public ArrayList<OrdensModel> findAllByUser(String idUser) throws Exception {
 		
 	       PreparedStatement preparedStatement = connection.
 	                prepareStatement("SELECT * FROM n2_ecommerce.tbPedidos WHERE idUsuario=?");
 	        
 	        preparedStatement.setString(1, idUser);
+	        ResultSet rs = preparedStatement.executeQuery();
+	            
+		return this.FillObjectsFromResultSet(rs);
+	}
+	
+	public ArrayList<OrdensModel> findAllByUserAndStatus(String idUser, String idStatus) throws Exception {
+		
+	       PreparedStatement preparedStatement = connection.
+	                prepareStatement("SELECT * FROM n2_ecommerce.tbPedidos WHERE idUsuario=? and "
+	                		+ " idStatus=?");
+	        
+	        preparedStatement.setString(1, idUser);
+	        preparedStatement.setString(2, idStatus);
 	        ResultSet rs = preparedStatement.executeQuery();
 	            
 		return this.FillObjectsFromResultSet(rs);

@@ -105,3 +105,4 @@ insert into tbTipoUsuario (id,Tipo) Values ('aiwbduaoia','Usuario');
 
 insert into tbStatusPedido (id,PedidoStatus) values ('aoiuhwda23','Pendente');
 insert into tbStatusPedido (id,PedidoStatus) values ('aiwujhac1235','Concluído');
+insert into tbStatusPedido (id,PedidoStatus) values ('auihdbayuwidh2131313','Cancelado');
