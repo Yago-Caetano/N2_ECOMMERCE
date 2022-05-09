@@ -19,4 +19,7 @@ Exemplo:
 ![Isso é uma imagem](doc/AppPropertiesScreen.png)
 
 ## Documentação da API
+[Postman collection](doc/N2_ECOMMERCE.postman_collection.json)
+
+
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/14841183-4945c031-39ed-42e9-a30b-7554e7bbba1f?action=collection%2Ffork&collection-url=entityId%3D14841183-4945c031-39ed-42e9-a30b-7554e7bbba1f%26entityType%3Dcollection%26workspaceId%3D1bae3059-ed5e-4bf0-a2c6-14fd63afcb4b)
