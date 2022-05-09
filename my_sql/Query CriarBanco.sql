@@ -54,14 +54,14 @@ create table tbCategoriaProdutos(
 );
 
 create table tbProdutos(
-	id varchar(36) not null,
+	id varchar(40) not null,
 	Nome varchar(20) not null unique,
 	Preco decimal(15,2) not null,
 	Descricao varchar(100) not null,
 	Foto BLOB,
 	Quantidade int not null default 0,
 	Desconto real default 0.00,
-	idCategoria varchar(36),
+	idCategoria varchar(40),
     foreign key(idCategoria) references tbCategoriaProdutos (id),
 	primary key (id)
 );
@@ -73,14 +73,15 @@ create table tbProdutos(
  ON tbProdutos (Nome);
  
 create table tbStatusPedido(
-	id int not null,
+	id varchar(40) not null,
 	PedidoStatus varchar(20) not null unique,
 	primary key(id)
 );
 
 create table tbPedidos(
 	id varchar(36) not null,
-	idStatus int not null,
+    Data_pedido timestamp DEFAULT CURRENT_TIMESTAMP,
+	idStatus varchar(40) not null,
 	idUsuario varchar(36) not null,
 	idEndereco varchar(36) not null,
     foreign key(idStatus) references tbStatusPedido (id),
@@ -90,8 +91,8 @@ create table tbPedidos(
 );
 
 create table tbPedidosxProdutos(
-	idPedido varchar(36) not null,
-	idProduto varchar(36) not null,
+	idPedido varchar(40) not null,
+	idProduto varchar(40) not null,
 	Quantidade int not null default 1,
 	Desconto real default 0.00 not null,
 	Preco decimal(15,2) not null,
