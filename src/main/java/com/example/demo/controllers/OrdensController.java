@@ -618,6 +618,9 @@ public class OrdensController {
 								+ " que não estão pendentes");
 										
 					
+					
+					
+					
 					dao= new OrdensDAO();
 					dao.delete(id);
 					return ResponseEntity.status(HttpStatus.OK).body("Pedido cancelado");

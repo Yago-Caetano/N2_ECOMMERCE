@@ -95,7 +95,7 @@ public class ProdutosDAO implements IRepositoryService<ProdutosModel> {
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
+	public boolean delete(String id) throws Exception {
 		
 		PreparedStatement preparedStatement = connection
                 .prepareStatement("DELETE FROM tbprodutos WHERE ID=?");
@@ -105,6 +105,7 @@ public class ProdutosDAO implements IRepositoryService<ProdutosModel> {
         preparedStatement.executeUpdate();
         
         this.connection.close();
+        return false;
 		
 	}
 

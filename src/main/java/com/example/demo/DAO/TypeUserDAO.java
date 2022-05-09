@@ -45,8 +45,8 @@ public class TypeUserDAO implements IRepositoryService<TypeUser>  {
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
-		// TODO Auto-generated method stub
+	public boolean delete(String id) throws Exception {
+		return false;
 		
 	}
 

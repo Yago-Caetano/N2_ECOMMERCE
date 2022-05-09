@@ -62,6 +62,7 @@ create table tbProdutos(
 	Desconto real default 0.00,
 	idCategoria varchar(40),
     foreign key(idCategoria) references tbCategoriaProdutos (id),
+    statusEnd BIT default 1,
 	primary key (id)
 );
 

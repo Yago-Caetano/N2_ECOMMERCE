@@ -37,15 +37,16 @@ public class UserController {
 	public ResponseEntity<?> create(@RequestBody  User user) throws Exception {	
 		try {
 			if (user == null || user.getIdTipoUsuario().equals("") || user.getIdTipoUsuario().equals(null) ) {
-				return ResponseEntity.badRequest().build();
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido");
 			} else {
 				TypeUserDAO tdao= new TypeUserDAO();
 				TypeUser type= tdao.find(user.getIdTipoUsuario());
 				if (type==null)
-					return ResponseEntity.badRequest().build();
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido");
 				
 				UserDAO udao = new UserDAO();
 				user.setSenha(encoder.encode(user.getSenha()));
+				user.setStatusUsuario(true);
 				udao.insert(user);
 				user.setSenha("");				
 				return ResponseEntity.ok(user);
@@ -128,16 +129,17 @@ public class UserController {
 				    	User usuario=dao.find(user.getId());
 				    	
 				    	if (usuario==null)
-				    		return ResponseEntity.notFound().build();
+				    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido");
 				    	
 				    	dao = new UserDAO();
+				    	user.setStatusUsuario(true);
 				    	dao.update(user);
 				    	user.setSenha("");
 				    	return ResponseEntity.ok(user);
 				    	
 				    } else {
 
-				    	return ResponseEntity.badRequest().build();
+				    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido");
 				    }
 				}
 				//se não administrador retorna somente o proprio usuario
@@ -163,11 +165,15 @@ public class UserController {
 		public ResponseEntity<?> deleteUser(@RequestParam(value = "id", defaultValue = "") String id) {	
 			try {
 				if (id =="" || id==null) {
-					return ResponseEntity.notFound().build();
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido");
 				} else {
 					
 					UserDAO udao = new UserDAO();
 					User u = udao.find(id);
+					if (u==null)
+			    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido");
+					
+					udao = new UserDAO();
 					udao.delete(id);
 					
 					// Eu deletei o usuário. Preciso mesmo retornar?

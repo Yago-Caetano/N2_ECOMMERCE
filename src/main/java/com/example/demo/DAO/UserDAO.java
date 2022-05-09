@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import com.example.demo.models.EnderecoModel;
+import com.example.demo.models.OrdensModel;
 import com.example.demo.models.User;
 
 
@@ -62,7 +65,7 @@ public class UserDAO implements IRepositoryService<User> {
             preparedStatement.setString(4, user.getSenha());
             preparedStatement.setString(5, user.getCpf());          
             preparedStatement.setString(6, user.getIdTipoUsuario());
-            preparedStatement.setBoolean(7, user.isStatusUsuario());     
+            preparedStatement.setBoolean(7, true);     
             preparedStatement.executeUpdate();	
             this.connection.close();
 	}
@@ -86,7 +89,7 @@ public class UserDAO implements IRepositoryService<User> {
             preparedStatement.setString(3, user.getSenha());
             preparedStatement.setString(4, user.getCpf());
             preparedStatement.setString(5, user.getIdTipoUsuario());  
-            preparedStatement.setBoolean(6, user.isStatusUsuario());
+            preparedStatement.setBoolean(6, true);
             preparedStatement.setString(7, user.getId());
             
             preparedStatement.executeUpdate();
@@ -94,28 +97,65 @@ public class UserDAO implements IRepositoryService<User> {
 	} 
 
 	@Override
-	public void delete(String id) throws Exception {
-        	PreparedStatement preparedStatement = connection
-                    .prepareStatement("DELETE FROM tbusuario WHERE ID=?");
-            
-            // Parameters start with 1
-            preparedStatement.setString(1, id);
-            preparedStatement.executeUpdate();
-            this.connection.close();
+	public boolean delete(String id) throws Exception {
+		
+		connection.setAutoCommit(false);
+		//pega todos pedidos em aberto do usuario e os cancela
+		OrdensDAO odao= new OrdensDAO();
+		var ordens=odao.findAllByUserAndStatus(id,"aoiuhwda23");
+		if(ordens!=null)
+		{
+			for (OrdensModel ord:ordens)
+			{
+				PreparedStatement preparedStatement = connection
+		                 .prepareStatement("UPDATE tbPedidos SET "
+		                 		+ "idStatus='auihdbayuwidh2131313' where id=?");
+		         preparedStatement.setString(1, ord.getId());
+		         preparedStatement.executeUpdate();
+			}
+		}
+		
+		//pega on endereços do usuario		
+		EnderecoDAO edao= new EnderecoDAO();
+		var enderecos= edao.findAllAdressUser(id);
+		
+		if(enderecos!=null)
+		{
+			for(EnderecoModel end:enderecos)
+			{
+				PreparedStatement preparedStatement = connection
+		                 .prepareStatement("UPDATE tbEnderecos SET "
+		                 		+ "statusEnd=? where id=?");
+		         preparedStatement.setBoolean(1, false);
+		         preparedStatement.setString(2, end.getId());
+		         preparedStatement.executeUpdate();
+				
+			}
+		}
+		
+		PreparedStatement preparedStatement = connection
+                .prepareStatement("UPDATE tbUsuario SET "
+                		+ "statusUsuario=? where id=?");
+        preparedStatement.setBoolean(1, false);
+        preparedStatement.setString(2, id);
+        
+        preparedStatement.executeUpdate();
+        connection.commit();
+        this.connection.close();
+        return true;
 	} 
 
 	@Override
 	public User find(String string) throws Exception {
 		
-		User u = new User();
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM n2_ecommerce.tbusuario"
+        		+ " WHERE ID=? and statusUsuario=?");
         
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT * FROM n2_ecommerce.tbusuario WHERE ID=?");
+        ps.setString(1, string);
+        ps.setBoolean(2, true);
+        ResultSet newResultSet = ps.executeQuery();       
             
-            preparedStatement.setString(1, string);
-            ResultSet rs = preparedStatement.executeQuery();
-            
-            var data = this.FillObjectsFromResultSet(rs);
+            var data = this.FillObjectsFromResultSet(newResultSet);
             if (data==null)
          	   return null;
             else
@@ -127,9 +167,11 @@ public class UserDAO implements IRepositoryService<User> {
  		User u = new User();
         
         PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT * FROM n2_ecommerce.tbusuario WHERE email=?");
+                    prepareStatement("SELECT * FROM n2_ecommerce.tbusuario WHERE email=? "
+                    		+ " and statusUsuario=?");
             
        preparedStatement.setString(1, email);
+       preparedStatement.setBoolean(2, true);
        ResultSet rs = preparedStatement.executeQuery();
        
        var data = this.FillObjectsFromResultSet(rs);
@@ -146,11 +188,13 @@ public class UserDAO implements IRepositoryService<User> {
 	public ArrayList<User> findAll() throws Exception{
 		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
 		
-        Statement statement = connection.createStatement();
+		   PreparedStatement ps = connection.prepareStatement("SELECT * FROM n2_ecommerce.tbusuario"
+	        		+ " WHERE  statusUsuario=?");
+	        
+	        ps.setBoolean(1, true);
+	        ResultSet newResultSet = ps.executeQuery();    
             
-        ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbusuario");
-            
-        return this.FillObjectsFromResultSet(rs);
+        return this.FillObjectsFromResultSet(newResultSet);
 		
 	} 
 	

@@ -220,7 +220,7 @@ public class OrdensDAO implements IRepositoryService<OrdensModel> {
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
+	public boolean delete(String id) throws Exception {
 		 PreparedStatement preparedStatement = connection
                  .prepareStatement("UPDATE tbPedidos SET idStatus='auihdbayuwidh2131313' where id=?");
          
@@ -229,6 +229,8 @@ public class OrdensDAO implements IRepositoryService<OrdensModel> {
          preparedStatement.setString(1, id);
          preparedStatement.executeUpdate();
          this.connection.close();
+         
+         return false;
 		
 	}
 

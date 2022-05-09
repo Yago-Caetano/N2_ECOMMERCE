@@ -70,10 +70,12 @@ public class CategoriaProdutoDAO implements IRepositoryService<CategoriaProduto>
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
+	public boolean delete(String id) throws Exception {
 		PreparedStatement ps = connection.prepareStatement("DELETE FROM tbcategoriaprodutos WHERE ID=?");
 		ps.setString(1, id);
 		ps.executeUpdate();
+		
+		return false;
 		
 	}
 

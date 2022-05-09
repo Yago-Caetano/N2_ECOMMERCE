@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DAO.EnderecoDAO;
+import com.example.demo.DAO.OrdensDAO;
 import com.example.demo.DAO.UserDAO;
 import com.example.demo.models.EnderecoModel;
 import com.example.demo.models.User;
@@ -29,13 +30,13 @@ public class EnderecoController {
 	public ResponseEntity<?> create(@RequestBody  EnderecoModel end) throws Exception {	
 		try {
 			if (end == null || end.getIdUsuario().equals("") || end.getIdUsuario().equals(null) ) {
-				return ResponseEntity.badRequest().build();
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço inválido!");
 			} else {
 				UserDAO udao= new UserDAO();
 				User user= udao.find(end.getIdUsuario());
 				
 				if (user==null)
-					return ResponseEntity.notFound().build();
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido!");
 				
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				//Não é administrador, garante que o usuario associado será o proprio usuario que chamou
@@ -46,6 +47,7 @@ public class EnderecoController {
 				}
 				
 				EnderecoDAO edao = new EnderecoDAO();
+				end.setStatus(true);
 				edao.insert(end);			
 				return ResponseEntity.ok(end);
 			}
@@ -85,11 +87,17 @@ public class EnderecoController {
 					UserDetailsImpl user = (UserDetailsImpl)auth.getPrincipal();
 					EnderecoDAO dao = new EnderecoDAO();
 					var endereco=dao.find(idEndeco);
-					if (endereco.getIdUsuario().equals(user.getId()))
+					
+					if (endereco==null)
+					{
+						return ResponseEntity.ok(null);
+					}
+					
+					if (endereco!=null && endereco.getIdUsuario().equals(user.getId()))
 						return ResponseEntity.ok(endereco);
 					
 					else
-						return ResponseEntity.notFound().build();
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço inválido!");
 				}
 				
 			}
@@ -115,7 +123,7 @@ public class EnderecoController {
 				    	return ResponseEntity.ok(itens);
 				    	
 				    } else {
-				    	return ResponseEntity.badRequest().build();
+				    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido!");
 				    }
 				}
 				//se não administrador retorna somente o proprio usuario
@@ -150,15 +158,16 @@ public class EnderecoController {
 				    	EnderecoModel endereco=dao.find(end.getId());
 				    	
 				    	if (end.getIdUsuario().equals("") || end.getIdUsuario().equals(null))
-				    		return ResponseEntity.notFound().build();
+				    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário inválido!");
 				    	
 				    	dao = new EnderecoDAO();
+				    	end.setStatus(true);
 				    	dao.update(end);
 				    	return ResponseEntity.ok(end);
 				    	
 				    } else {
 
-				    	return ResponseEntity.badRequest().build();
+				    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço inválido!");
 				    }
 				}
 				//se não administrador retorna somente o proprio usuario
@@ -171,11 +180,12 @@ public class EnderecoController {
 					if (endereco!=null && endereco.getIdUsuario().equals(userTemp.getId()))
 					{
 						dao = new EnderecoDAO();
+						end.setStatus(true);
 						dao.update(end);
 						return ResponseEntity.ok(end);
 					}
 					else
-						return ResponseEntity.notFound().build();
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço inválido!");
 				}
 				
 			}
@@ -186,19 +196,37 @@ public class EnderecoController {
 		}
 		
 		@DeleteMapping("/addres")
-		@PreAuthorize("hasRole('ADMIN')")
+		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 		public ResponseEntity<?> deleteUser(@RequestParam(value = "id", defaultValue = "") String id) {	
 			try {
-				if (id =="" || id==null) {
-					return ResponseEntity.notFound().build();
+				if (id == null || id.equals("")) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço inválido!");
 				} else {
+					EnderecoDAO edao= new EnderecoDAO();
+					EnderecoModel end= edao.find(id);
 					
-					UserDAO udao = new UserDAO();
-					User u = udao.find(id);
-					udao.delete(id);
+					if (end==null)
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço inválido!");
 					
-					// Eu deletei o usuário. Preciso mesmo retornar?
-					return ResponseEntity.ok(null);
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+					UserDetailsImpl userTemp = (UserDetailsImpl)auth.getPrincipal();
+					//Não é administrador, garante que o usuario associado será o proprio usuario que chamou
+					if (auth != null && !auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")))
+					{						
+						if(!end.getIdUsuario().equals(userTemp.getId()))
+							return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço não pertence "
+									+ "ao usuário solicitante");
+					}
+					
+					OrdensDAO odao= new OrdensDAO();
+					var ordens =odao.findAllByUserAndStatus(userTemp.getId(), "aoiuhwda23");
+					
+					if(!ordens.isEmpty())
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço ainda possui ordens"
+								+ " pendentes!");
+					
+					edao.delete(id);			
+					return ResponseEntity.status(HttpStatus.OK).body("Endereço deletado!");
 				}
 			} catch (Exception e) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

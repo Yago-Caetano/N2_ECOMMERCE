@@ -12,7 +12,7 @@ public interface IRepositoryService<DomainObject> {
 	
 	public  void update(DomainObject obj)throws Exception;
 	
-	public  void delete(String id)throws Exception;
+	public  boolean delete(String id)throws Exception;
 	
 	public  DomainObject find(String id)throws Exception;
 	

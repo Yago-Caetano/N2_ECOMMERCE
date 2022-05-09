@@ -61,7 +61,7 @@ public class EnderecoDAO implements IRepositoryService<EnderecoModel> {
         preparedStatement.setString(4, obj.getId());   
         preparedStatement.setInt(5, obj.getNumero());
         preparedStatement.setString(6, obj.getRua());
-        preparedStatement.setBoolean(7, obj.isStatus());           
+        preparedStatement.setBoolean(7, true);           
         preparedStatement.executeUpdate();
 
         PreparedStatement ps = connection
@@ -97,7 +97,7 @@ public class EnderecoDAO implements IRepositoryService<EnderecoModel> {
         preparedStatement.setString(3, obj.getComplemento());            
         preparedStatement.setInt(4, obj.getNumero());
         preparedStatement.setString(5, obj.getRua());
-        preparedStatement.setBoolean(6, obj.isStatus());          
+        preparedStatement.setBoolean(6, true);          
         preparedStatement.setString(7, obj.getId());
         preparedStatement.executeUpdate();    
         this.connection.close();
@@ -105,17 +105,20 @@ public class EnderecoDAO implements IRepositoryService<EnderecoModel> {
 	}
 
 	@Override
-	public void delete(String id) throws Exception {
+	public boolean delete(String id) throws Exception {
 		
-		PreparedStatement ps = connection.prepareStatement("DELETE FROM tbenderecos WHERE ID=?");
-		ps.setString(1, id);
-		ps.executeUpdate();
-		
-		PreparedStatement pst = connection.prepareStatement("DELETE FROM tbusuarioxenderecos WHERE id_endereco=?");
-		pst.setString(1, id);
-		pst.executeUpdate();
-		
-		this.connection.close();
+		PreparedStatement preparedStatement = connection
+                .prepareStatement("UPDATE tbenderecos SET " 
+                							+ " STATUSEND=? "
+                                            + " WHERE ID=?");
+        
+		// Parameters start with 1
+        // preparedStatement previne SQL Injection...
+        preparedStatement.setBoolean(1, false);          
+        preparedStatement.setString(2, id);
+        preparedStatement.executeUpdate();    
+        this.connection.close();
+		return true;
 		
 	}
 
@@ -125,9 +128,11 @@ public class EnderecoDAO implements IRepositoryService<EnderecoModel> {
             
             // Busco os dados do endereco onde o usuario mora
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM n2_ecommerce.tbEnderecos a "
-            		+ " inner join tbUsuarioxEnderecos b on a.id=b.id_endereco where a.Id=?");
+            		+ " inner join tbUsuarioxEnderecos b on a.id=b.id_endereco where a.Id=?"
+            		+ " and statusEnd=?");
             
             ps.setString(1, id);
+            ps.setBoolean(2, true);
             ResultSet newResultSet = ps.executeQuery();
             
             var data=this.FillObjectsFromResultSet(newResultSet);
@@ -141,24 +146,28 @@ public class EnderecoDAO implements IRepositoryService<EnderecoModel> {
 	@Override
 	public ArrayList<EnderecoModel> findAll() throws Exception {
 		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
-		ArrayList<EnderecoModel> uList = new ArrayList<EnderecoModel>();
+		
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM n2_ecommerce.tbEnderecos a "
+        		+ " inner join tbUsuarioxEnderecos b on a.id=b.id_endereco"
+        		+ " where statusEnd=?");
         
-            Statement statement = connection.createStatement();
-            
-            ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbEnderecos a "
-            		+ " inner join tbUsuarioxEnderecos b on a.id=b.id_endereco");
-                                  
-        return this.FillObjectsFromResultSet(rs);
+        ps.setBoolean(1, true);
+        ResultSet newResultSet = ps.executeQuery();
+                                                       
+        return this.FillObjectsFromResultSet(newResultSet);
 	}
 	public ArrayList<EnderecoModel> findAllAdressUser(String idUser) throws Exception {
-		//Ajustar para enviar os dados de forma paginada, usar fun��o SQL "LIMIT" do MySQL
-            Statement statement = connection.createStatement();
-            
-            ResultSet rs = statement.executeQuery("SELECT * FROM n2_ecommerce.tbEnderecos a "
-            		+ " inner join tbUsuarioxEnderecos b on a.id=b.id_endereco WHERE "
-            		+ " b.id_usuario='"+idUser+"'");
+		
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM n2_ecommerce.tbEnderecos a "
+        		+ " inner join tbUsuarioxEnderecos b on a.id=b.id_endereco WHERE "
+        		+ " b.id_usuario=? and statusEnd=?");
+		
+		ps.setString(1, idUser);
+        ps.setBoolean(2, true);
+        ResultSet newResultSet = ps.executeQuery();
+          
               
-        return this.FillObjectsFromResultSet(rs) ;
+        return this.FillObjectsFromResultSet(newResultSet) ;
 	}
 
 
