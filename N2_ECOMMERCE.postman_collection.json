@@ -9,13 +9,16 @@
 			"name": "Usuarios",
 			"item": [
 				{
-					"name": "login",
+					"name": "Login",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"andromeda\",\r\n    \"senha\":\"andromeda\",\r\n    \"shopID\":\"barb1\"\r\n}",
+							"raw": "{\r\n  \"username\":\"email\",\r\n  \"password\":\"senha\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -31,40 +34,9 @@
 								"login"
 							]
 						},
-						"description": "#### Descrição:\n\nRealiza login na plataforma.\n\n#### Retorno:\n\n*   Token de acesso em caso de sucesso\n*   Nível do usuário onde:\n    *   1 - Cliente\n    *   2 - Funcionário\n    *   3 - Gerente"
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
 					},
-					"response": [
-						{
-							"name": "login",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"algum_email@email.com\",\r\n    \"senha\":\"algumasenha\",\r\n    \"shopId\":\"123456\"\r\n\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/login",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"token\":\"adgsajdgjhaksbdjkhanbdkjl24556\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "usuario",
@@ -76,7 +48,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+							"raw": "{\r\n  \"nome\":\"UsuarioNormal2\",\r\n  \"email\":\"email2\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf2\",\r\n  \"idTipoUsuario\":\"aiwbduaoia\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,12 +56,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{ENDPOINT}}/user",
+							"raw": "{{ENDPOINT}}/register",
 							"host": [
 								"{{ENDPOINT}}"
 							],
 							"path": [
-								"user"
+								"register"
 							]
 						},
 						"description": "#### Descrição\n\nCadastra um usuário no sistema"
@@ -135,7 +107,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjcxYjY4ZTNhLWU0Y2YtYWZhNy0yMWZmLWE4MGFiNTA5MzRjMCIsInJvbGUiOiIxIiwiZ3JvdXBzaWQiOiJiYXJiZWFyaWF2MSIsIm5iZiI6MTY0MDEzMDM3MiwiZXhwIjoxNjQwMTM3NTcyLCJpYXQiOjE2NDAxMzAzNzJ9.M6_wTfX8rJGITv0bg6NUbXkY17kZ7J20JMcvS5Ugy4M",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMjUxNzMsImV4cCI6MTY1MjIxMTU3M30.fL6UyXfdCoEAhrmth6GRD-hHqX245hvJVauelUZxrQ2tyhe7hR3ASvbXzhgf9Kpt99GXqQ6_B2ZVgN6P1R1VZA",
 									"type": "string"
 								}
 							]
@@ -150,12 +122,19 @@
 							}
 						],
 						"url": {
-							"raw": "{{ENDPOINT}}/usuario",
+							"raw": "{{ENDPOINT}}/user",
 							"host": [
 								"{{ENDPOINT}}"
 							],
 							"path": [
-								"usuario"
+								"user"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "96c30981-7a98-4f6c-892a-48148ac75c02",
+									"disabled": true
+								}
 							]
 						},
 						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
@@ -231,7 +210,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJyb2xlIjoiMyIsIm5iZiI6MTYzOTY5NjEzNiwiZXhwIjoxNjM5NzAzMzM2LCJpYXQiOjE2Mzk2OTYxMzZ9.VHHfp3iVG7rifg_Y3QKZiXGdHssSuhVxk1p_Y2tT50I",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA2NzE5MSwiZXhwIjoxNjUyMTUzNTkxfQ.R4J6rY5KVB4PRVO-KHZuWZA7rQRNyEmgof4j493Fyf1Bvv-_P9r4Gi2uN-E72b3vebzpf3_fzhO12BEpHQTM7g",
 									"type": "string"
 								}
 							]
@@ -246,7 +225,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Nome\":\"Zé do Caixão1011\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com11\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}",
+							"raw": "{\r\n    \"nome\": \"Teste\",\r\n    \"email\": \"email\",\r\n    \"senha\": \"senha\",\r\n    \"cpf\": \"cpf\",\r\n    \"idTipoUsuario\": \"11\",\r\n    \"statusUsuario\": false,\r\n    \"id\": \"53bb870a-1fab-4ded-962c-173e681b0a89\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -254,17 +233,18 @@
 							}
 						},
 						"url": {
-							"raw": "{{ENDPOINT}}/usuario?id=9eb23934-0377-43fe-8912-dcf2c385ac0c",
+							"raw": "{{ENDPOINT}}/user",
 							"host": [
 								"{{ENDPOINT}}"
 							],
 							"path": [
-								"usuario"
+								"user"
 							],
 							"query": [
 								{
-									"key": "id",
-									"value": "9eb23934-0377-43fe-8912-dcf2c385ac0c"
+									"key": "",
+									"value": "",
+									"disabled": true
 								}
 							]
 						},
@@ -305,9 +285,262 @@
 					]
 				},
 				{
-					"name": "Solicita Reset Senha",
+					"name": "Usuario",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEzMDYwMSwiZXhwIjoxNjUyMjE3MDAxfQ.YMXAd4eBAJclNAqiybFdFy0pe3cO2YUtpgcrM2hc-hiTzgw8EqQ2xm3s8i0fU3suTHysndXp3xpR06_HTD6Meg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/user?id=ab7d78f5-3dfe-4dd1-ac29-23fb4d1ec61c",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "ab7d78f5-3dfe-4dd1-ac29-23fb4d1ec61c"
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRemove o usuário selecionado.\n\nUm token de gerente deve ser enviado no header"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario?id=1",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"Removido com sucesso\"\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMDU0NjgsImV4cCI6MTY1MjE5MTg2OH0.uScUIF-woNdrGROcEkOU5Jl-too6t7AozHVf3xGpKJkOJLdB9OGHuXBwFTCWH4QCMwM6TvGeld2HwpY3RVbcLw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\":\"Produto6\",\r\n  \"preco\":99.0,\r\n  \"descricao\":\"descricao aleatoria\",\r\n  \"foto\":\"\",\r\n  \"quantidade\":100,\r\n  \"desconto\":0.0,\r\n  \"idCategoria\":\"5c66c0f7-1d0b-4ff0-9c31-4f2e39d6d76c\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/products",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": [
+						{
+							"name": "Usuário",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/user",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMDYxMTYsImV4cCI6MTY1MjE5MjUxNn0.htkX8sA1jiLyELo17PZdjB41NB6SUTeSE2mTETQwIKp92pDuYEm0cIsw7O1tidl7YRWwCNuf4a2qAP8g75CooA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/products",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "a9c43157-9566-4bdc-8efc-c7d94537ac38",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA5OTc3NCwiZXhwIjoxNjUyMTg2MTc0fQ.MbEyIpV-MagSRcoXflfj3lj3_fiqJOEygxQtG-SOIlKavEapgJZMZMfsVGpmVl_bM5Etf8i-0I0vM_4hLtsFdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Authorization",
@@ -317,7 +550,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"email@email.com\"\r\n}",
+							"raw": "{\r\n  \"id\":\"a9c43157-9566-4bdc-8efc-c7d94537ac38\",\r\n  \"nome\":\"Produto3Modificado\",\r\n  \"preco\":29.0,\r\n  \"descricao\":\"descricao modificada\",\r\n  \"foto\":\"\",\r\n  \"quantidade\":20,\r\n  \"desconto\":10.0,\r\n  \"idCategoria\":\"3f10c997-6c1b-4369-9bca-0b2adb42e8a5\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,38 +558,46 @@
 							}
 						},
 						"url": {
-							"raw": "{{ENDPOINT}}/requestpswreset",
+							"raw": "{{ENDPOINT}}/products",
 							"host": [
 								"{{ENDPOINT}}"
 							],
 							"path": [
-								"requestpswreset"
+								"products"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
 							]
 						},
-						"description": "#### Descrição\n\nSolicita redefinição de senha para e-mail enviado"
+						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
 					},
 					"response": [
 						{
-							"name": "Solicita Reset Senha",
+							"name": "Usuario",
 							"originalRequest": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"email@email.com\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
 								},
 								"url": {
-									"raw": "{{ENDPOINT}}/requestpswreset",
+									"raw": "{{ENDPOINT}}/usuario?id=1",
 									"host": [
 										"{{ENDPOINT}}"
 									],
 									"path": [
-										"requestpswreset"
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
 									]
 								}
 							},
@@ -364,12 +605,372 @@
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
-							"body": "{\r\n    \"status\":\"solicitação recebida com sucesso\"\r\n}"
+							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Endereços",
+			"item": [
+				{
+					"name": "Endereço",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMjc0OTMsImV4cCI6MTY1MjIxMzg5M30.VpB2XVIT8udpuw4gYC2B_BMY8kWgWTCNCXaM6ASPf8Gs8pKLRiTj9g9FfMFYKZgaKmBVfdN_950UmsjwQ_QKGw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cep\":\"cep\",\r\n  \"cidade\":\"cidade\",\r\n  \"complemento\":\"complemento\",\r\n  \"numero\":30,\r\n  \"rua\":\"rua\",\r\n  \"idUsuario\":\"d93b328b-a5d4-4319-bc25-be3e530bfb92\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/addres",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"addres"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": [
+						{
+							"name": "Usuário",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/user",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
 						}
 					]
 				},
 				{
-					"name": "Usuario",
+					"name": "Endereço",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMjkyMzIsImV4cCI6MTY1MjIxNTYzMn0.VZK4no5TGz0WoSeJ7IUQWX3DGUJq4tgHT6xQPDtm_SDvE401IP3YnP4_KIUpqKtg4gIA6JDSw7oJZQH_VV5keQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/addres",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"addres"
+							],
+							"query": [
+								{
+									"key": "idEndeco",
+									"value": "8532a551-0d00-4b9f-b2be-933515242aeb",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Endereços de Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMjkyMzIsImV4cCI6MTY1MjIxNTYzMn0.VZK4no5TGz0WoSeJ7IUQWX3DGUJq4tgHT6xQPDtm_SDvE401IP3YnP4_KIUpqKtg4gIA6JDSw7oJZQH_VV5keQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/UserAddres?idUser=d93b328b-a5d4-4319-bc25-be3e530bfb92",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"UserAddres"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "d93b328b-a5d4-4319-bc25-be3e530bfb92"
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Endereço",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIwNjg3MTAsImV4cCI6MTY1MjE1NTExMH0.SaAtfpIzLJKTGHbJO7w_Tt8dzVWD8b7iIT4Cbq0EcCiLVgSiZFCyHow-wBAbQ-Sq6ywYPnNC99tBzsnKFeMxVg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\":\"44fb5169-11cb-4b45-9933-f206b005e977\",\r\n  \"cep\":\"cepMod\",\r\n  \"cidade\":\"cidade\",\r\n  \"complemento\":\"complemento\",\r\n  \"numero\":2,\r\n  \"rua\":\"rua\",\r\n  \"idUsuario\":\"b5e99e74-f0d9-45e3-9286-ffd0728c324d\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/addres",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"addres"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario?id=1",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Endereço",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -438,19 +1039,772 @@
 			]
 		},
 		{
+			"name": "Ordens",
+			"item": [
+				{
+					"name": "Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDIiLCJpYXQiOjE2NTIxMjc3MzMsImV4cCI6MTY1MjIxNDEzM30.2QIeyQ2llc19bxCmGMsEIRJmFuQRkQyUWOEVg7lCoGbU1-pg9SPYnURnqn6wwHECz1diG_thWoEuU0ZxdXB_2w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idEndereco\":\"125d9496-9686-4653-a9a5-de0e0bab15bb\",\r\n  \"produtos\":[\r\n      {\r\n          \"id\":\"9f99a0f5-30f2-4cfc-982e-e87eeeeb3635\",\r\n          \"quantidade\":30\r\n      },\r\n      {\r\n          \"id\":\"c201d036-93dc-4ae9-8083-19a39ac64927\",\r\n          \"quantidade\":20\r\n      },\r\n            {\r\n          \"id\":\"cb9ac622-ad47-46ae-a47b-7e00809c513b\",\r\n          \"quantidade\":50\r\n      }\r\n\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/order",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"order"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": [
+						{
+							"name": "Usuário",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/user",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Produto em Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMDYxMTYsImV4cCI6MTY1MjE5MjUxNn0.htkX8sA1jiLyELo17PZdjB41NB6SUTeSE2mTETQwIKp92pDuYEm0cIsw7O1tidl7YRWwCNuf4a2qAP8g75CooA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\":\"69fbc652-89b3-45fc-9b64-c64655d1b534\",\r\n  \"produtos\":[\r\n      {\r\n          \"id\":\"7ce6a453-5a98-48fe-aab5-a68b5c378789\",\r\n          \"quantidade\":2\r\n      },\r\n      {\r\n          \"id\":\"a31f432e-07a3-4861-8f43-94baae24613e\",\r\n          \"quantidade\":3\r\n      }\r\n\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/addOrderProduct",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"addOrderProduct"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": [
+						{
+							"name": "Usuário",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/user",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Modificar Produto em Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMDYxMTYsImV4cCI6MTY1MjE5MjUxNn0.htkX8sA1jiLyELo17PZdjB41NB6SUTeSE2mTETQwIKp92pDuYEm0cIsw7O1tidl7YRWwCNuf4a2qAP8g75CooA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\":\"69fbc652-89b3-45fc-9b64-c64655d1b534\",\r\n  \"produtos\":[\r\n      {\r\n          \"id\":\"7ce6a453-5a98-48fe-aab5-a68b5c378789\",\r\n          \"quantidade\":39\r\n      },\r\n      {\r\n          \"id\":\"a31f432e-07a3-4861-8f43-94baae24613e\",\r\n          \"quantidade\":39\r\n      }\r\n\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/ModifyOrderProduct",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"ModifyOrderProduct"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": [
+						{
+							"name": "Usuário",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/user",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar Produto em Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMDYxMTYsImV4cCI6MTY1MjE5MjUxNn0.htkX8sA1jiLyELo17PZdjB41NB6SUTeSE2mTETQwIKp92pDuYEm0cIsw7O1tidl7YRWwCNuf4a2qAP8g75CooA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\":\"69fbc652-89b3-45fc-9b64-c64655d1b534\",\r\n  \"produtos\":[\r\n      {\r\n          \"id\":\"7ce6a453-5a98-48fe-aab5-a68b5c378789\"\r\n      },\r\n      {\r\n          \"id\":\"a31f432e-07a3-4861-8f43-94baae24613e\"\r\n      }\r\n\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/DelOrderProduct",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"DelOrderProduct"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": [
+						{
+							"name": "Usuário",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/user",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEyNDI4MSwiZXhwIjoxNjUyMjEwNjgxfQ.HnBfhAcmDVOW9kj12zm2hsSm0fMeKlArWuK3bVvx-_43hnN8lz5JBBVWuvD9diJY4WwY3pCDVxuqsGCF1Vi-oQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/order?status=auihdbayuwidh2131313",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"order"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "77fef756-f6a4-4205-8d02-e860fd959b4e",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "auihdbayuwidh2131313"
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Ordens de Usuário",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEyMjg3OCwiZXhwIjoxNjUyMjA5Mjc4fQ.31iRxuFFGxSPo5qoqAYyF1nG7fiMJe9N_MnBExYBzcF037ftA1zAhj8UcaccdkDlJfqKYeWNEaj7jQJYW0OShg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/UserOrder?idUser=96c30981-7a98-4f6c-892a-48148ac75c02&status=aoiuhwda23",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"UserOrder"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "96c30981-7a98-4f6c-892a-48148ac75c02"
+								},
+								{
+									"key": "status",
+									"value": "aoiuhwda23"
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Finalizar Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEyMjg3OCwiZXhwIjoxNjUyMjA5Mjc4fQ.31iRxuFFGxSPo5qoqAYyF1nG7fiMJe9N_MnBExYBzcF037ftA1zAhj8UcaccdkDlJfqKYeWNEaj7jQJYW0OShg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/FinOrder?id=f188acfc-704c-4710-a009-842493a6824d",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"FinOrder"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "f188acfc-704c-4710-a009-842493a6824d"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Modificar Endereço Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIwNjg3MTAsImV4cCI6MTY1MjE1NTExMH0.SaAtfpIzLJKTGHbJO7w_Tt8dzVWD8b7iIT4Cbq0EcCiLVgSiZFCyHow-wBAbQ-Sq6ywYPnNC99tBzsnKFeMxVg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\":\"69fbc652-89b3-45fc-9b64-c64655d1b534\",\r\n  \"idEndereco\":\"a988c6ab-bec6-47af-99ee-8afe2679826b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/OrderAddres",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"OrderAddres"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
+								},
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario?id=1",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Ordem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMjQ2OTMsImV4cCI6MTY1MjIxMTA5M30.sRqqqzzpHe4eZ7x1Q5o9i1R5I3Axvon50SXvXyaOPPm1qJl3t_jWpE7jW1_QzYrJ6hPPCYT-M2IYvADLJciDLw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/order?id=d7a5c443-b01d-4fc8-83e5-6f790f3da1dd",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"order"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "d7a5c443-b01d-4fc8-83e5-6f790f3da1dd"
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRemove o usuário selecionado.\n\nUm token de gerente deve ser enviado no header"
+					},
+					"response": [
+						{
+							"name": "Usuario",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{ENDPOINT}}/usuario?id=1",
+									"host": [
+										"{{ENDPOINT}}"
+									],
+									"path": [
+										"usuario"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"status\":\"Removido com sucesso\"\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Tipo Usuario",
 			"item": [
 				{
 					"name": "TipoUsuario",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA0ODA4OCwiZXhwIjoxNjUyMTM0NDg4fQ.D-9uhZ22W8_7vGON5uG295sc83EYwGaWIwJi3V5m8gqqGLA_SKZ4CCufRR8x4VHTi0kYIBWT9_nGWWeegfP6lg",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"tipo\":\"Teste2\"\r\n}",
+							"raw": "{\r\n  \"tipo\":\"Usuario2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -474,13 +1828,20 @@
 					"name": "TipoUsuario",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA2Nzk3MSwiZXhwIjoxNjUyMTU0MzcxfQ.xfRbAQB-3v5YXXW0tBTM1zO5Ndhk26MeRbz12aNSBOEHFFhGk8_EwU3y84sBewWUj8CE660pcgvOVeqUjSDQaQ",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{TOKEN}}",
+								"value": "",
 								"type": "text",
 								"disabled": true
 							}
@@ -496,7 +1857,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "1",
+									"value": "11",
 									"disabled": true
 								}
 							]
@@ -509,7 +1870,14 @@
 					"name": "TipoUsuario",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA0ODM3OCwiZXhwIjoxNjUyMTM0Nzc4fQ.FYGXEeEyls5Cj-W2KDT4kzgSi3sfPojs-Zo1Qu9vKzyzqmjo7p-XJ_PEk3qhz83pcUv5CFif5VbuYjfFoDwmUg",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [
@@ -521,7 +1889,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"id\":3, \r\n  \"tipo\":\"Teste3\"\r\n}",
+							"raw": "{\r\n  \"id\":\"9be910cf-42e8-4fc3-881e-04d726b19c12\", \r\n  \"tipo\":\"Usuario\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -535,6 +1903,273 @@
 							],
 							"path": [
 								"typeUser"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Status de Ordens",
+			"item": [
+				{
+					"name": "Status de Ordens",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEwMjAyNSwiZXhwIjoxNjUyMTg4NDI1fQ.KckwXc_NTA6xE_SqkgGAxw_ozRn3YncQAcd9XgB9njrVVXEzjZAgKF4EdLmCcFet63rsGECVh45lnrOMlR_l3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"pedidoStatus\":\"Teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/statusOrder",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"statusOrder"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": []
+				},
+				{
+					"name": "Status de Ordens",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEwMjAyNSwiZXhwIjoxNjUyMTg4NDI1fQ.KckwXc_NTA6xE_SqkgGAxw_ozRn3YncQAcd9XgB9njrVVXEzjZAgKF4EdLmCcFet63rsGECVh45lnrOMlR_l3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/statusOrder",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"statusOrder"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "385d16f1-c923-4568-9be1-6681e511a868",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": []
+				},
+				{
+					"name": "Status de Ordens",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjEwMjAyNSwiZXhwIjoxNjUyMTg4NDI1fQ.KckwXc_NTA6xE_SqkgGAxw_ozRn3YncQAcd9XgB9njrVVXEzjZAgKF4EdLmCcFet63rsGECVh45lnrOMlR_l3w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\":\"358bc5b4-21c2-402c-88bf-f3ed9538432a\", \r\n  \"pedidoStatus\":\"TesteModificado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/statusOrder",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"statusOrder"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoria Produtos",
+			"item": [
+				{
+					"name": "Categoria Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJpYXQiOjE2NTIxMDU0NjgsImV4cCI6MTY1MjE5MTg2OH0.uScUIF-woNdrGROcEkOU5Jl-too6t7AozHVf3xGpKJkOJLdB9OGHuXBwFTCWH4QCMwM6TvGeld2HwpY3RVbcLw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"categoria\":\"Categoria2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/catProduct",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"catProduct"
+							]
+						},
+						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+					},
+					"response": []
+				},
+				{
+					"name": "Categoria Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA2Nzk3MSwiZXhwIjoxNjUyMTU0MzcxfQ.xfRbAQB-3v5YXXW0tBTM1zO5Ndhk26MeRbz12aNSBOEHFFhGk8_EwU3y84sBewWUj8CE660pcgvOVeqUjSDQaQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ENDPOINT}}/catProduct?id=3f10c997-6c1b-4369-9bca-0b2adb42e8a5",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"catProduct"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3f10c997-6c1b-4369-9bca-0b2adb42e8a5"
+								}
+							]
+						},
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+					},
+					"response": []
+				},
+				{
+					"name": "Categoria Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbCIsImlhdCI6MTY1MjA0ODM3OCwiZXhwIjoxNjUyMTM0Nzc4fQ.FYGXEeEyls5Cj-W2KDT4kzgSi3sfPojs-Zo1Qu9vKzyzqmjo7p-XJ_PEk3qhz83pcUv5CFif5VbuYjfFoDwmUg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoria\": \"Categoria1Modificado\",\r\n    \"id\": \"3f10c997-6c1b-4369-9bca-0b2adb42e8a5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ENDPOINT}}/catProduct",
+							"host": [
+								"{{ENDPOINT}}"
+							],
+							"path": [
+								"catProduct"
 							],
 							"query": [
 								{
