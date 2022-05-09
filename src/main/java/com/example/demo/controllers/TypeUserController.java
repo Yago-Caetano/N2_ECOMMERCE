@@ -18,6 +18,7 @@ import com.example.demo.DAO.TypeUserDAO;
 public class TypeUserController {
 	
 	@PostMapping("/typeUser")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> create(@RequestBody TypeUser type) 
 	{
 		try
@@ -40,6 +41,7 @@ public class TypeUserController {
 	}
 	
 	@GetMapping("/typeUser")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 		try
 		{
@@ -67,6 +69,7 @@ public class TypeUserController {
 		}
 	}
 	@PutMapping("/typeUser")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> Update(@RequestBody TypeUser type) {
 		try
 		{
