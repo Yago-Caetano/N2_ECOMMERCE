@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "36c57be7-6faf-4078-9bf3-414a8ed5aab9",
 		"name": "N2_ECOMMERCE",
+		"description": "API simulando um ecommerce",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -34,7 +35,7 @@
 								"login"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nDevolve um token JWT caso o sistema permita o login do usuário"
 					},
 					"response": []
 				},
@@ -64,40 +65,9 @@
 								"register"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra um usuário no sistema, não é necessário autenticação no sistema.\n\nO tipo de usuário define a acessibilidade do mesmo no sistema, por padrão \"unjawhe767\" representam Administradores e \"aiwbduaoia\" usuários comuns, outros tipos de usuário podem ser cadastrados mas o sistema sempre considerará \"unjawhe767\" administradores e os restantes \"usuarios\""
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Usuario",
@@ -137,70 +107,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n*   Para usuários comum:API retorna apenas as informações do usuários portador do token.\n*   Para usuários com nível de acesso de administrador\n    *   Caso **id** (id do usuário) for enviado  \n        Retorna os dados dos usuário selecionado\n    *   Caso **id** (id do usuário) não for enviado  \n        Retorna todos os usuários Cadastrados"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Usuario",
@@ -248,41 +157,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n*   Caso token de acesso for associado a usuário comum\n    \n\nNão é necessário enviar **id**\n\nsó permitirá as alterações de si mesmo\n\n*   Caso token de acesso for associado a um administrador\n    \n\nO id do usuário alvo deverá ser enviado\n\nPode alterar as informações de qualquer usuário"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Usuario",
@@ -320,38 +197,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRemove o usuário selecionado.\n\nUm token de gerente deve ser enviado no header"
+						"description": "#### Descrição\n\nRemove o usuário selecionado.\n\nUm token de administrador deve ser enviado no header\n\nO sistema irá cancela quaisquer ordens pendentes deste usuário e deletar os endereços relacionados com este usuário"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"Removido com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				}
-			]
+			],
+			"description": "Os usuários que tem acesso a API,\n\nas únicas rotas que não necessitam de autenticação, são as rotas: /register que registra um novo usuário e a rota /login que permite que os usuários obtenham um token de acesso"
 		},
 		{
 			"name": "Produtos",
@@ -389,40 +240,9 @@
 								"products"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra um produto no sistema, o idCategoria deve ser o id da categoria de produtos previamente cadastrado.\n\nSomente Administradores tem acesso a essa rota"
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Produto",
@@ -462,70 +282,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de produto\n\n*   Caso **id (id do produto)** for enviado  \n    Retorna os dados do produto selecionado\n*   Caso **id (id do produto)** não for enviado  \n    Retorna todos os produtos Cadastrados"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Produto",
@@ -573,43 +332,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAtualiza os dados do produto\n\nSomente Administradores podem alterar as informações dos produtos."
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
-						}
-					]
+					"response": []
 				}
-			]
+			],
+			"description": "Produtos da loja de ecommerce, todos os produtos são associados a uma Categoria de Produtos"
 		},
 		{
 			"name": "Endereços",
@@ -647,40 +375,9 @@
 								"addres"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra um endereço no sistema\n\n*   Se um usuário administrador acessar a rota, a API utiliza a informação de idUsuário enviada no body\n*   Se um usuário comum acessar a rota, a API utiliza seu id para associar ao endereço."
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Endereço",
@@ -720,70 +417,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n*   Para usuários comum:API retorna apenas os endereços do usuário portador do token.\n*   Para usuários com nível de acesso de administrador\n    *   Caso **id** for enviado  \n        Retorna os endereços do usuário selecionado\n    *   Caso **id** não for enviado  \n        Retorna os endereços dos usuários cadastrados"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Endereços de Usuarios",
@@ -822,70 +458,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n*   Para usuários comum:API retorna apenas os endereços do usuário portador do token.\n*   Para usuários com nível de acesso de administrador\n    *   Caso **id** for enviado  \n        Retorna os endereços do usuário selecionado\n    *   Caso **id** não for enviado  \n        Retorna todos os endereços Cadastrados"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Endereço",
@@ -933,41 +508,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAtualiza os dados do endereço\n\nTanto administradores quanto usuários comuns têm acesso\n\n*   Caso token de acesso for associado a usuário comum o id de usuário informado não pode alterar endereços de outro usuário."
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Endereço",
@@ -1005,38 +548,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRemove o usuário selecionado.\n\nUm token de gerente deve ser enviado no header"
+						"description": "#### Descrição\n\nRemove o endereço selecionado.\n\no parâmetro id representa o id do endereço a ser removido.\n\nTanto gerentes quanto usuários podem acessar a API, usuários comuns não podem deletar endereços que não estejam associados a si mesmo."
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"Removido com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				}
-			]
+			],
+			"description": "Os usuários podem ter \"n\" endereços, os endereços são utilizados na formação de Ordens de compra."
 		},
 		{
 			"name": "Ordens",
@@ -1074,40 +591,9 @@
 								"order"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra uma Ordem no sistema.\n\nSomente as informações do endereço, produto e suas respectivas quantidades precisam ser enviadas.\n\nA Ordem será associada imediatamente ao usuário que utilizou a API, o endereço informado deve pertencer ao usuário ou a API sinalizará erro."
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Add Produto em Ordem",
@@ -1142,40 +628,9 @@
 								"addOrderProduct"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nAdiciona produtos em uma ordem que ainda estava pendente, os produtos adicionados não poderiam fazer parte da ordem que já existia.\n\nO id informado deve ser o id da Ordem que se deseja inserir os dados e esta deve pertencer ao usuário que está utilizando a API"
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Modificar Produto em Ordem",
@@ -1210,40 +665,9 @@
 								"ModifyOrderProduct"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nPermite alterar a quantidade de produtos em uma ordem que ainda estava pendente, os produtos solicitados devem fazer parte da ordem.\n\nO id informado deve ser o id da Ordem que se deseja alterar os dados e esta deve pertencer ao usuário que está utilizando a API"
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Deletar Produto em Ordem",
@@ -1278,40 +702,9 @@
 								"DelOrderProduct"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nRemove produtos em uma ordem que ainda estava pendente.\n\nO id informado deve ser o id da Ordem que se deseja inserir os dados e esta deve pertencer ao usuário que está utilizando a API"
 					},
-					"response": [
-						{
-							"name": "Usuário",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"nome\":\"Usuario1\",\r\n  \"email\":\"email\",\r\n  \"senha\":\"senha\",\r\n  \"cpf\":\"cpf\",\r\n  \"idTipoUsuario\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/user",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"cadastrado com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Ordem",
@@ -1355,70 +748,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de Ordens do sistema.\n\npor padrão os status abaixo tem o seguinte significado:\n\n*   Status: aoiuhwda23 => Pendente\n*   Status: aiwujhac1235=> Concluído\n*   Status: auihdbayuwidh2131313=> Cancelado\n    \n\n*   Para usuários comum:API retorna apenas as informações das ordens do usuário portador do token, se status for especificado a API filtra de acordo.\n*   Para usuários com nível de acesso de administrador caso o id seja especificado a API retornará a ordem específica, caso contrario a API retorna todas as Ordens, é possível enviar status para filtrar as Ordens selecionadas."
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Ordens de Usuário",
@@ -1461,70 +793,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de Ordens do sistema.\n\npor padrão os status abaixo tem o seguinte significado:\n\n*   Status: aoiuhwda23 => Pendente\n*   Status: aiwujhac1235=> Concluído\n*   Status: auihdbayuwidh2131313=> Cancelado\n    \n\n*   Para usuários comum:API retorna apenas as informações das ordens do usuário portador do token, se status for especificado a API filtra de acordo.\n*   Para usuários com nível de acesso de administrador caso o idUser seja especificado a API retornará as ordens específicas de um determinado usuário, caso contrario a API retorna todas as Ordens, é possível enviar status para filtrar as Ordens selecionadas."
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Finalizar Ordem",
@@ -1568,70 +839,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nFinaliza a ordem com status \"Pendente\", analisando e movimentando o estoque de produtos de acordo, caso não seja possível adquirir do estoque a API não finaliza a ordem.\n\no parâmetro id deve ser o id de uma ordem pertencente ao usuário solicitante e a ordem deve estar \"Pendente\"\n\nStatus: aoiuhwda23 => Pendente\n\nSe todos os itens pertencente à ordem tiverem estoque e nenhum erro ocorrer a API retira do estoque, e muda o status desta ordem para\n\nStatus: aiwujhac1235=> Concluído"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{TOKEN}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"Nome\":\"Zé do Caixão1\",\r\n    \"Senha\":\"123456\",\r\n    \"Foto\":\"images.com/imagemLegal.jpg\",\r\n    \"Email\":\"ze_caixao1@gmail.com\",\r\n    \"Telefone\":\"+551155552222\",\r\n    \"Status\":1\r\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Modificar Endereço Ordem",
@@ -1679,41 +889,9 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAtualiza os dados do endereço de uma ordem\n\no id deve ser de uma ordem que pertença ao usuário solicitante, assim como o idEndereço."
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\r\n    \"nome\":\"Zé do Caixão\",\r\n    \"senha\":\"123456\",\r\n    \"foto\":\"images.com/imagemLegal.jpg\",\r\n    \"email\":\"ze_caixao@gmail.com\",\r\n    \"telefone\":\"+551155552222\",\r\n    \"nivelAcesso\": [0,1]\r\n    \r\n}"
-								},
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"code": 201,
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"status\":\"Atualizado com sucesso\"\n}"
-						}
-					]
+					"response": []
 				},
 				{
 					"name": "Ordem",
@@ -1751,38 +929,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRemove o usuário selecionado.\n\nUm token de gerente deve ser enviado no header"
+						"description": "#### Descrição\n\nAltera o status de uma ordem que pertença ao usuário e que esteja com o status de\n\nStatus: aoiuhwda23 => Pendente\n\npara:\n\nStatus: auihdbayuwidh2131313=> Cancelado"
 					},
-					"response": [
-						{
-							"name": "Usuario",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{ENDPOINT}}/usuario?id=1",
-									"host": [
-										"{{ENDPOINT}}"
-									],
-									"path": [
-										"usuario"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\r\n    \"status\":\"Removido com sucesso\"\r\n}"
-						}
-					]
+					"response": []
 				}
-			]
+			],
+			"description": "As ordens são pedidos ou ordens de compra do sistema, estes mudam de status conforme passam por diferentes estágios.\n\nPor padrão os Status de Ordens que já veem do banco são: Pendente, Cancelado e Concluído"
 		},
 		{
 			"name": "Tipo Usuario",
@@ -1820,7 +972,7 @@
 								"typeUser"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra uma categoria de usuário no sistema, somente administradores podem cadastrar"
 					},
 					"response": []
 				},
@@ -1862,7 +1014,7 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecuperar as informações de categorias de usuários\n\n*   Caso **id** for enviado  \n    Retorna os dados da categoria de usuário selecionada\n*   Caso **id** não for enviado  \n    Retorna os dados das categorias de usuários cadastradas"
 					},
 					"response": []
 				},
@@ -1912,11 +1064,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAtualiza os dados da categoria de usuário.\n\nSomente administradores podem alterar os dados"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Define categorias de usuário para o sistema.\n\nPor padrão o sistema começa com duas categorias:\n\nCategoria: unjawhe767=> Gerente  \nCategoria: aiwbduaoia=> Usuario\n\nApesar de permitir o cadastro, para o sistema quaisquer categorias diferentes de Categoria: unjawhe767=> Gerente são consideradas como usuários comuns"
 		},
 		{
 			"name": "Status de Ordens",
@@ -1954,7 +1107,7 @@
 								"statusOrder"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra um status de pedido no sistema.\n\nsomente adminsitradores tem acesso."
 					},
 					"response": []
 				},
@@ -1996,7 +1149,7 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nExibe os status de pedido cadastrados no sistema.\n\nSe id for fornecido o sistema irá selecionar somente o id mostrado, caso contrário mostra todos os status cadastrados.\n\nsomente adminsitradores tem acesso."
 					},
 					"response": []
 				},
@@ -2046,11 +1199,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAltera um status de pedido no sistema.\n\nsomente adminsitradores tem acesso."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Categorias do status do pedido, sendo que o sistema começa com as seguintes categorias:\n\nStatus: aoiuhwda23 => Pendente  \nStatus: aiwujhac1235=> Concluído  \nStatus: auihdbayuwidh2131313=> Cancelado"
 		},
 		{
 			"name": "Categoria Produtos",
@@ -2088,7 +1242,7 @@
 								"catProduct"
 							]
 						},
-						"description": "#### Descrição\n\nCadastra um usuário no sistema"
+						"description": "#### Descrição\n\nCadastra uma categoria de produto no sistema, somente administradores tem acesso"
 					},
 					"response": []
 				},
@@ -2129,7 +1283,7 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nRecuperar as informações de usuário\n\n- Para usuários comum:\n \n  API retorna apenas as informações do usuários portador do token.\n\n- Para usuários com nível de acesso de administrador\n\n   - Caso **id** for enviado\n     Retorna os dados dos usuário selecionado\n\n   - Caso **id** não for enviado\n   Retorna todos os usuários Cadastrados"
+						"description": "#### Descrição\n\nRecupera as informações de categorias de produtos no sistema.\n\nSe id for fornecido o sistema mostra somente os id selecionado, caso contrário mostra todas as categorias cadastradas,"
 					},
 					"response": []
 				},
@@ -2179,11 +1333,12 @@
 								}
 							]
 						},
-						"description": "#### Descrição\n\nAtualiza os dados do usuário\n\n- Caso token de acesso for associado a usuário comum\n\nNão é necessário enviar **id**\n\n- Caso token de acesso for associado a um administrador \n\nO id do usuário alvo deverá ser enviado"
+						"description": "#### Descrição\n\nAtualiza a categoria de produtos no sistema.\n\nSomente administradores tem acesso"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Categorias de produtos cadastrados no sistema."
 		}
 	]
 }
