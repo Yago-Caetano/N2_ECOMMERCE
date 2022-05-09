@@ -48,7 +48,7 @@ create table tbUsuarioxEnderecos(
 );
 
 create table tbCategoriaProdutos(
-	id varchar(36) not null,
+	id varchar(40) not null,
 	Categoria varchar(20) not null unique,
 	primary key(id)
 );

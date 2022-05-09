@@ -4,6 +4,11 @@ public class CategoriaProduto extends PadraoModel {
 
 	private String categoria;
 	
+	public CategoriaProduto()
+	{
+		this.GenerateID();
+	}
+	
 	public String getCategoria() {
 		return categoria;
 	}
