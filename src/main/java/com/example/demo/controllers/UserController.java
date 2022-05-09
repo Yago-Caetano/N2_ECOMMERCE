@@ -41,7 +41,7 @@ public class UserController {
 			} else {
 				TypeUserDAO tdao= new TypeUserDAO();
 				TypeUser type= tdao.find(user.getIdTipoUsuario());
-				if (type.getTipo().equals(null))
+				if (type==null)
 					return ResponseEntity.badRequest().build();
 				
 				UserDAO udao = new UserDAO();

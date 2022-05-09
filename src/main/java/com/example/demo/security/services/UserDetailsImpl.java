@@ -1,10 +1,11 @@
 package com.example.demo.security.services;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,9 +40,10 @@ public class UserDetailsImpl implements UserDetails {
   }
 
   public static UserDetailsImpl build(User user) {
+	
 	 List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
 	 SimpleGrantedAuthority authAux;
-	 if(user.getIdTipoUsuario().equals("11"))
+	 if(user.getIdTipoUsuario().equals("unjawhe767"))
 		 authAux= new SimpleGrantedAuthority("ROLE_ADMIN");
 	 else
 		 authAux= new SimpleGrantedAuthority("ROLE_USER"); 

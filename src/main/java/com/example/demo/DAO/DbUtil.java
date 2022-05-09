@@ -12,7 +12,7 @@ public class DbUtil{
 		
 		Properties prop = new Properties();
 		InputStream inputStream = DbUtil.class.getClassLoader().getResourceAsStream("application.properties");
-		String driver, url, user, password;              
+		String url, user, password;              
 		prop.load(inputStream);
         url = prop.getProperty("spring.datasource.url");
         user = prop.getProperty("spring.datasource.username");

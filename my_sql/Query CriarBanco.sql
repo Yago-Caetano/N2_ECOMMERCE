@@ -2,7 +2,6 @@ Create database N2_ecommerce;
 
 Use N2_ecommerce;
 
-
 create table tbTipoUsuario(
 	id varchar(40) not null,
 	Tipo varchar(20) not null unique,
@@ -79,14 +78,13 @@ create table tbStatusPedido(
 );
 
 create table tbPedidos(
-	id varchar(36) not null,
+	id varchar(40) not null,
     Data_pedido timestamp DEFAULT CURRENT_TIMESTAMP,
 	idStatus varchar(40) not null,
 	idUsuario varchar(36) not null,
 	idEndereco varchar(36) not null,
     foreign key(idStatus) references tbStatusPedido (id),
 	foreign key (idUsuario,idEndereco) references tbUsuarioxEnderecos(id_usuario,id_endereco),
-	data datetime not null,
 	primary key (id)
 );
 
@@ -100,3 +98,10 @@ create table tbPedidosxProdutos(
     foreign key(idProduto) references tbProdutos (id),
 	primary key (idPedido,idProduto)
 );
+
+
+insert into tbTipoUsuario (id,Tipo) Values ('unjawhe767','Gerente');
+insert into tbTipoUsuario (id,Tipo) Values ('aiwbduaoia','Usuario');
+
+insert into tbStatusPedido (id,PedidoStatus) values ('aoiuhwda23','Pendente');
+insert into tbStatusPedido (id,PedidoStatus) values ('aiwujhac1235','Concluído');
