@@ -1,0 +1,51 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="../../js/TelaRelatorio.js"></script>
+    <link rel="stylesheet" href="../../css/Filtro.css" />
+    <link rel="stylesheet" href="../../css/mContainer.css" />
+</head>
+
+<body>
+    <header>
+        <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
+    
+    </header>
+        <div class="filtros-container">
+            <div class="filtros-title">
+                <p>Selecione o tipo de relatório desejado</p>
+            </div>
+            <div class="filtros-item-group">
+                <div class="filtro-item-subgroup">
+                    <label>Tipo:</label>
+                    <select id="select-tipo" onchange="changeFilter()">
+                        <option>Pedidos em Aberto</option>
+                        <option>Pedidos Concluido</option>
+                        <option>Produtos Cadastrados</option>
+                        <option>Estoque</option>
+                    </select>
+                </div>
+                <div class="filtro-item-subgroup">
+                    <label>Inicio:</label>
+                    <input id="input-data-ini" type="date" placeholder="Data inicial" />
+                    <label>Fim:</label>
+                    <input id="input-data-fim" type="date" placeholder="Data final" />
+                </div>
+                <div class="filtro-item-subgroup">
+                    <input id="input-txt-nome" type="text" placeholder="Nome" />
+                </div>
+                    <button id="btn-relat" onclick="efetuaFiltro()">Pesquisar</button>
+                </div>
+            </div>
+
+        <div id="conteudo" class="m-container">
+
+
+        </div>
+
+    </div>
+</body>
+
+</html>

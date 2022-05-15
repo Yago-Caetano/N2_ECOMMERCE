@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barracão Store</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/detalhes.css" />
+    <link rel="stylesheet" href="../../css/produtos.css" />
+    <link rel="stylesheet" href="../../css/site.css" />
+    <link rel="stylesheet" href="../../css/formularios.css" />
+    <link rel="stylesheet" href="../../css/sweetalert.css" />
+    <link rel="stylesheet" href="../../css/paginacao.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/Home">
+                    <img src="../../images/logo_1.svg" width="100" />
+                </a>
+
+
+                <div class="d-flex align-items-center">
+                   <!-- @if (ViewBag.Tipo == "Gerente")
+                    {
+                        <a class="text-white p-1" asp-area="" asp-controller="Gerencia" asp-action="Index">Gerenciar</a>
+                    }
+                    @if (ViewBag.Logado == null)
+                    {
+                        <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+
+                    }
+                    else
+                    {-->
+                        <a class="text-white p-1" asp-area="" asp-controller="Usuario" asp-action="CarregarPerfil">Meu Perfil</a>
+                        
+                        <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="LogOff">LogOff</a>
+                   <!--}-->
+                    <a class="p-2" asp-area="" asp-controller="Carrinho" asp-action="Visualizar">
+                        <img src="../../images/carrinho.svg" width="20px">
+                    </a>
+
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar " style=" background-color: #236B56">
+            <div class="container">
+                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 1 </a>
+                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 2 </a>
+                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 3 </a>
+                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 4 </a>
+                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 5 </a>
+
+              <!--
+                    @if (ViewBag.CategoriasHeader.Count > 5)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+
+                        <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">@ViewBag.CategoriasHeader[i].Categoria</a>
+                    }
+
+
+
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Outros
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @for (int j = 5; j < ViewBag.CategoriasHeader.Count; j++)
+                            {
+                                <a class="dropdown-item" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[j].Id">@ViewBag.CategoriasHeader[j].Categoria</a>
+
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @foreach (CategoriaProdutoViewModel c in ViewBag.CategoriasHeader)
+                    {
+                        <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@c.Id">@c.Categoria</a>
+
+                    }
+                }
+              -->  
+
+                <a class="text-white" asp-area="" asp-controller="Sobre" asp-action="Index">Sobre Nós</a>
+            </div>
+    </nav>
+    </header>
+</body>
+</html>

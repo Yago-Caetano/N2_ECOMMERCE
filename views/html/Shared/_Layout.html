@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barracão Store</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/detalhes.css" />
+    <link rel="stylesheet" href="../../css/produtos.css" />
+    <link rel="stylesheet" href="../../css/site.css" />
+    <link rel="stylesheet" href="../../css/formularios.css" />
+    <link rel="stylesheet" href="../../css/sweetalert.css" />
+    <link rel="stylesheet" href="../../css/paginacao.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/Home">
+                    <img src="../../images/logo_1.svg" width="100" />
+                </a>
+
+
+                <div class="d-flex align-items-center">
+                    @if (ViewBag.Tipo == "Gerente")
+                    {
+                        <a class="text-white p-1" asp-area="" asp-controller="Gerencia" asp-action="Index">Gerenciar</a>
+                    }
+                    @if (ViewBag.Logado == null)
+                    {
+                        <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+
+                    }
+                    else
+                    {
+                        <a class="text-white p-1" asp-area="" asp-controller="Usuario" asp-action="CarregarPerfil">Meu Perfil</a>
+                        
+                        <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="LogOff">LogOff</a>
+                    }
+                    <a class="p-2" asp-area="" asp-controller="Carrinho" asp-action="Visualizar">
+                        <img src="../../images/carrinho.svg" width="20px">
+                    </a>
+
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar " style=" background-color: #236B56">
+            <div class="container">
+                @if (ViewBag.CategoriasHeader.Count > 5)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+
+                        <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">@ViewBag.CategoriasHeader[i].Categoria</a>
+                    }
+
+
+
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Outros
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @for (int j = 5; j < ViewBag.CategoriasHeader.Count; j++)
+                            {
+                                <a class="dropdown-item" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[j].Id">@ViewBag.CategoriasHeader[j].Categoria</a>
+
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @foreach (CategoriaProdutoViewModel c in ViewBag.CategoriasHeader)
+                    {
+                        <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@c.Id">@c.Categoria</a>
+
+                    }
+                }
+
+
+                <a class="text-white" asp-area="" asp-controller="Sobre" asp-action="Index">Sobre Nós</a>
+            </div>
+    </nav>
+
+
+    <!-- <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">N2_Ecommerce_adventure</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+
+<!-- </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/sweetalert.js"></script>
+    @RenderSection("Scripts", required: false)
+</body> -->
+</html>

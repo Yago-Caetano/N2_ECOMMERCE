@@ -1,0 +1,52 @@
+﻿
+<head>
+    <link rel="stylesheet" href="../../css/mContainer.css" />
+</head>
+<body>
+    <header>
+        <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
+    
+    </header>
+    <div class="m-table-center">
+        <h2>Relação de Tipos de Usuario</h2>
+
+        <br />
+        <a href="/TipoUsuario/Create">Novo Registro</a>
+        <br />
+
+        @if (Model.Count > 0)
+        {
+            <table class="table table-responsive table-striped m-center">
+                <tr>
+                    <th>Ações</th>
+                    <th>Id</th>
+                    <th>Tipo</th>
+                </tr>
+
+                @foreach (TipoUsuarioViewModel a in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="TipoUsuario/Edit?id=@a.Id" class="btn btn-info">Editar</a>
+                            <a href="javascript:apagarRegistro(@a.Id, 'TipoUsuario')" class="btn btn-danger">Apagar</a>
+                        </td>
+                        <td>@a.Id</td>
+                        <td>@a.Tipo</td>
+                    </tr>
+                }
+
+
+            </table>
+            <div>
+                @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
+            </div>
+        }
+        else
+        {
+            <div>
+                <h4>Não há dados disponiveis</h4>
+            </div>
+        }
+
+    </div>
+</body>
