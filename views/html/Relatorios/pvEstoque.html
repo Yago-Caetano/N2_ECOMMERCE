@@ -1,0 +1,39 @@
+﻿@model X.PagedList.IPagedList<EstoqueModel>
+@using X.PagedList.Mvc.Core;
+
+@if (Model != null)
+{
+    @if (Model.Count > 0)
+    {
+        <table class="m-table-center">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade Total</th>
+                <th>Quantidade em ordem</th>
+            </tr>
+
+            @foreach (EstoqueModel e in Model)
+            {
+                <tr>
+                    <td>@e.Nome</td>
+                    <td>@e.Quantidade</td>
+                    <td>@e.QuantidadeEmOrdem.</td>
+                </tr>
+            }
+
+        </table>
+        <div>
+            @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
+        </div>
+
+    }
+
+
+    else
+    {
+        <h2>Não há Itens Disponíveis</h2>
+        <p>Considere alterar os paramêtros de pesquisa</p>
+    }
+}
+
+
