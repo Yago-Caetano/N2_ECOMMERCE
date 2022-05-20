@@ -56,14 +56,18 @@ public class ProdutosController {
 			    if (id.equals("") || id.equals(null)) {
 			    	ProdutosDAO dao = new ProdutosDAO();
 			    	var itens=dao.findAll();
-			    	for(ProdutosModel prods:itens)
+			    	if (itens!=null)
 			    	{
-			    		CategoriaProdutoDAO cdao = new CategoriaProdutoDAO();
-			    		CategoriaProduto cat = new CategoriaProduto();
-			    		cat=cdao.find(prods.getIdCategoria());
-			    		prods.setCategoria(cat);
+				    	for(ProdutosModel prods:itens)
+				    	{
+				    		CategoriaProdutoDAO cdao = new CategoriaProdutoDAO();
+				    		CategoriaProduto cat = new CategoriaProduto();
+				    		cat=cdao.find(prods.getIdCategoria());
+				    		prods.setCategoria(cat);
+				    	}
+				    	
 			    	}
-			    	
+
 			    	return ResponseEntity.ok(itens);
 			    	
 			    } else {

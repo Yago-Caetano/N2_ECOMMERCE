@@ -4,6 +4,44 @@
     <link rel="stylesheet" href="../../css/Filtro.css" />
     <link rel="stylesheet" href="../../css/paginacao.css" />
     <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+         function onLoad()
+        {
+            console.log("onLoad");
+            fillProducts();
+        }
+
+        async function fillProducts(){
+            try{
+                produtos = await executeGet({route:'products'})
+                console.log(produtos)
+                
+
+                if(produtos.length > 0)
+                {
+                    divContainer = document.getElementById("conteudo")
+                    produtos.map(produto=>{
+                        console.log(produto)
+                        divCard = document.createElement("div")
+                        p = document.createElement("p")
+                        p.innerText = produto.nome
+                        divCard.appendChild(p) 
+                        divContainer.appendChild(divCard)
+                    })
+                }
+            }
+            catch(err){
+                alert(`Falha ao carregar produtos: ${err}`)
+            }
+        }
+
+    //evento de on load
+    window.addEventListener('load',onLoad);
+
+    </script>
 </head>
 <header>
     <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
@@ -30,11 +68,10 @@
     </div>
 
     <div id="conteudo">
-        @{
-            Html.RenderPartial("pvHomeProdutos");
-        }
+
     </div>
 </body>
+
 
 
 
