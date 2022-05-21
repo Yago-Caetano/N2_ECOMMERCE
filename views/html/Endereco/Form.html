@@ -39,11 +39,12 @@
                 let rua = document.getElementById('rua').value;
 
 
-                const addres = new Endereco(cep, cidade, complemento, numero, rua, idUsuario);
+                addres = new Endereco(cep, cidade, complemento, numero, rua, idUsuario);
 
                 try {
-                    users = await executePostWithAuthentication({ route: 'addres' ,data:addres})
-                    console.log(users)
+                    addres = await executePostWithAuthentication({ route: 'addres' ,data:addres})
+                    console.log(addres)
+                    window.location.href = "../Usuario/Perfil.html";
                 }
                 catch (err) {
                     alert(`Erro: ${err}`)
