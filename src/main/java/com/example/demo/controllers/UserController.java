@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.DAO.EnderecoDAO;
 import com.example.demo.DAO.TypeUserDAO;
 import com.example.demo.DAO.UserDAO;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class UserController {
 	
@@ -74,8 +75,11 @@ public class UserController {
 				    	var itens=dao.findAll();
 				    	for(User user:itens)
 				    		user.setSenha("");
-
-				    	return ResponseEntity.ok(itens);
+				    	
+				    	if(itens==null)
+				    		return ResponseEntity.status(HttpStatus.OK).body("{}");
+				    	else
+				    		return ResponseEntity.ok(itens);
 				    	
 				    } else {
 

@@ -1,71 +1,127 @@
-﻿@model UsuarioViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<head>
+    <link href="../../css/TelaLogin.css" rel="stylesheet" />
+    <link href="../../css/common.css" rel="stylesheet" />
 
-<h2 class="titulo-formularios">Cadastro de Usuário</h2>
-<form class="formulario col-md-8" asp-action="Save" method="post">
-    <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
 
-    <input type="hidden" Name="Id" value="@Model.Id" class="form-control disabled" readonly />
-    <span asp-validation-for="Id" class="text-danger"></span>
 
-    <label for="Nome" class="control-label">Nome</label>
-    <input type="text" Name="Nome" value="@Model.Nome" class="form-control" />
-    <span asp-validation-for="Nome" class="text-danger"></span>
-    <br/>
+    <script type="text/javascript">
 
-    <label for="CPF" class="control-label">CPF</label>
-    <input type="text" Name="CPF" value="@Model.CPF" class="form-control" />
-    <span asp-validation-for="CPF" class="text-danger"></span>
-    <br />
+        class Usuario {
+            constructor(nome, email, senha, cpf, idTipoUsuario) {
+                this.nome = nome;
+                this.email = email;
+                this.senha = senha;
+                this.cpf = cpf;
+                this.idTipoUsuario = idTipoUsuario;
+            }
+        }
+        //function login(theForm) {
+        //console.log(theForm);
+        //console.log("login" + theForm.usuario);
+        //console.log("senha" + theForm.senha);
+        //}
 
-    <div>
+        async function CreateUser() {
+            let username = document.getElementById('us').value;
+            let password = document.getElementById('pw').value;
+            let passwordConfirmacao = document.getElementById('pw2').value;
+            let nome = document.getElementById('nome').value;
+            let cpf = document.getElementById('cpf').value;
+            let idTipoUsuario = document.getElementById('tipoUser').value;
+
+            const user = new Usuario(nome, username, password, cpf,idTipoUsuario);
+
+
+
+            try {
+                const response = await fetch(`http://localhost:8081/register`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(user)
+
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+
+                const json = await response.json();
+
+                window.location.href = "../Home/index.html";
+
+
+            }
+            catch (error) {
+                showError("Usuário ou senha inválidos");
+            }
+
+        }
+
+
+
+
+        function showError(msg) {
+
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
+
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
+
+
+        function onLoad() {
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "hide"
+        }
+
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+</head>
+
+<body>
+    <section class="painel">
+        <h2></h2>
+
         <div class="row">
-            <div class="col-6">
-                <label for="Email" class="control-label">Email</label>
-                <input type="text" Name="Email" value="@Model.Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="col-lg-3">
+                <div>
+
+                    <div class="campos">
+                        <label for="usuario" class="control-label"></label>
+                        <input id="us" type="text" name="usuario" class="form-control camposDetalhes" required
+                            placeholder='Email...' />
+
+                        <label for="senha" class="control-label"></label>
+                        <input id="pw" type="password" name="senha" class="form-control camposDetalhes" required
+                            placeholder='Senha...' />
+
+                        <label for="senhaConfirmacao" class="control-label"></label>
+                        <input id="pw2" type="password" name="senhaConfirmacao" class="form-control camposDetalhes"
+                            required placeholder='Confirme sua senha...' />
+
+                        <label for="nome" class="control-label"></label>
+                        <input id="nome" type="text" name="Nome" class="form-control camposDetalhes" required
+                            placeholder='Nome...' />
+
+                        <label for="cpf" class="control-label"></label>
+                        <input id="cpf" type="text" name="cpf.." class="form-control camposDetalhes" required
+                            placeholder='cpf...' />
+
+                        <label for="tipoUser" class="control-label"></label>
+                        <input id="tipoUser" type="text" name="TipoUser" class="form-control camposDetalhes" required
+                            placeholder='tipo de usuário...' />
+
+                        <input type="submit" value="Cadastrar" class="btn btn-success entrar" onclick="CreateUser()" />
+                        <span class="text-danger" id="mensagemErro"></span>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-                <label for="Nascimento" class="control-label">Data de Nascimento</label>
-                <input type="date" Name="Nascimento" value="@Model.Nascimento.ToString("yyyy-MM-dd")" class="form-control" />
-                <span asp-validation-for="Nascimento" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+    </section>
 
-
-    <label for="senha" class="control-label">Senha</label>
-    <input type="password" name="senha" class="form-control" />
-    <span asp-validation-for="senha" class="text-danger"></span>
-    <br />
-
-    <label for="senhaRepetida" class="control-label">Repetir Senha</label>
-    <input type="password" name="senhaRepetida" class="form-control" />
-    <span asp-validation-for="senhaRepetida" class="text-danger"></span>
-    <br />
-
-
-
-    @if (ViewBag.Tipo == "Gerente")
-    {
-        <label for="idTipoUsuario" class="control-label">Categoria</label>
-        <select asp-for="idTipoUsuario" asp-items="ViewBag.Categorias" class="form-control"> </select>
-        <span asp-validation-for="idTipoUsuario" class="text-danger"></span>
-        <br />
-    }
-    else
-    {
-        <label for="idTipoUsuario" class="control-label" hidden>Categoria</label>
-        <select asp-for="idTipoUsuario" asp-items="ViewBag.Categorias" class="form-control" hidden> </select>
-        <span asp-validation-for="idTipoUsuario" class="text-danger"></span>
-        <br />
-    }
-    <input type="submit" value="Salvar dados" class="btn btn-info" />
-    &nbsp;&nbsp;&nbsp;
-
-    <a href="#" onclick='javascript:history.back(-1);' class="btn btn-light">Voltar</a>
-
-    <br />
-</form>
+</body>
