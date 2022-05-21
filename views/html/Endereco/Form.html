@@ -1,94 +1,119 @@
-﻿@model EnderecoViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<head>
+    <link href="../../css/TelaLogin.css" rel="stylesheet" />
+    <link href="../../css/common.css" rel="stylesheet" />
+    <script src="../../js/api.js"></script>
 
-<h2 class="titulo-formularios">Cadastro de Endereço</h2>
-<p><b>Usuário: </b> <i>@ViewBag.NomeUsuario</i></p>
 
-<form class="formulario col-md-8" asp-action="Save" method="post">
-    <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
 
-    <input type="hidden" Name="Id" value="@Model.Id" class="form-control disabled" readonly />
-    <span asp-validation-for="Id" class="text-danger"></span>
+    <script type="text/javascript">
 
-    <label for="Rua" class="control-label"><h5>Rua</h5></label>
-    <input type="text" id="logradouro" Name="Rua" value="@Model.Rua" class="form-control" />
-    <span asp-validation-for="Rua" class="text-danger"></span>
-    <br />
-
-    <div>
-        <div class="row">
-            <div class="col-6">
-                <label for="Numero" class="control-label"><h5>Número</h5></label>
-                <input type="number" Name="Numero" value="@Model.Numero" class="form-control" />
-                <span asp-validation-for="Numero" class="text-danger"></span>
-            </div>
-            <div class="col-6">
-                <label for="Complemento" class="control-label"><h5>Complemento</h5></label>
-                <input type="text" Name="Complemento" value="@Model.Complemento" class="form-control" />
-                <span asp-validation-for="Complemento" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-
-    <br />
-
-    <div>
-        <div class="row">
-            <div class="col-6">
-                <label for="CEP" class="control-label"><h5>CEP</h5></label>
-                <input type="text" id="cep" Name="CEP" value="@Model.CEP" class="form-control" />
-                <span asp-validation-for="CEP" class="text-danger"></span>
-                <input type="button" value="Buscar" class="btn-info" onclick="buscaCEP()" />
-            </div>
-            <div class="col-6">
-                <label for="Cidade" class="control-label"><h5>Cidade</h5></label>
-                <input id="localidade" type="text" Name="Cidade" value="@Model.Cidade" class="form-control" />
-                <span asp-validation-for="Cidade" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-
-    <br />
-
-    <input type="submit" value="Salvar dados" class="btn btn-info" />
-    &nbsp;&nbsp;&nbsp;
-    <a href="#" onclick='javascript:history.back(-1);' class="btn btn-light">Voltar</a>
-    <br />
-</form>
-
--
-<script>
-    function buscaCEP() {
-        var cep = document.getElementById("cep").value;
-        cep = cep.replace('-', '');
-        if (cep.length > 0) {
-            var linkAPI = 'https://viacep.com.br/ws/' + cep + '/json/';
-
-            $.ajax({
-                type: 'GET',
-                url: linkAPI,
-                datatype: "json",
-                cache: false,
-                beforeSend: function () {
-                    document.getElementById("logradouro").value = '';
-                    document.getElementById("localidade").value = '';
-                },
-                success: function (dados) {
-                    if (dados.erro != undefined)  // quando o CEP não existe...
-                    {
-                        alert('CEP não localizado...');
-                        document.getElementById("logradouro").value = '';
-                        document.getElementById("localidade").value = '';
-                    }
-                    else // quando o CEP existe
-                    {
-                        document.getElementById("logradouro").value = dados.logradouro;
-                        document.getElementById("localidade").value = dados.localidade;
-                    }
-                }
-            });
+        class Endereco {
+            constructor(cep, cidade, complemento, numero, rua, idUsuario) {
+                this.cep = cep;
+                this.cidade = cidade;
+                this.complemento = complemento;
+                this.numero = numero;
+                this.rua = rua;
+                this.idUsuario = idUsuario;
+            }
         }
-    }
-</script>
+        //function login(theForm) {
+        //console.log(theForm);
+        //console.log("login" + theForm.usuario);
+        //console.log("senha" + theForm.senha);
+        //}
+
+        async function CreateAdrres() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                let cep = document.getElementById('cep').value;
+                let cidade = document.getElementById('cidade').value;
+                let complemento = document.getElementById('complemento').value;
+                let numero = document.getElementById('numero').value;
+                let rua = document.getElementById('rua').value;
+
+
+                const addres = new Endereco(cep, cidade, complemento, numero, rua, idUsuario);
+
+                try {
+                    users = await executePostWithAuthentication({ route: 'addres' ,data:addres})
+                    console.log(users)
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+
+
+
+        function showError(msg) {
+
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
+
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
+
+
+        function onLoad() {
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "hide"
+        }
+
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+</head>
+
+<body>
+    <section class="painel">
+        <h2></h2>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div>
+
+                    <div class="campos">
+                        <label for="cep" class="control-label"></label>
+                        <input id="cep" type="text" name="cep" class="form-control camposDetalhes" required
+                            placeholder='cep...' />
+
+                        <label for="cidade" class="control-label"></label>
+                        <input id="cidade" type="text" name="cidade" class="form-control camposDetalhes" required
+                            placeholder='cidade...' />
+
+                        <label for="complemento" class="control-label"></label>
+                        <input id="complemento" type="text" name="complemento.." class="form-control camposDetalhes"
+                            required placeholder='complemento...' />
+
+                        <label for="numero" class="control-label"></label>
+                        <input id="numero" type="number" min="0" step="1" name="TipoUser"
+                            class="form-control camposDetalhes" required />
+
+                        <label for="rua" class="control-label"></label>
+                        <input id="rua" type="text" name="rua.." class="form-control camposDetalhes" required
+                            placeholder='rua...' />
+
+                        <input type="submit" value="Cadastrar" class="btn btn-success entrar"
+                            onclick="CreateAdrres()" />
+                        <span class="text-danger" id="mensagemErro"></span>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+</body>
