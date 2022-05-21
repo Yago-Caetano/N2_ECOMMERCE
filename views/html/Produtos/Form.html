@@ -1,80 +1,127 @@
-﻿@model ProdutosViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<head>
+    <link href="../../css/TelaLogin.css" rel="stylesheet" />
+    <link href="../../css/common.css" rel="stylesheet" />
+    <script src="../../js/api.js"></script>
 
 
-<h2 class="titulo-formularios">Cadastro de Produtos</h2>
-<form class="formulario col-md-8" asp-action="Save" method="post" enctype="multipart/form-data">
 
-    <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
+    <script type="text/javascript">
 
-    @*<input type="number" Name="Id" value="@Model.Id" class="form-control disabled" readonly />
-        <span asp-validation-for="Id" class="text-danger"></span>*@
+        class Produto {
+            constructor(nome, preco, descricao, foto, quantidade, desconto, idCategoria) {
+                this.nome = nome;
+                this.preco = preco;
+                this.descricao = descricao;
+                this.foto = foto;
+                this.quantidade = quantidade;
+                this.desconto = desconto;
+                this.idCategoria = idCategoria;
+            }
+        }
+        //function login(theForm) {
+        //console.log(theForm);
+        //console.log("login" + theForm.usuario);
+        //console.log("senha" + theForm.senha);
+        //}
 
-    <label for="Nome" class="control-label"><h5>Nome</h5></label>
-    <input type="text" Name="Nome" value="@Model.Nome" class="form-control" />
-    <span asp-validation-for="Nome" class="text-danger"></span>
-    <br />
+        async function CreateProduct() {
 
-    <div>
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                let nome = document.getElementById('nome').value;
+                let preco = document.getElementById('preco').value;
+                let descricao = document.getElementById('descricao').value;
+                let foto = "";
+                let quantidade = document.getElementById('quantidade').value;
+                let desconto = document.getElementById('desconto').value;
+                let idCategoria = document.getElementById('idCategoria').value;
+
+
+                product = new Produto(nome, preco, descricao, foto, quantidade, desconto,idCategoria);
+
+                try {
+                    addres = await executePostWithAuthentication({ route: 'products', data: product })
+                    console.log(product)
+                   // window.location.href = "../Usuario/Perfil.html";
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+
+
+
+        function showError(msg) {
+
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
+
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
+
+
+        function onLoad() {
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "hide"
+        }
+
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+</head>
+
+<body>
+    <section class="painel">
+        <h2></h2>
+
         <div class="row">
-            <div class="col-6">
-                <label for="Preço" class="control-label"><h5>Preço</h5></label>
-                <input " type="number" step="0.01" Name="Preço" value="@Model.Preço" class="form-control" />
-                <span asp-validation-for="Preço" class="text-danger"></span>
+            <div class="col-lg-3">
+                <div>
+
+                    <div class="campos">
+                        <label for="nome" class="control-label"></label>
+                        <input id="nome" type="text" name="nome" class="form-control camposDetalhes" required
+                            placeholder='nome...' />
+
+                        <label for="preco" class="control-label"></label>
+                        <input id="preco" type="number" step="0.01" name="preco" class="form-control camposDetalhes"
+                            required />
+
+                        <label for="descricao" class="control-label"></label>
+                        <input id="descricao" type="text" name="descricao" class="form-control camposDetalhes" required
+                            placeholder='descricao...' />
+
+                        <label for="quantidade" class="control-label"></label>
+                        <input id="quantidade" type="number" min="0" step="1" name="quantidade"
+                            class="form-control camposDetalhes" required />
+
+                        <label for="desconto" class="control-label"></label>
+                        <input id="desconto" type="number" step="0.01" name="desconto" class="form-control camposDetalhes"
+                            required />
+
+                        <label for="idCategoria" class="control-label"></label>
+                        <input id="idCategoria" type="text" name="idCategoria.." class="form-control camposDetalhes"
+                            required placeholder='idCategoria...' />
+
+                        <input type="submit" value="Cadastrar" class="btn btn-success entrar"
+                            onclick="CreateProduct()" />
+                        <span class="text-danger" id="mensagemErro"></span>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-                <label for="Foto" class="control-label"><h5>Foto do produto</h5></label>
-                <input style=" width: 100%; margin-bottom: 10px;" type="file" name="Foto" id="Foto" onchange="exibirFoto()" class="btn btn-secondary">
-                @*<img id="imgPreview" src="data:image/jpeg;base64,@Model.FotoEmBase64" class="img-responsive">*@
-                <span asp-validation-for="Foto" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+    </section>
 
-    <div>
-        <div class="row">
-            <div class="col-6">
-                <label for="Quantidade" class="control-label"><h5>Quantidade</h5></label>
-                <input type="number" step="1" Name="Quantidade" value="@Model.Quantidade" class="form-control" />
-                <span asp-validation-for="Quantidade" class="text-danger"></span>
-            </div>
-            <div class="col-6">
-                <label for="Desconto" class="control-label"><h5>Desconto</h5></label>
-                <input type="number" step="0.01" Name="Desconto" value="@Model.Desconto" class="form-control" />
-                <span asp-validation-for="Desconto" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <br/>
-
-    <label for="Descricao" class="control-label"><h5>Descricao</h5></label>
-    <input type="text" Name="Descricao" value="@Model.Descricao" class="form-control" />
-    <span asp-validation-for="Descricao" class="text-danger"></span>
-    <br />
-
-    <label for="idCategoria" class="control-label"><h5>Categoria</h5></label>
-    <select asp-for="idCategoria" asp-items="ViewBag.Categorias" class="form-control"> </select>
-    <span asp-validation-for="idCategoria" class="text-danger"></span>
-    <br />
-
-    <div  class="botoes-formulario">
-        <input style="margin-left: 300px;" type="submit" value="Salvar dados" class="btn btn-info" />
-        &nbsp;&nbsp;&nbsp;
-        <a href="/Produtos" class="btn btn-light">Voltar</a>
-    </div>
-    
-    <br />
-</form>
-
-<script>
-    function exibirFoto() {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("Foto").files[0]);
-        oFReader.onload = function (oFREvent) {
-            document.getElementById("imgPreview").src = oFREvent.target.result;
-        };
-    }
-
-</script>
+</body>
