@@ -1,9 +1,10 @@
 ﻿
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link rel="stylesheet" href="../../css/Filtro.css" />
     <link rel="stylesheet" href="../../css/paginacao.css" />
-    <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
     <script src="../../js/api.js"></script>
 
     <script type="text/javascript">
@@ -22,15 +23,54 @@
 
                 if(produtos.length > 0)
                 {
-                    divContainer = document.getElementById("conteudo")
+                    divConteudo = document.getElementById("conteudo")
+                    divCardContainer = document.createElement("div")
+                    divCardContainer.className = "container-card"
                     produtos.map(produto=>{
                         console.log(produto)
+
                         divCard = document.createElement("div")
-                        p = document.createElement("p")
-                        p.innerText = produto.nome
-                        divCard.appendChild(p) 
-                        divContainer.appendChild(divCard)
+                        divCard.className = "card"
+
+                        divCardBody = document.createElement("div")
+                        
+                        image = document.createElement("img")
+                        image.className = "image-products img-responsive"
+                        image.setAtribute("src","https://d1bh8ymjsytgwi.cloudfront.net/Custom/Content/Products/20/04/barraca-panda-para-2-pessoas-nautika-m1.jpg") 
+
+                        divCard.appendChild(image)
+
+
+                        cardTitle = document.createElement("h6")
+                        cardTitle.innerHTML = produto.nome
+
+                        pPrice = document.createElement("card-price")
+                        bBoldPrice = document.createElement("b")
+                        bBoldPrice.innerHTML = `R$ ${produto.preco}`
+
+                        pPrice.appendChild(bBoldPrice)
+
+                        divCardBody.appendChild(cardTitle)
+                        divCardBody.appendChild(pPrice)
+
+                        aDetalhes = document.createElement("a")
+                        aComprar = document.createElement("a")
+
+                        aDetalhes.className = "btn-detalhes btn btn-secondary"
+                        aDetalhes.innerHTML = "Detalhes" 
+
+                        aComprar.className = "btn-comprar btn btn-success"
+                        aComprar.className = "Comprar"
+
+                        divCardBody.appendChild(aDetalhes)
+                        divCardBody.appendChild(aComprar)
+
+                        divCard.appendChild(divCardBody)
+                        divCardContainer.appendChild(divCard)
                     })
+
+                    divConteudo.appendChild(divCardContainer)
+
                 }
             }
             catch(err){
@@ -43,11 +83,12 @@
 
     </script>
 </head>
-<header>
-    <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
-
-</header>
 <body>
+    <header class="customHeader">
+
+        <object style="overflow: hidden;width: 101%;height: 20vh;" type="text/html" data="../Shared/Header.html"></object>
+    
+    </header>
     <div class="filtros-container">
         <div class="filtros-title"><p>Filtros</p></div>
         <div class="filtros-item-group">
@@ -61,7 +102,7 @@
                 <label>Nome:</label>
                 <input id="input-txt-nome" type="text" placeholder="Barraca Maravilha" />
             </div>
-            <button id="btn-relat" onclick="efetuaFiltroProdutos(@ViewBag.catProduto)">Pesquisar</button>
+            <button id="btn-relat" >Pesquisar</button>
 
         </div>
 
