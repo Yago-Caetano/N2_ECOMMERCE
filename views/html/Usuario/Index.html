@@ -1,8 +1,32 @@
 ﻿<head>
     <link rel="stylesheet" href="../../css/Filtro.css" />
     <link rel="stylesheet" href="../../css/mContainer.css" />
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        function onLoad() {
+            console.log("onLoad");
+            fillUsers();
+        }
+
+        async function fillUsers() {
+            try {
+                users = await executeGetWithAuthentication({ route: 'user' })
+                console.log(users)
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
 
 </head>
+
 <body>
 
 
@@ -27,11 +51,11 @@
     <div id="conteudo" class="m-container">
         <h2>Relação de Usuários</h2>
         <br />
-        <a href="/Usuario/Create">Novo Registro</a>
+        <a href="../Usuario/Form.html">Novo Registro</a>
         <br />
         <div>
             @{
-                Html.RenderPartial("pvUsuarios");
+            Html.RenderPartial("pvUsuarios");
             }
         </div>
 

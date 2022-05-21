@@ -6,17 +6,18 @@
 
     <script type="text/javascript">
 
+
+        //function login(theForm) {
+        //console.log(theForm);
+        //console.log("login" + theForm.usuario);
+        //console.log("senha" + theForm.senha);
+        //}
         class Login {
             constructor(username, password) {
                 this.username = username;
                 this.password = password;
             }
         }
-        //function login(theForm) {
-        //console.log(theForm);
-        //console.log("login" + theForm.usuario);
-        //console.log("senha" + theForm.senha);
-        //}
 
         async function login() {
             let username = document.getElementById('us').value;
@@ -26,59 +27,58 @@
 
 
 
-    try {
-        const response = await fetch(`http://localhost:8081/login`,   {
+            try {
+                const response = await fetch(`http://localhost:8081/login`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     method: 'POST',
                     body: JSON.stringify(lgin)
-                    
+
                 });
-        if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+
+                const json = await response.json();
+
+                //session
+                localStorage.setItem('id', json.id);
+                localStorage.setItem('accessToken', json.accessToken);
+                localStorage.setItem('username', json.username);
+
+                window.location.href = "../Home/index.html";
+
+
+            }
+            catch (error) {
+                showError("Usuário ou senha inválidos");
+            }
+
         }
 
-        const json = await response.json();
-
-        //session
-        sessionStorage.setItem('id', json.id);
-        sessionStorage.setItem('accessToken', json.accessToken);
-        sessionStorage.setItem('username', json.username);
-
-        window.location.href="../Home/index.html";
-
-
-      }
-      catch(error) {
-        showError("Usuário ou senha inválidos");
-      }
-              
-}
 
 
 
+        function showError(msg) {
 
-function showError(msg){
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
 
-    let spanErro = document.getElementById("mensagemErro");
-    spanErro.className = "text-danger"
-
-    //texto a ser mostrado
-    spanErro.innerHTML = msg
-}
-
-
-function onLoad()
-{
-    let spanErro = document.getElementById("mensagemErro");
-    spanErro.className = "hide"
-}
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
 
 
-//evento de on load
-window.addEventListener('load',onLoad);
+        function onLoad() {
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "hide"
+        }
+
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
 
     </script>
 </head>
@@ -107,7 +107,7 @@ window.addEventListener('load',onLoad);
                                 href="../Usuario/Form.html">Cadastre-se</a></label></b>
                     <br />
                     <span class="text-danger" id="mensagemErro"></span>
-                    </div>
+                </div>
             </div>
         </div>
     </section>

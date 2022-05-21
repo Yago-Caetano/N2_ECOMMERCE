@@ -2,6 +2,38 @@
 <head>
     <link href="~/css/TelaCliente.css" rel="stylesheet" />
     <script src="~/js/site.js"></script>
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        function onLoad()
+       {
+           console.log("onLoad");
+           fillUser();
+       }
+
+       async function fillUser(){
+           try{
+            
+            if(localStorage.getItem('id')==null)
+            {
+                alert('Por favor faça login!');
+                window.location.href = "../Login/Index.html";
+            }
+
+            user = await executeGetWithAuthentication({ route: 'user?id='+localStorage.getItem('id') })
+                console.log(user)
+
+           }
+           catch(err){
+               alert(`Falha ao carregar produtos: ${err}`)
+           }
+       }
+
+   //evento de on load
+   window.addEventListener('load',onLoad);
+
+    </script>
 </head>
 
 <body>
