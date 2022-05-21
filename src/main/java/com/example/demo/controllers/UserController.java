@@ -24,6 +24,7 @@ import com.example.demo.models.TypeUser;
 import com.example.demo.models.User;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.DAO.EnderecoDAO;
+import com.example.demo.DAO.OrdensDAO;
 import com.example.demo.DAO.TypeUserDAO;
 import com.example.demo.DAO.UserDAO;
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -95,6 +96,8 @@ public class UserController {
 				    		EnderecoDAO edao= new EnderecoDAO();
 				    		usuario.setEnderecos(edao.findAllAdressUser(usuario.getId()));
 				    		usuario.setSenha("");
+				    		OrdensDAO Odao= new OrdensDAO();
+				    		Odao.findAllByUser(id);
 				    		return ResponseEntity.ok(usuario);
 				    	}
 				    		
@@ -107,6 +110,10 @@ public class UserController {
 					UserDetailsImpl user = (UserDetailsImpl)auth.getPrincipal();
 					User usuario=dao.find(user.getId());
 					usuario.setSenha("");
+		    		OrdensDAO Odao= new OrdensDAO();
+		    		Odao.findAllByUser(id);
+		    		TypeUserDAO tdao= new TypeUserDAO();
+		    		usuario.setTipoUsuario(tdao.find(usuario.getIdTipoUsuario()));
 					return ResponseEntity.ok(usuario);
 				}
 				

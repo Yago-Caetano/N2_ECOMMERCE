@@ -26,6 +26,14 @@ public class User extends PadraoModel{
 	
 	private ArrayList<EnderecoModel> enderecos;
 	
+	private ArrayList<OrdensModel> Historico_pedidos;
+	
+	public ArrayList<OrdensModel> getHistorico_pedidos() {
+		return Historico_pedidos;
+	}
+	public void setHistorico_pedidos(ArrayList<OrdensModel> historico_pedidos) {
+		Historico_pedidos = historico_pedidos;
+	}
 	public TypeUser getTipoUsuario() {
 		return tipoUsuario;
 	}
