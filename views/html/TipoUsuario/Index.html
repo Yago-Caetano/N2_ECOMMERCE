@@ -1,6 +1,30 @@
 ﻿
 <head>
     <link rel="stylesheet" href="../../css/mContainer.css" />
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        function onLoad() {
+            console.log("onLoad");
+            fillTipos();
+        }
+
+        async function fillTipos() {
+            try {
+                tipos = await executeGetWithAuthentication({ route: 'typeUser' })
+                console.log(tipos)
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+
 </head>
 <body>
     <header>
@@ -11,7 +35,7 @@
         <h2>Relação de Tipos de Usuario</h2>
 
         <br />
-        <a href="/TipoUsuario/Create">Novo Registro</a>
+        <a href="../TipoUsuario/Form.html">Novo Registro</a>
         <br />
 
         @if (Model.Count > 0)
