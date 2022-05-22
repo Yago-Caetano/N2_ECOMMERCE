@@ -3,6 +3,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="../../css/common.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../css/mContainer.css" />
+
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        function onLoad() {
+            console.log("onLoad");
+            fillTypeUser();
+        }
+
+        async function fillTypeUser() {
+
+
+            let id=localStorage.getItem('id');
+            if(id==null)
+            {
+                alert("Faça login!");
+                window.location.href = "../Login/Index.html";
+
+            }
+            try {
+                users = await executeGetWithAuthentication({ route: 'typeUser' })
+                console.log(users)
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
    
 </head>
 <body>
@@ -15,7 +48,7 @@
         <h2>Relação de Tipos de Usuario</h2>
 
         <br />
-        <a href="/TipoUsuario/Create">Novo Registro</a>
+        <a href="../TipoUsuario/Form.html">Novo Registro</a>
         <br />
 
         @if (Model.Count > 0)

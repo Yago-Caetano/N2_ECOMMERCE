@@ -6,6 +6,39 @@
     <link href="../../css/common.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../css/mContainer.css" />
 
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        function onLoad() {
+            console.log("onLoad");
+            fillCategories();
+        }
+
+        async function fillCategories() {
+
+
+            let id=localStorage.getItem('id');
+            if(id==null)
+            {
+                alert("Faça login!");
+                window.location.href = "../Login/Index.html";
+
+            }
+            try {
+                users = await executeGetWithAuthentication({ route: 'catProduct' })
+                console.log(users)
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+
 </head>
 <body>
     <header class="customHeader">
@@ -17,7 +50,7 @@
         <h2>Relação de Categorias de produto</h2>
 
         <br />
-        <a href="/CategoriaProduto/Create">Novo Registro</a>
+        <a href="../CategoriaProduto/Form.html">Novo Registro</a>
         <br />
 
 
