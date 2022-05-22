@@ -18,10 +18,52 @@
 
     <script type="text/javascript">
 
+        async function isAdmin()
+        {
+            try{
+                admin = await executeGet({route:'userPermissions'})
+
+                if(admin.length > 0)
+                {
+                    let found = false
+                    admin.map(adm => {
+                        if(adm.authority === "ROLE_ADMIN")
+                        {
+                            found = true
+                        }
+                    })
+
+                    return found
+                }
+                else
+                {
+                    return false
+                }
+                
+            }
+            catch{
+                return false
+            }
+
+        }
+
         async function loadHeader(){
             try{
+                
+
                 console.log("load header")
                 categories = await executeGet({route:'catProduct'})  
+
+
+                profileLink = document.getElementById("user-profile-link");
+
+                //verifica se usuário é administrador
+                isManager = isAdmin()
+                if(isManager === true)
+                {
+                    profileLink.setAttribute("href","linkpragerente")
+                    profileLink.innerHTML = "Opções de Gerência"
+                }
 
                 console.log(categories)
                 //fill categories links
@@ -97,7 +139,6 @@
                 
             }
             catch(err){
-                alert(`Falha ao carregar dados!! ${err}`)
             }
         }
 
@@ -128,7 +169,7 @@
                     }
                     else
                     {-->
-                        <a class="text-white p-1" asp-area="" asp-controller="Usuario" asp-action="CarregarPerfil">Meu Perfil</a>
+                        <a id="user-profile-link" class="text-white p-1">Meu Perfil</a>
                         
                         <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="LogOff">LogOff</a>
                    <!--}-->
