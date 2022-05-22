@@ -98,7 +98,7 @@ public class ProdutosController {
 			    		cat=cdao.find(prod.getIdCategoria());
 			    		prod.setCategoria(cat);
 			    		
-			    		if (!prod.getFoto().equals(null))
+			    		if (prod.getFoto()!=null)
 			    		{
 			    			prod.setFotoEmBase64(ImageConversionService.convertToBase64(prod.getFoto()));
 			    		}
