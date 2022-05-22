@@ -24,7 +24,7 @@ import com.example.demo.controllers.services.*;
 public class ProdutosController {
 
 	@PostMapping("/products")
-	//@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> create(@RequestBody  ProdutosModel prod) throws Exception {	
 		try {
 			if (prod == null || prod.getIdCategoria().equals("") || prod.getIdCategoria().equals(null) ) {
@@ -53,7 +53,7 @@ public class ProdutosController {
 	
 		
 		@GetMapping("/products")
-		//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 		public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 			try
 			{
