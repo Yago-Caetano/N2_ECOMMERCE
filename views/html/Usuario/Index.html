@@ -16,8 +16,71 @@
 
         async function fillUsers() {
             try {
-                users = await executeGetWithAuthentication({ route: 'user' })
-                console.log(users)
+                data = await executeGetWithAuthentication({ route: 'user' })
+
+
+                  table = document.getElementById("table-users")
+                if(data.length == 0)
+                {
+                    divNoData = document.createElement("div")
+                    divNoData.innerHTML = "Não há dados"
+                    table.appendChild(divNoData)
+                    
+                }
+                
+                data.map(usr=>{
+                    tr = document.createElement("tr")
+                    tdActions = document.createElement("td")
+
+
+                    editLink = document.createElement("a")
+                    editLink.setAttribute("href","Usuario/Edit?id=@a.Id")
+                    editLink.className = "btn btn-info"
+                    editLink.innerHTML = "Editar"
+
+
+
+                    remLink = document.createElement("a")
+                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Usuario')")
+                    remLink.className = "btn btn-danger"
+                    remLink.innerHTML = "Apagar"
+
+
+                    tdActions.appendChild(editLink)
+                    tdActions.appendChild(remLink)
+
+                    tr.appendChild(tdActions)
+
+                    tdId = document.createElement("td")
+                    tdId.innerHTML = usr.id
+                    tr.appendChild(tdId)
+
+                    tdNome = document.createElement("td")
+                    tdNome.innerHTML = usr.nome
+                    tr.appendChild(tdNome)
+
+
+                    tdEmail = document.createElement("td")
+                    tdEmail.innerHTML = usr.email
+                    tr.appendChild(tdEmail)
+
+                    tdCPF = document.createElement("td")
+                    tdCPF.innerHTML = usr.cpf
+                    tr.appendChild(tdCPF)
+
+                    tdTipo = document.createElement("td")
+                    tdTipo.innerHTML = usr.tipoUsuario.id
+                    tr.appendChild(tdTipo)
+
+                    tdStatus = document.createElement("td")
+                    tdStatus.innerHTML = usr.status ? "ativo" : "inativo"
+                    tr.appendChild(tdStatus)
+
+                    table.appendChild(tr)
+
+                })
+                
+
             }
             catch (err) {
                 alert(`Erro: ${err}`)
@@ -59,13 +122,22 @@
     <div id="conteudo" class="m-container">
         <h2>Relação de Usuários</h2>
         <br />
-        <a href="../Usuario/Form.html">Novo Registro</a>
+        <a href="../Usuario/Form.html" class="btn btn-success">Novo Registro</a>
         <br />
-        <div>
-            @{
-            Html.RenderPartial("pvUsuarios");
-            }
-        </div>
+
+            <table id="table-users" class="m-table-center">
+                <tr>
+                <th>Ações</th>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>CPF</th>
+                <th>Tipo</th>
+                <th>Ativo</th>
+            </tr>
+
+            </table>
+
 
     </div>
 

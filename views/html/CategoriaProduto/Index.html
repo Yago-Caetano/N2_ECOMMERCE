@@ -26,8 +26,53 @@
 
             }
             try {
-                users = await executeGetWithAuthentication({ route: 'catProduct' })
-                console.log(users)
+                data = await executeGetWithAuthentication({ route: 'catProduct' })
+
+
+                table = document.getElementById("table-cat")
+                if(data.length == 0)
+                {
+                    divNoData = document.createElement("div")
+                    divNoData.innerHTML = "Não há dados"
+                    table.appendChild(divNoData)
+                    
+                }
+                
+                data.map(cat=>{
+                    tr = document.createElement("tr")
+                    tdActions = document.createElement("td")
+
+
+                    editLink = document.createElement("a")
+                    editLink.setAttribute("href","Categoria/Edit?id=@a.Id")
+                    editLink.className = "btn btn-info"
+                    editLink.innerHTML = "Editar"
+
+
+
+                    remLink = document.createElement("a")
+                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Categoria')")
+                    remLink.className = "btn btn-danger"
+                    remLink.innerHTML = "Apagar"
+
+
+                    tdActions.appendChild(editLink)
+                    tdActions.appendChild(remLink)
+
+                    tr.appendChild(tdActions)
+
+                    tdId = document.createElement("td")
+                    tdId.innerHTML = cat.id
+                    tr.appendChild(tdId)
+
+                    tdCategoria = document.createElement("td")
+                    tdCategoria.innerHTML = cat.categoria
+                    tr.appendChild(tdCategoria)
+
+
+                    table.appendChild(tr)
+
+                })
             }
             catch (err) {
                 alert(`Erro: ${err}`)
@@ -53,10 +98,7 @@
         <a href="../CategoriaProduto/Form.html">Novo Registro</a>
         <br />
 
-
-        @if (Model.Count > 0)
-        {
-            <table class="m-table-center">
+            <table id="table-cat" class="m-table-center">
 
                 <tr>
                     <th>Ações</th>
@@ -64,30 +106,10 @@
                     <th>Categoria</th>
                 </tr>
 
-                @foreach (CategoriaProdutoViewModel a in Model)
-                {
-                    <tr>
-                        <td>
-                            <a href="CategoriaProduto/Edit?id=@a.Id" class="btn btn-info">Editar</a>
-                            <a href="javascript:apagarRegistro(@a.Id, 'CategoriaProduto')" class="btn btn-danger">Apagar</a>
-                        </td>
-                        <td>@a.Id</td>
-                        <td>@a.Categoria</td>
-                    </tr>
-                }
 
 
             </table>
-            <div>
-                @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
-            </div>
-        }
-        else
-        {
-            <div>
-                <h4>Não há dados Disponiveis</h4>
-            </div>
-        }
 
+       
     </div>
 </body>
