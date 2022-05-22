@@ -17,14 +17,14 @@ import com.example.demo.DAO.UserDAO;
 import com.example.demo.models.CategoriaProduto;
 import com.example.demo.models.ProdutosModel;
 import com.example.demo.models.User;
-
+import com.example.demo.controllers.services.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class ProdutosController {
 
 	@PostMapping("/products")
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> create(@RequestBody  ProdutosModel prod) throws Exception {	
 		try {
 			if (prod == null || prod.getIdCategoria().equals("") || prod.getIdCategoria().equals(null) ) {
@@ -32,6 +32,11 @@ public class ProdutosController {
 			} else {
 				CategoriaProdutoDAO dao= new CategoriaProdutoDAO();
 				CategoriaProduto cat= dao.find(prod.getIdCategoria());
+				
+				if (!prod.getFotoEmBase64().equals(null) && !prod.getFotoEmBase64().equals(""))
+				{				
+					prod.setFoto(ImageConversionService.convertToBlob(prod.getFotoEmBase64()));
+				}
 				
 				if (cat==null)
 					return ResponseEntity.notFound().build();
@@ -64,6 +69,11 @@ public class ProdutosController {
 				    		CategoriaProduto cat = new CategoriaProduto();
 				    		cat=cdao.find(prods.getIdCategoria());
 				    		prods.setCategoria(cat);
+				    		
+				    		if (!prods.getFoto().equals(null))
+				    		{
+				    			prods.setFotoEmBase64(ImageConversionService.convertToBase64(prods.getFoto()));
+				    		}
 				    	}
 				    	
 			    	}
@@ -83,6 +93,12 @@ public class ProdutosController {
 			    		CategoriaProduto cat = new CategoriaProduto();
 			    		cat=cdao.find(prod.getIdCategoria());
 			    		prod.setCategoria(cat);
+			    		
+			    		if (!prod.getFoto().equals(null))
+			    		{
+			    			prod.setFotoEmBase64(ImageConversionService.convertToBase64(prod.getFoto()));
+			    		}
+			    		
 			    		return ResponseEntity.ok(prod);
 			    	}
 			    		
@@ -108,6 +124,11 @@ public class ProdutosController {
 					
 					if (cat==null)
 						return ResponseEntity.notFound().build();
+					
+					if (!prod.getFotoEmBase64().equals(null) && !prod.getFotoEmBase64().equals(""))
+					{				
+						prod.setFoto(ImageConversionService.convertToBlob(prod.getFotoEmBase64()));
+					}
 					
 					ProdutosDAO pdao = new ProdutosDAO();
 					pdao.update(prod);			

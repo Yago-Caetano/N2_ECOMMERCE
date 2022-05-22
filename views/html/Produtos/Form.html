@@ -1,4 +1,4 @@
-﻿<head>
+﻿﻿<head>
     <link href="../../css/TelaLogin.css" rel="stylesheet" />
     <link href="../../css/common.css" rel="stylesheet" />
     <script src="../../js/api.js"></script>
@@ -36,13 +36,17 @@
                 let nome = document.getElementById('nome').value;
                 let preco = document.getElementById('preco').value;
                 let descricao = document.getElementById('descricao').value;
-                let foto = "";
+
+                let fotoInput = document.querySelector('#foto');        
+
+                let fotoBase64 = getBase64(fotoInput.files[0]);     
+
                 let quantidade = document.getElementById('quantidade').value;
                 let desconto = document.getElementById('desconto').value;
                 let idCategoria = document.getElementById('idCategoria').value;
 
 
-                product = new Produto(nome, preco, descricao, foto, quantidade, desconto,idCategoria);
+                product = new Produto(nome, preco, descricao, fotoBase64, quantidade, desconto,idCategoria);
 
                 try {
                     addres = await executePostWithAuthentication({ route: 'products', data: product })
@@ -54,11 +58,43 @@
                 }
             }
 
-
-
         }
 
+        function getBase64(file) {
+        var reader = new FileReader();
+        
+        reader.readAsDataURL(file);
+        //reader.readAsText(file);
+        reader.onload = function () {
+            console.log(reader.result);
+            document.getElementById('img').src = reader.result;
+            document.getElementById('img').style.display = 'block';
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
 
+        console.log(reader.result);
+        return reader.result;
+    }
+
+    function displayImage(){
+        let fotoInput = document.querySelector('#foto');  
+        var reader = new FileReader();
+        
+        reader.readAsDataURL(fotoInput.files[0]);
+        //reader.readAsText(file);
+        reader.onload = function () {
+            console.log(reader.result);
+            document.getElementById('img').src = reader.result;
+            document.getElementById('img').style.display = 'block';
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+
+        console.log(reader.result);
+    }
 
 
         function showError(msg) {
@@ -116,9 +152,15 @@
                         <input id="idCategoria" type="text" name="idCategoria.." class="form-control camposDetalhes"
                             required placeholder='idCategoria...' />
 
+                        <label for="foto" class="control-label"></label>
+                        <input type="file" accept="image/*" id="foto" class="form-control" onchange="displayImage()">
+
+                        <img id="img" src="#" style="display: none" width="300px" height="300px">
+
                         <input type="submit" value="Cadastrar" class="btn btn-success entrar"
                             onclick="CreateProduct()" />
                         <span class="text-danger" id="mensagemErro"></span>
+                        
                     </div>
                 </div>
             </div>
