@@ -21,7 +21,12 @@
         async function isAdmin()
         {
             try{
-                admin = await executeGet({route:'userPermissions'})
+
+                if(localStorage.getItem('accessToken')==null)
+                    return false
+
+
+                admin = await executeGetWithAuthentication({route:'userPermissions'})
 
                 if(admin.length > 0)
                 {
@@ -58,10 +63,10 @@
                 profileLink = document.getElementById("user-profile-link");
 
                 //verifica se usuário é administrador
-                isManager = isAdmin()
+                isManager = await isAdmin()
                 if(isManager === true)
                 {
-                    profileLink.setAttribute("href","linkpragerente")
+                    profileLink.setAttribute("href","../Gerencia/Index.html")
                     profileLink.innerHTML = "Opções de Gerência"
                 }
 
