@@ -47,6 +47,7 @@ public class UserController {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido");
 				
 				UserDAO udao = new UserDAO();
+				user.GenerateID();
 				user.setSenha(encoder.encode(user.getSenha()));
 				user.setStatusUsuario(true);
 				udao.insert(user);

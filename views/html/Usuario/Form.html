@@ -1,13 +1,15 @@
 ﻿<head>
     <link href="../../css/TelaLogin.css" rel="stylesheet" />
     <link href="../../css/common.css" rel="stylesheet" />
+    <script src="../../js/api.js"></script>
 
 
 
     <script type="text/javascript">
 
         class Usuario {
-            constructor(nome, email, senha, cpf, idTipoUsuario) {
+            constructor(id,nome, email, senha, cpf, idTipoUsuario) {
+                this.id=id;
                 this.nome = nome;
                 this.email = email;
                 this.senha = senha;
@@ -21,7 +23,8 @@
         //console.log("senha" + theForm.senha);
         //}
 
-        async function CreateUser() {
+        function getData ()
+        {
             let username = document.getElementById('us').value;
             let password = document.getElementById('pw').value;
             let passwordConfirmacao = document.getElementById('pw2').value;
@@ -29,8 +32,19 @@
             let cpf = document.getElementById('cpf').value;
             let idTipoUsuario = document.getElementById('tipoUser').value;
 
-            const user = new Usuario(nome, username, password, cpf,idTipoUsuario);
+            let id=localStorage.getItem('id');
+            if(id==null || id ==undefined)
+                id='';
 
+
+            const user = new Usuario(id,nome, username, password, cpf, idTipoUsuario);
+
+            return user;
+        }
+
+        async function NewUser()
+        {
+            user =getData();
 
 
             try {
@@ -60,6 +74,49 @@
         }
 
 
+        async function CreateEditUser() {
+
+            var Editar = location.search.substring(1);
+
+            if (Editar === 'Editar=1') {
+                console.log(`Alterando tela`);
+                EditUser();
+                
+            }
+            else
+            {
+                NewUser();
+            }
+
+        }
+
+        async function EditUser() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                user =getData();
+
+                try {
+                    userAlt = await executePutWithAuthentication({ route: 'user', data: user })
+                    console.log(userAlt)
+                    localStorage.setItem('username',user.nome);
+                    window.location.href = "../Usuario/Perfil.html";
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+
 
 
         function showError(msg) {
@@ -71,9 +128,41 @@
             spanErro.innerHTML = msg
         }
 
+        async function fillUser(id) {
+            try {
+                users = await executeGetWithAuthentication({ route: 'user?id=' + id })
+                return users;
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+
+        async function ChangeScreenToEdit() {
+            if (localStorage.getItem('id') == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+
+            user = await fillUser(localStorage.getItem('id'))
+
+            document.getElementById("us").setAttribute('value', user.email);
+            document.getElementById("nome").setAttribute('value', user.nome);
+            document.getElementById("cpf").setAttribute('value', user.cpf);
+            document.getElementById("tipoUser").setAttribute('value', user.idTipoUsuario);
+            document.getElementById("tipoUser").setAttribute('value', user.idTipoUsuario);
+            document.getElementById("btn").setAttribute('value', "Editar");
+        }
 
         function onLoad() {
             let spanErro = document.getElementById("mensagemErro");
+            var Editar = location.search.substring(1);
+            console.log(`Editar: ${Editar}`);
+            if (Editar === 'Editar=1') {
+                console.log(`Alterando tela`);
+                ChangeScreenToEdit();
+            }
             spanErro.className = "hide"
         }
 
@@ -117,7 +206,8 @@
                         <input id="tipoUser" type="text" name="TipoUser" class="form-control camposDetalhes" required
                             placeholder='tipo de usuário...' />
 
-                        <input type="submit" value="Cadastrar" class="btn btn-success entrar" onclick="CreateUser()" />
+                        <input id="btn" type="submit" value="Cadastrar" class="btn btn-success entrar"
+                            onclick="CreateEditUser()" />
                         <span class="text-danger" id="mensagemErro"></span>
                     </div>
                 </div>
