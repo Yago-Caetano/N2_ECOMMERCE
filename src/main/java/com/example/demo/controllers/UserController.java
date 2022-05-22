@@ -124,6 +124,21 @@ public class UserController {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 			}
 		}
+		@GetMapping("/userPermissions")
+		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+		public ResponseEntity<?> getPermissions() {
+			try
+			{
+				
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				return ResponseEntity.status(HttpStatus.OK).body(auth.getAuthorities().stream());
+				
+			}
+			catch(Exception e)
+			{
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			}
+		}
 						
 		@PutMapping("/user")
 		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
