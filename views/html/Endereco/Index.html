@@ -22,8 +22,79 @@
 
             }
             try {
-                users = await executeGetWithAuthentication({ route: 'UserAddres?idUser='+localStorage.getItem('id') })
-                console.log(users)
+                data = await executeGetWithAuthentication({ route: 'UserAddres?idUser='+localStorage.getItem('id') })
+
+                console.log(data)
+
+
+
+                //fill address
+                table = document.getElementById("table-address")
+                if(data.length == 0)
+                {
+                    divNoData = document.createElement("div")
+                    divNoData.innerHTML = "Não há dados"
+                    table.appendChild(divNoData)
+                    
+                }
+                
+                data.map(end=>{
+                    tr = document.createElement("tr")
+                    tdActions = document.createElement("td")
+
+
+                    editLink = document.createElement("a")
+                    editLink.setAttribute("href","Endereco/Edit?id=@a.Id")
+                    editLink.className = "btn btn-info"
+                    editLink.innerHTML = "Editar"
+
+
+
+                    remLink = document.createElement("a")
+                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Endereco')")
+                    remLink.className = "btn btn-danger"
+                    remLink.innerHTML = "Apagar"
+
+
+                    tdActions.appendChild(editLink)
+                    tdActions.appendChild(remLink)
+
+                    tr.appendChild(tdActions)
+
+                    tdId = document.createElement("td")
+                    tdId.innerHTML = end.id
+                    tr.appendChild(tdId)
+
+                    tdRua = document.createElement("td")
+                    tdRua.innerHTML = end.rua
+                    tr.appendChild(tdRua)
+
+                    tdComplemento = document.createElement("td")
+                    tdComplemento.innerHTML = end.complemento
+                    tr.appendChild(tdComplemento)
+
+                    tdNum = document.createElement("td")
+                    tdNum.innerHTML = end.numero
+                    tr.appendChild(tdNum)
+
+                    tdCEP = document.createElement("td")
+                    tdCEP.innerHTML = end.cep
+                    tr.appendChild(tdCEP)
+
+                    tdCity = document.createElement("td")
+                    tdCity.innerHTML = end.cidade
+                    tr.appendChild(tdCity)
+
+                    tdStatus = document.createElement("td")
+                    tdStatus.innerHTML = end.status ? "ativo" : "inativo"
+                    tr.appendChild(tdStatus)
+
+                    table.appendChild(tr)
+
+                })
+                
+
+
             }
             catch (err) {
                 alert(`Erro: ${err}`)
@@ -45,12 +116,11 @@
         <h2>Relação de Endereços</h2>
 
         <br />
-        <a href="../Endereco/Form.html">Novo Registro</a>
+        <a href="../Endereco/Form.html" class="btn btn-success">Novo Registro</a>
         <br />
         <div class="d-flex flex-column">
-            @if (Model.Count > 0)
-            {
-                <table class="m-table-center">
+
+                <table id="table-address" class="m-table-center">
                     <tr>
                         <th>Ações</th>
                         <th>Id</th>
@@ -62,45 +132,8 @@
                         <th>statusEnd </th>
                     </tr>
 
-                    @foreach (EnderecoViewModel a in Model)
-                    {
-                        <tr>
-                            <td>
-                                <a href="Endereco/Edit?id=@a.Id" class="btn btn-info">Editar</a>
-                                <a href="javascript:apagarRegistro(@a.Id, 'Endereco')" class="btn btn-danger">Apagar</a>
-                            </td>
-                            <td>@a.Id</td>
-                            <td>@a.Rua</td>
-                            <td>@a.Complemento</td>
-                            <td>@a.Numero</td>
-                            <td>@a.CEP</td>
-                            <td>@a.Cidade</td>
-                            @if (@a.Ativo)
-                            {
-                                <td>SIM</td>
-                            }
-                            else
-                            {
-                                <td>NÃO</td>
-                            }
-
-                        </tr>
-                    }
-
-
                 </table>
-                <div>
-                    @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
-                </div>
-            }
-            else
-            {
 
-                <div>
-                    <h4>Não há dados Disponiveis</h4>
-                </div>
-
-            }
 
         </div>
 
