@@ -42,20 +42,20 @@
 
 
                     editLink = document.createElement("a")
-                    editLink.setAttribute("href","TipoUsuario/Edit?id=@a.Id")
+                    editLink.setAttribute("href","../TipoUsuario/Form.html?Editar="+usr.id)
                     editLink.className = "btn btn-info"
                     editLink.innerHTML = "Editar"
 
 
 
-                    remLink = document.createElement("a")
-                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'TipoUsuario')")
-                    remLink.className = "btn btn-danger"
-                    remLink.innerHTML = "Apagar"
+                   // remLink = document.createElement("a")
+                    //remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'TipoUsuario')")
+                    //remLink.className = "btn btn-danger"
+                    //remLink.innerHTML = "Apagar"
 
 
                     tdActions.appendChild(editLink)
-                    tdActions.appendChild(remLink)
+                    //tdActions.appendChild(remLink)
 
                     tr.appendChild(tdActions)
 

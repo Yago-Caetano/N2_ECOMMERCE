@@ -8,7 +8,8 @@
     <script type="text/javascript">
 
         class TipoUsuario {
-            constructor(tipo) {
+            constructor(id, tipo) {
+                this.id = id
                 this.tipo = tipo;
             }
         }
@@ -17,6 +18,22 @@
         //console.log("login" + theForm.usuario);
         //console.log("senha" + theForm.senha);
         //}
+
+        function getData() {
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+            let tipoNome = document.getElementById('tipo').value;
+
+            if (id.length != 2)
+                id = '';
+            else
+                id = id[1];
+
+
+            const tipo = new TipoUsuario(id, tipoNome);
+
+            return tipo;
+        }
 
         async function CreateTipoUser() {
 
@@ -27,11 +44,10 @@
             }
             else {
 
-                let tipo = document.getElementById('tipo').value;
-                Tipo = new TipoUsuario(tipo);
+                tipo = getData()
 
                 try {
-                    Tipo = await executePostWithAuthentication({ route: 'typeUser' ,data:Tipo})
+                    Tipo = await executePostWithAuthentication({ route: 'typeUser', data: tipo })
                     console.log(Tipo)
                     //window.location.href = "../Usuario/Perfil.html";
                 }
@@ -43,6 +59,71 @@
 
 
         }
+
+
+        async function EditTipo() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                tipo = getData();
+
+                try {
+                    tipoAlt = await executePutWithAuthentication({ route: 'typeUser', data: tipo })
+                    console.log(tipoAlt)
+                    alert("alteração concluída!")
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+        async function ChangeScreenToEdit(id) {
+            if (localStorage.getItem('id') == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+
+            tipo = await filltipo(id)
+            document.getElementById("tipo").setAttribute('value', tipo.tipo);
+            document.getElementById("btn").setAttribute('value', "Editar");
+        }
+
+        async function filltipo(id) {
+            try {
+                users = await executeGetWithAuthentication({ route: 'typeUser?id=' + id })
+                return users;
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+
+        async function CreateEditUser() {
+
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            if (id.length == 2) {
+                console.log(`Alterando tela`);
+                EditTipo();
+
+            }
+            else {
+                CreateTipoUser();
+            }
+
+        }
+
 
 
 
@@ -59,8 +140,17 @@
 
         function onLoad() {
             let spanErro = document.getElementById("mensagemErro");
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            console.log(`Editar: ${Editar}`);
+            if (id.length == 2) {
+                console.log(`Alterando tela`);
+                ChangeScreenToEdit(id[1]);
+            }
             spanErro.className = "hide"
         }
+
 
 
         //evento de on load
@@ -82,8 +172,8 @@
                         <input id="tipo" type="text" name="tipo" class="form-control camposDetalhes" required
                             placeholder='tipo de usuario...' />
 
-                        <input type="submit" value="Cadastrar" class="btn btn-success entrar"
-                            onclick="CreateTipoUser()" />
+                        <input id="btn" type="submit" value="Cadastrar" class="btn btn-success entrar"
+                            onclick="CreateEditUser()" />
                         <span class="text-danger" id="mensagemErro"></span>
                     </div>
                 </div>

@@ -57,7 +57,7 @@ create table tbProdutos(
 	Nome varchar(20) not null unique,
 	Preco decimal(15,2) not null,
 	Descricao varchar(100) not null,
-	Foto BLOB,
+	Foto LongBLOB,
 	Quantidade int not null default 0,
 	Desconto real default 0.00,
 	idCategoria varchar(40),
