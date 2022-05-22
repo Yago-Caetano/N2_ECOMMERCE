@@ -77,8 +77,12 @@ public class ProdutosController {
 				    	}
 				    	
 			    	}
-
-			    	return ResponseEntity.ok(itens);
+			    	
+			    	if(itens==null)
+			    		return ResponseEntity.status(HttpStatus.OK).body("{}");
+			    	
+			    	else
+			    		return ResponseEntity.ok(itens);
 			    	
 			    } else {
 
