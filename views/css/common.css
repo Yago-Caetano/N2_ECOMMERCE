@@ -1,3 +1,18 @@
 .hide{
     display: none;
 }
+
+.customHeader{
+    overflow: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.customHeader object::-webkit-scrollbar{
+    display: none;
+
+}
+
+.customHeader::-webkit-scrollbar{
+    display: none;
+}

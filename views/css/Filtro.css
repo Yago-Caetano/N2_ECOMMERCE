@@ -1,6 +1,5 @@
 ﻿.filtros-container {
-    margin-top: 16px;
-    margin-top: 16px;
+    margin: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -43,3 +42,4 @@
      background-color: #236B56;
      color: white;
 }
+
