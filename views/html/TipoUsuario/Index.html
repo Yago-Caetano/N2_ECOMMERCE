@@ -24,8 +24,54 @@
 
             }
             try {
-                users = await executeGetWithAuthentication({ route: 'typeUser' })
-                console.log(users)
+                data = await executeGetWithAuthentication({ route: 'typeUser' })
+
+
+                table = document.getElementById("tb-userType")
+                if(data.length == 0)
+                {
+                    divNoData = document.createElement("div")
+                    divNoData.innerHTML = "Não há dados"
+                    table.appendChild(divNoData)
+                    
+                }
+                
+                data.map(usr=>{
+                    tr = document.createElement("tr")
+                    tdActions = document.createElement("td")
+
+
+                    editLink = document.createElement("a")
+                    editLink.setAttribute("href","TipoUsuario/Edit?id=@a.Id")
+                    editLink.className = "btn btn-info"
+                    editLink.innerHTML = "Editar"
+
+
+
+                    remLink = document.createElement("a")
+                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'TipoUsuario')")
+                    remLink.className = "btn btn-danger"
+                    remLink.innerHTML = "Apagar"
+
+
+                    tdActions.appendChild(editLink)
+                    tdActions.appendChild(remLink)
+
+                    tr.appendChild(tdActions)
+
+                    tdId = document.createElement("td")
+                    tdId.innerHTML = usr.id
+                    tr.appendChild(tdId)
+
+                    tdTipo = document.createElement("td")
+                    tdTipo.innerHTML = usr.tipo
+                    tr.appendChild(tdTipo)
+
+
+                    table.appendChild(tr)
+
+                })
+                
             }
             catch (err) {
                 alert(`Erro: ${err}`)
@@ -51,39 +97,15 @@
         <a href="../TipoUsuario/Form.html">Novo Registro</a>
         <br />
 
-        @if (Model.Count > 0)
-        {
-            <table class="table table-responsive table-striped m-center">
+
+            <table id="tb-userType" class="m-table-center">
                 <tr>
                     <th>Ações</th>
                     <th>Id</th>
                     <th>Tipo</th>
                 </tr>
 
-                @foreach (TipoUsuarioViewModel a in Model)
-                {
-                    <tr>
-                        <td>
-                            <a href="TipoUsuario/Edit?id=@a.Id" class="btn btn-info">Editar</a>
-                            <a href="javascript:apagarRegistro(@a.Id, 'TipoUsuario')" class="btn btn-danger">Apagar</a>
-                        </td>
-                        <td>@a.Id</td>
-                        <td>@a.Tipo</td>
-                    </tr>
-                }
-
-
             </table>
-            <div>
-                @Html.PagedListPager(Model, pagina => Url.Action("Index", new { pagina }))
-            </div>
-        }
-        else
-        {
-            <div>
-                <h4>Não há dados disponiveis</h4>
-            </div>
-        }
 
     </div>
 </body>
