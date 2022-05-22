@@ -61,123 +61,18 @@
        async function fillUser(){
            try{
             
-            /*if(localStorage.getItem('id')==null)
+            if(localStorage.getItem('id')==null)
             {
                 alert('Por favor faça login!');
                 window.location.href = "../Login/Index.html";
-            }*/
+            }
 
-            //data = await executeGetWithAuthentication({ route: 'user?id='+localStorage.getItem('id') })
+            data = await executeGetWithAuthentication({ route: 'user?id='+localStorage.getItem('id') })
 
-                //console.log(user)
+            
 
-                data = {
-    "nome": "Usuario",
-    "email": "email1",
-    "senha": "",
-    "cpf": "cpf",
-    "idTipoUsuario": "unjawhe767",
-    "statusUsuario": true,
-    "tipoUsuario": {
-        "tipo": "Gerente",
-        "id": "unjawhe767"
-    },
-    "enderecos": [
-        {
-            "cep": "04317-000",
-            "cidade": "asdasdas",
-            "complemento": "asfa",
-            "numero": 23,
-            "rua": "reasr",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "23b1d9ab-69dc-41e1-b4c1-4159b3610927"
-        },
-        {
-            "cep": "cep",
-            "cidade": "cidade",
-            "complemento": "complemento",
-            "numero": 10,
-            "rua": "rua",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "393bda90-0f0c-450e-b9f8-cfb836edd0b0"
-        },
-        {
-            "cep": "04317-000",
-            "cidade": "asdasdas",
-            "complemento": "asfa",
-            "numero": 3,
-            "rua": "reasr",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "3efd4dc3-a19f-4636-8ea0-e3721b23b778"
-        },
-        {
-            "cep": "04317-000",
-            "cidade": "asdasdas",
-            "complemento": "asfa",
-            "numero": 23,
-            "rua": "reasr",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "4a7d07ee-ab0b-4254-a6fb-f257d5fdee17"
-        },
-        {
-            "cep": "04473-130",
-            "cidade": "dasda",
-            "complemento": "asda",
-            "numero": 2,
-            "rua": "asda",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "52bd3ec8-493e-476d-92a3-927d791eba05"
-        },
-        {
-            "cep": "04473-130",
-            "cidade": "São Paulo",
-            "complemento": "",
-            "numero": 23,
-            "rua": "Pirajis",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "580bc74f-e21b-4b60-89cf-680e45bda5bd"
-        },
-        {
-            "cep": "cep",
-            "cidade": "cidade",
-            "complemento": "complemento",
-            "numero": 30,
-            "rua": "rua",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "b8a4d0d4-9e1f-41b3-b614-6276ba82f799"
-        },
-        {
-            "cep": "04317-000",
-            "cidade": "asdasdas",
-            "complemento": "asfa",
-            "numero": 3,
-            "rua": "reasr",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "d9fcf4a8-9146-45cf-abbb-f14a9c752b6f"
-        },
-        {
-            "cep": "04473-130",
-            "cidade": "São Paulo",
-            "complemento": "CASA",
-            "numero": 23,
-            "rua": "RUA",
-            "idUsuario": "b9101efc-dfb6-4bf2-9cca-72574989ee82",
-            "status": true,
-            "id": "e865f81b-b3fc-46d6-93f3-3fcdf7576610"
-        }
-    ],
-    "historico_pedidos": null,
-    "id": "b9101efc-dfb6-4bf2-9cca-72574989ee82"
-}
-
+            console.log(data)
+                
                 table = document.getElementById("tb-userType")
                 if(data.length == 0)
                 {
@@ -188,7 +83,9 @@
                 }
                 else
                 {
-                    fillAddress(data.enderecos)
+                    document.getElementById("EditData").setAttribute('href', "../Usuario/Form.html?Editar="+data.id);
+                    if(data.enderecos!=null && data.enderecos.length>0)
+                        fillAddress(data.enderecos)
 
 
                     h1Name = document.getElementById("h1-name")
@@ -249,7 +146,7 @@
                 <dl>
                     <dt id="dt-email"></dt>
                     <dt id="dt-cpf"></dt>
-                    <dt><a href="../Usuario/Form.html?Editar=1" style="color:#236B56;">Editar Dados Pessoais</a></dt>
+                    <dt><a id="EditData" href="../Usuario/Form.html?Editar=1" style="color:#236B56;">Editar Dados Pessoais</a></dt>
                 </dl>
 
 
