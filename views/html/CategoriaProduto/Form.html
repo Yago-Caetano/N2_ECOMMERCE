@@ -68,25 +68,27 @@
 </head>
 
 <body>
-    <section class="painel">
+<header class="customHeader">
+
+    <object style="overflow: hidden;width: 101%;height: 20vh;" type="text/html" data="../Shared/Header.html"></object>
+
+</header>
+    <section class="container">
         <h2></h2>
 
-        <div class="row">
-            <div class="col-lg-3">
-                <div>
+       
 
-                    <div class="campos">
+                    <div class="card">
                         <label for="categoria" class="control-label"></label>
-                        <input id="categoria" type="text" name="categoria" class="form-control camposDetalhes" required
-                            placeholder='categoria...' />
+                        <input id="categoria" type="text" name="categoria" class="form-control input-field" required
+                            placeholder='categoria' />
 
-                        <input type="submit" value="Cadastrar" class="btn btn-success entrar"
+                        <input type="submit" value="Cadastrar" class="btn btn-success m-4"
                             onclick="CreateCategorie()" />
                         <span class="text-danger" id="mensagemErro"></span>
                         
                     </div>
-                </div>
-            </div>
+               
     </section>
 
 </body>
