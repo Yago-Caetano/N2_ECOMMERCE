@@ -1,5 +1,6 @@
 ﻿<head>
-    <link href="../../css/TelaLogin.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link href="../../css/common.css" rel="stylesheet" />
     <script src="../../js/api.js"></script>
 
@@ -177,46 +178,45 @@
 
     </script>
 </head>
+<header class="customHeader">
 
+    <object style="overflow: hidden;width: 101%;height: 20vh;" type="text/html" data="../Shared/Header.html"></object>
+
+</header>
 <body>
-    <section class="painel">
+    <section class="container">
         <h2></h2>
 
-        <div class="row">
-            <div class="col-lg-3">
-                <div>
-
-                    <div class="campos">
+                    <div class="card">
                         <label for="usuario" class="control-label"></label>
-                        <input id="us" type="text" name="usuario" class="form-control camposDetalhes" required
-                            placeholder='Email...' />
+                        <input id="us" type="text" name="usuario" class="form-control input-field" required
+                            placeholder='Email' />
 
                         <label for="senha" class="control-label"></label>
-                        <input id="pw" type="password" name="senha" class="form-control camposDetalhes" required
-                            placeholder='Senha...' />
+                        <input id="pw" type="password" name="senha" class="form-control input-field" required
+                            placeholder='Senha' />
 
                         <label for="senhaConfirmacao" class="control-label"></label>
-                        <input id="pw2" type="password" name="senhaConfirmacao" class="form-control camposDetalhes"
-                            required placeholder='Confirme sua senha...' />
+                        <input id="pw2" type="password" name="senhaConfirmacao" class="form-control input-field"
+                            required placeholder='Confirme sua senha' />
 
                         <label for="nome" class="control-label"></label>
-                        <input id="nome" type="text" name="Nome" class="form-control camposDetalhes" required
-                            placeholder='Nome...' />
+                        <input id="nome" type="text" name="Nome" class="form-control input-field" required
+                            placeholder='Nome' />
 
                         <label for="cpf" class="control-label"></label>
-                        <input id="cpf" type="text" name="cpf.." class="form-control camposDetalhes" required
-                            placeholder='cpf...' />
+                        <input id="cpf" type="text" name="cpf" class="form-control input-field" required
+                            placeholder='cpf' />
 
                         <label for="tipoUser" class="control-label"></label>
-                        <input id="tipoUser" type="text" name="TipoUser" class="form-control camposDetalhes" required
-                            placeholder='tipo de usuário...' />
+                        <input id="tipoUser" type="text" name="TipoUser" class="form-control input-field" required
+                            placeholder='tipo de usuário' />
 
-                        <input id="btn" type="submit" value="Cadastrar" class="btn btn-success entrar"
+                        <input id="btn" type="submit" value="Cadastrar" class="btn btn-success m-4"
                             onclick="CreateEditUser()" />
                         <span class="text-danger" id="mensagemErro"></span>
                     </div>
-                </div>
-            </div>
+            
     </section>
 
 </body>
