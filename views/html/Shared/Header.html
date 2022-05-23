@@ -57,7 +57,9 @@
                 
 
                 console.log("load header")
-                categories = await executeGet({route:'catProduct'})  
+                //categories = await executeGet({route:'catProduct'})  
+
+                categories = [{categoria:"CAT1",id:"1"},{categoria:"CAT1",id:"1"},{categoria:"CAT1",id:"1"},{categoria:"CAT1",id:"1"},{categoria:"CAT1",id:"1"},{categoria:"CAT1",id:"1"},{categoria:"CAT1",id:"1"}]
 
 
                 profileLink = document.getElementById("user-profile-link");
@@ -70,7 +72,7 @@
                     profileLink.setAttribute("target","_blank")
                     profileLink.innerHTML = "Opções de Gerência"
                 }
-
+                debugger;
                 console.log(categories)
                 //fill categories links
                 if(categories.length > 0)
@@ -88,14 +90,11 @@
                     </div>*/
 
 
-
-
-                    divDropDown.appendChild(btDrop)
-
  
 
                     select = document.createElement('select')
-
+                    select.setAttribute("style","background-color: #236B56; color:white;")
+                    
                     divHeaderCont = document.getElementById("cat-containers")
                     categories.forEach((cat,index) => {
                         if(index < 5)
