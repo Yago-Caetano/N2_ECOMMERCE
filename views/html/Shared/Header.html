@@ -89,26 +89,12 @@
 
 
 
-                    divDropDown = document.createElement("div")
-                    divDropDown.className = "dropdown"
-
-                    //dropdown bt
-                    btDrop = document.createElement("button")
-                    btDrop.className = "btn dropdown-toggle text-white"
-                    btDrop.innerHTML = "Outros"
-                    btDrop.setAttribute('type',"button")
-                    btDrop.setAttribute('id',"dropdownMenuButton1")
-                    btDrop.setAttribute('data-bs-toggle',"dropdown")
-                    //btDrop.setAttribute('aria-haspopup',"true")
-                    btDrop.setAttribute('aria-expanded',"false")
 
                     divDropDown.appendChild(btDrop)
 
-                    divDropMenu = document.createElement("ul")
-                    divDropMenu.className = "dropdown-menu"
-                    divDropMenu.setAttribute('aria-labelledby',"dropdownMenuButton1")
+ 
 
-                    divDropDown.appendChild(divDropMenu)
+                    select = document.createElement('select')
 
                     divHeaderCont = document.getElementById("cat-containers")
                     categories.forEach((cat,index) => {
@@ -122,23 +108,23 @@
                             divHeaderCont.appendChild(a)
                         }
                         else{
-                            li = document.createElement('li')
 
                             //criar lista para montar dropdown
+                            option = document.createElement("option")
                             a = document.createElement('a')
                             a.setAttribute('href',cat.id);
                             a.innerHTML = cat.categoria
                             a.className = "dropdown-item"
+                            option.appendChild(a)
 
-                            li.appendChild(a)
+                            select.appendChild(option)
 
-                            divDropMenu.appendChild(li)
                         }
                     })
 
                     if(categories.length > 5)
                     {
-                        divHeaderCont.appendChild(divDropDown)
+                        divHeaderCont.appendChild(select)
                     }
 
                 }
