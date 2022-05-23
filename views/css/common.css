@@ -39,6 +39,8 @@ body {
     margin: 16px;
     justify-content: center;
     align-items: center;
+    border: none;
+    padding: 16px;
 }
 
 .card label,input{
