@@ -8,7 +8,8 @@
     <script type="text/javascript">
 
         class Categoria {
-            constructor(categoria) {
+            constructor(id, categoria) {
+                this.id = id;
                 this.categoria = categoria;
             }
         }
@@ -27,13 +28,12 @@
             }
             else {
 
-                let categoria = document.getElementById('categoria').value;
-                cat = new Categoria(categoria);
+                categoria = getData();
 
                 try {
-                    cati = await executePostWithAuthentication({ route: 'catProduct', data: cat })
+                    cati = await executePostWithAuthentication({ route: 'catProduct', data: categoria })
                     console.log(cati)
-                   // window.location.href = "../Usuario/Perfil.html";
+                    // window.location.href = "../Usuario/Perfil.html";
                 }
                 catch (err) {
                     alert(`Erro: ${err}`)
@@ -41,8 +41,8 @@
             }
 
         }
-  
-   
+
+
         function showError(msg) {
 
             let spanErro = document.getElementById("mensagemErro");
@@ -55,7 +55,92 @@
 
         function onLoad() {
             let spanErro = document.getElementById("mensagemErro");
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            console.log(`Editar: ${Editar}`);
+            if (id.length == 2) {
+                console.log(`Alterando tela`);
+                ChangeScreenToEdit(id[1]);
+            }
             spanErro.className = "hide"
+
+        }
+
+        async function ChangeScreenToEdit(id) {
+            if (localStorage.getItem('id') == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+
+            categoria = await fillCategoria(id)
+            document.getElementById("categoria").setAttribute('value', categoria.categoria);
+            document.getElementById("btn").setAttribute('value', "Editar");
+        }
+
+        async function fillCategoria(id) {
+            try {
+                users = await executeGetWithAuthentication({ route: 'catProduct?id=' + id })
+                return users;
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+        async function EditCategoria() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                categoria = getData();
+
+                try {
+                    catAlt = await executePutWithAuthentication({ route: 'catProduct', data: categoria })
+                    console.log(catAlt)
+                    alert("alteração concluída!")
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+        function getData() {
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            let categoria = document.getElementById('categoria').value;
+
+            if (id.length != 2)
+                id = '';
+            else
+                id = id[1];
+
+            return new Categoria(id, categoria);
+        }
+
+        async function CreateEditCategoria() {
+
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            if (id.length == 2) {
+                console.log(`Alterando tela`);
+                EditCategoria();
+
+            }
+            else {
+                CreateCategorie();
+            }
+
         }
 
 
@@ -78,10 +163,10 @@
                         <input id="categoria" type="text" name="categoria" class="form-control camposDetalhes" required
                             placeholder='categoria...' />
 
-                        <input type="submit" value="Cadastrar" class="btn btn-success entrar"
-                            onclick="CreateCategorie()" />
+                        <input id="btn" type="submit" value="Cadastrar" class="btn btn-success entrar"
+                            onclick="CreateEditCategoria()" />
                         <span class="text-danger" id="mensagemErro"></span>
-                        
+
                     </div>
                 </div>
             </div>

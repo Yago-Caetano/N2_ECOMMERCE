@@ -1,7 +1,4 @@
-﻿@model X.PagedList.IPagedList<CategoriaProdutoViewModel>
-@using X.PagedList.Mvc.Core;
-
-<head>
+﻿<head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="../../css/common.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../css/mContainer.css" />
@@ -44,20 +41,20 @@
 
 
                     editLink = document.createElement("a")
-                    editLink.setAttribute("href","Categoria/Edit?id=@a.Id")
+                    editLink.setAttribute("href","../CategoriaProduto/Form.html?Editar="+cat.id)
                     editLink.className = "btn btn-info"
                     editLink.innerHTML = "Editar"
 
 
 
-                    remLink = document.createElement("a")
-                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Categoria')")
-                    remLink.className = "btn btn-danger"
-                    remLink.innerHTML = "Apagar"
+                    //remLink = document.createElement("a")
+                    //remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Categoria')")
+                    //remLink.className = "btn btn-danger"
+                    //remLink.innerHTML = "Apagar"
 
 
                     tdActions.appendChild(editLink)
-                    tdActions.appendChild(remLink)
+                   // tdActions.appendChild(remLink)
 
                     tr.appendChild(tdActions)
 
