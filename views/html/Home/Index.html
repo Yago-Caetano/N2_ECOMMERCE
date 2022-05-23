@@ -1,100 +1,117 @@
-﻿
-
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <link rel="stylesheet" href="../../css/Filtro.css" />
     <link rel="stylesheet" href="../../css/paginacao.css" />
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
     <script src="../../js/api.js"></script>
 
     <script type="text/javascript">
 
-         function onLoad()
-        {
+        function onLoad() {
+            sessionStorage.removeItem('produtoClicado');
             console.log("onLoad");
             fillProducts();
         }
 
-        async function fillProducts(){
-            try{
-                produtos = await executeGet({route:'products'})
+        async function fillProducts() {
+            try {
+                produtos = await executeGet({ route: 'products' })
                 console.log(produtos)
-                
+                console.log(produtos.length);
 
-                if(produtos.length > 0)
-                {
-                    divConteudo = document.getElementById("conteudo")
-                    divCardContainer = document.createElement("div")
-                    divCardContainer.className = "container-card"
-                    produtos.map(produto=>{
-                        console.log(produto)
+                if (produtos.length > 0) {
+                    divContainer = document.getElementById("conteudo")
+                    divContainer.style = "margin-left: 60px; margin-top: 60px;";
+                                       
+                    // produtos.map(produto => {
 
-                        divCard = document.createElement("div")
-                        divCard.className = "card"
+                    //     console.log(produto)
+                    //     divCard = document.createElement("div")
+                    //     p = document.createElement("p")
+                    //     p.innerText = produto.nome
+                    //     divCard.appendChild(p)
+                    //     divContainer.appendChild(divCard)
 
-                        divCardBody = document.createElement("div")
-                        
-                        image = document.createElement("img")
-                        image.className = "image-products img-responsive"
-                        image.setAtribute("src","https://d1bh8ymjsytgwi.cloudfront.net/Custom/Content/Products/20/04/barraca-panda-para-2-pessoas-nautika-m1.jpg") 
+                    // })
 
-                        divCard.appendChild(image)
+                    let contador = 0;
 
+                    while (contador < produtos.length){
+                        let linhaHTML = document.createElement("div");
+                        linhaHTML.className = "row";
+                        linhaHTML.style = "margin-top: 45px;"
 
-                        cardTitle = document.createElement("h6")
-                        cardTitle.innerHTML = produto.nome
+                        for (let coluna = 0; coluna < 4; coluna++){
 
-                        pPrice = document.createElement("card-price")
-                        bBoldPrice = document.createElement("b")
-                        bBoldPrice.innerHTML = `R$ ${produto.preco}`
+                            if (contador == produtos.length){
+                                divContainer.appendChild(linhaHTML);
+                                return;
+                            }
 
-                        pPrice.appendChild(bBoldPrice)
+                            let colunaHTML = document.createElement("div");
+                            colunaHTML.className = "col";
+                            let divCard = document.createElement("div");
+                            divCard.className = "card";
+                            divCard.style = "width: 20rem;";
+                            let cardImage = document.createElement("img");
+                            cardImage.className = "card-img-top";
+                            cardImage.src = "data:image/webp;base64," + produtos[contador].fotoEmBase64;
+                            //cardImage.style = "width: 300px; height: 300px;";
+                            let cardTitle = document.createElement("h5");
+                            cardTitle.className = "card-title";
+                            cardTitle.innerText = produtos[contador].nome;
+                            let cardParagraph = document.createElement("p");
+                            cardParagraph.className = "card-text";
+                            cardParagraph.innerText = produtos[contador].descricao + "\n" + "\n" + "Preço: " + produtos[contador].preco;
 
-                        divCardBody.appendChild(cardTitle)
-                        divCardBody.appendChild(pPrice)
+                            divCard.appendChild(cardImage);
+                            divCard.appendChild(cardTitle);
+                            divCard.appendChild(cardParagraph);
+                            divCard.style.cursor = 'pointer';
+                            divCard.setAttribute('data-identificador', produtos[contador].id);
+                            divCard.addEventListener('click', function(event){
+                            console.log(divCard);
+                                
+                                let idProduto = divCard.dataset.identificador;         
+                                sessionStorage.setItem('produtoClicado', idProduto);            
+                                window.location.href = '../Produtos/Detalhes.html';
+                            })
 
-                        aDetalhes = document.createElement("a")
-                        aComprar = document.createElement("a")
+                            colunaHTML.appendChild(divCard);
 
-                        aDetalhes.className = "btn-detalhes btn btn-secondary"
-                        aDetalhes.innerHTML = "Detalhes" 
+                            linhaHTML.appendChild(colunaHTML);                           
 
-                        aComprar.className = "btn-comprar btn btn-success"
-                        aComprar.className = "Comprar"
-
-                        divCardBody.appendChild(aDetalhes)
-                        divCardBody.appendChild(aComprar)
-
-                        divCard.appendChild(divCardBody)
-                        divCardContainer.appendChild(divCard)
-                    })
-
-                    divConteudo.appendChild(divCardContainer)
-
+                            
+                            contador = contador + 1;
+                        }
+                        divContainer.appendChild(linhaHTML);
+                    }
+                   // document.append
                 }
             }
-            catch(err){
+            catch (err) {
                 alert(`Falha ao carregar produtos: ${err}`)
             }
         }
 
-    //evento de on load
-    window.addEventListener('load',onLoad);
+        //evento de on load
+        window.addEventListener('load', onLoad);
 
     </script>
 </head>
-<body>
-    <header class="customHeader">
+<header>
+    <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
 
-        <object style="overflow: hidden;width: 101%;height: 20vh;" type="text/html" data="../Shared/Header.html"></object>
-    
-    </header>
+</header>
+
+<body>
     <div class="filtros-container">
-        <div class="filtros-title"><p>Filtros</p></div>
+        <div class="filtros-title">
+            <p>Filtros</p>
+        </div>
         <div class="filtros-item-group">
             <div class="filtro-item-subgroup">
                 <label>Valor Inicial:</label>
-                <input  id="input-val-ini" type="number" placeholder="10,00" />
+                <input id="input-val-ini" type="number" placeholder="10,00" />
                 <label>Valor Final:</label>
                 <input id="input-val-fim" type="number" placeholder="1000,00" />
             </div>
@@ -102,7 +119,7 @@
                 <label>Nome:</label>
                 <input id="input-txt-nome" type="text" placeholder="Barraca Maravilha" />
             </div>
-            <button id="btn-relat" >Pesquisar</button>
+            <button id="btn-relat" onclick="efetuaFiltroProdutos(@ViewBag.catProduto)">Pesquisar</button>
 
         </div>
 
@@ -112,8 +129,3 @@
 
     </div>
 </body>
-
-
-
-
-
