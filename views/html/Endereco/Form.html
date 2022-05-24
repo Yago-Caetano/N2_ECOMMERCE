@@ -45,6 +45,7 @@
                     addres = await executePostWithAuthentication({ route: 'addres' ,data:addres})
                     console.log(addres)
                     window.location.href = "../Usuario/Perfil.html";
+                    alert("Sucesso ao cadastrar")
                 }
                 catch (err) {
                     alert(`Erro: ${err}`)
