@@ -80,19 +80,29 @@
 
 
         async function CreateEditUser() {
+            try{
+                var Editar = location.search.substring(1);
+                var id = Editar.split("Editar=");
 
-            var Editar = location.search.substring(1);
-            var id = Editar.split("Editar=");
-
-            if (id.length == 2) {
-                console.log(`Alterando tela`);
-                EditUser();
+                if (id.length == 2) {
+                    console.log(`Alterando tela`);
+                    await EditUser();
+                    
+                }
+                else
+                {
+                    await NewUser();
                 
+                }
+
+                alert("Registrado com sucesso!")
+                window.location = "../Home/Index.html"
             }
-            else
-            {
-                NewUser();
+            catch{
+                alert("Falha ao registrar !")
+
             }
+
 
         }
 
@@ -123,7 +133,18 @@
 
         }
 
-
+        async function loadTipos(){
+            //load category data
+           tipos = await executeGetWithAuthentication({route:"typeUser"})
+           console.log(tipos)
+           selTipo = document.getElementById("selTipoUser")
+           tipos.map(tipo => {
+               option = document.createElement("option")
+               option.setAttribute("value",`${tipo.id}`)
+               option.innerHTML = tipo.tipo
+               selTipo.appendChild(option)
+           })
+        }
 
 
         function showError(msg) {
@@ -166,6 +187,8 @@
             let spanErro = document.getElementById("mensagemErro");
             var Editar = location.search.substring(1);
             var id = Editar.split("Editar=");
+
+            loadTipos()
 
             if (id.length == 2) {
                 console.log(`Alterando tela`);
@@ -211,8 +234,8 @@
                             placeholder='cpf' />
 
                         <label for="tipoUser" class="control-label"></label>
-                        <input id="tipoUser" type="text" name="TipoUser" class="form-control input-field" required
-                            placeholder='tipo de usuário' />
+                        <select id="selTipoUser" type="text" name="selTipoUser" class="form-control input-field" required
+                            placeholder='tipo de usuário' ><option selected disabled hidden >Selecione o tipo de usuário</option></select>
 
                         <input id="btn" type="submit" value="Cadastrar" class="btn btn-success m-4"
                             onclick="CreateEditUser()" />

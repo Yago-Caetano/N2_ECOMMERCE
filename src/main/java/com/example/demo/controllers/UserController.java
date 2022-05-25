@@ -48,6 +48,7 @@ public class UserController {
 				
 				UserDAO udao = new UserDAO();
 				user.GenerateID();
+				user.setIdTipoUsuario("aiwbduaoia");
 				user.setSenha(encoder.encode(user.getSenha()));
 				user.setStatusUsuario(true);
 				udao.insert(user);
