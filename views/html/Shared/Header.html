@@ -58,10 +58,15 @@
 
                 console.log("load header")
                 categories = await executeGet({route:'catProduct'})  
-
-
-
                 profileLink = document.getElementById("user-profile-link");
+
+                logado = true
+
+                //verifica se usuário está logado
+                if(localStorage.getItem('accessToken')===null)
+                {
+                    logado = false
+                }
 
                 //verifica se usuário é administrador
                 isManager = await isAdmin()
@@ -71,7 +76,36 @@
                     profileLink.setAttribute("target","_blank")
                     profileLink.innerHTML = "Opções de Gerência"
                 }
-                debugger;
+                else
+                {
+                    if(logado)
+                    {
+                        profileLink.setAttribute("href","../Usuario/Perfil.html")
+                        profileLink.setAttribute("target","_blank")
+                        profileLink.innerHTML = "Meu Perfil"   
+                    }
+                    else{
+                        profileLink.innerHTML = "Usuário não logado" 
+                    }
+
+                }
+
+                userSignedLink = document.getElementById("aLogin")
+
+
+                if(logado)
+                {
+                    userSignedLink.innerHTML = "Sair"
+                }
+                else{
+                    userSignedLink.innerHTML = "Entrar"
+                    userSignedLink.setAttribute("href","../Login/Index.html")
+                    userSignedLink.setAttribute("target","_blank")
+                }
+
+
+
+
                 console.log(categories)
                 //fill categories links
                 if(categories.length > 0)
@@ -161,7 +195,7 @@
                     {-->
                         <a id="user-profile-link" class="text-white p-1">Meu Perfil</a>
                         
-                        <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="LogOff">LogOff</a>
+                        <a class="text-white p-1" asp-area="" id="aLogin" asp-controller="Login" asp-action="LogOff">LogOff</a>
                    <!--}-->
                     <a class="p-2" asp-area="" asp-controller="Carrinho" asp-action="Visualizar">
                         <img src="../../images/carrinho.svg" width="20px">

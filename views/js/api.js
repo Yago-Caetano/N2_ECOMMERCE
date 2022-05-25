@@ -1,3 +1,11 @@
+function checkForTokenInvalidation(erro){
+    if(erro.message.includes("401"))
+    {
+        localStorage.clear()
+        window.location.href = "../Login/Index.html"
+    }
+}
+
 
  async function executeGet(params)
  {
@@ -19,6 +27,7 @@
                             resolve(json)
 
                         }).catch(err=>{
+                            checkForTokenInvalidation(err)
                             reject(err)
 
                         })                   
@@ -54,6 +63,7 @@
                             resolve(json)
 
                         }).catch(err=>{
+                            checkForTokenInvalidation(err)
                             reject(err)
 
                         })                   
@@ -92,6 +102,7 @@
                             resolve(json)
 
                         }).catch(err=>{
+                            checkForTokenInvalidation(err)
                             reject(err)
 
                         })                   
@@ -131,6 +142,8 @@
                             resolve(json)
 
                         }).catch(err=>{
+                            checkForTokenInvalidation(err)
+
                             reject(err)
 
                         })                   
@@ -170,6 +183,8 @@
                             resolve(json)
 
                         }).catch(err=>{
+                            checkForTokenInvalidation(err)
+
                             reject(err)
 
                         })                   
