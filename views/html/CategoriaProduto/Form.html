@@ -130,18 +130,26 @@
         }
 
         async function CreateEditCategoria() {
+            try{
+                var Editar = location.search.substring(1);
+                var id = Editar.split("Editar=");
 
-            var Editar = location.search.substring(1);
-            var id = Editar.split("Editar=");
+                if (id.length == 2) {
+                    console.log(`Alterando tela`);
+                    await EditCategoria();
 
-            if (id.length == 2) {
-                console.log(`Alterando tela`);
-                EditCategoria();
+                }
+                else {
+                    await CreateCategorie();
+                }
+                alert("Registro alterado com sucesso")
 
             }
-            else {
-                CreateCategorie();
+            catch{
+                alert("falha ao cadastrar")
             }
+
+
 
         }
 

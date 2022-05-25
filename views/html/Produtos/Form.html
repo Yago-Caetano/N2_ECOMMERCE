@@ -1,6 +1,4 @@
 ﻿﻿<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <link href="../../css/TelaLogin.css" rel="stylesheet" />
     <link href="../../css/common.css" rel="stylesheet" />
     <script src="../../js/api.js"></script>
@@ -10,11 +8,11 @@
     <script type="text/javascript">
 
         class Produto {
-            constructor(nome, preco, descricao, foto, quantidade, desconto, idCategoria) {
+            constructor(nome, preco, descricao, fotoEmBase64, quantidade, desconto, idCategoria) {
                 this.nome = nome;
                 this.preco = preco;
                 this.descricao = descricao;
-                this.foto = foto;
+                this.fotoEmBase64 = fotoEmBase64;
                 this.quantidade = quantidade;
                 this.desconto = desconto;
                 this.idCategoria = idCategoria;
@@ -26,7 +24,7 @@
         //console.log("senha" + theForm.senha);
         //}
 
-        async function CreateProduct() {
+        async function CreateProduct(base64string) {
 
             let idUsuario = localStorage.getItem('id');
             if (idUsuario == null) {
@@ -37,66 +35,66 @@
 
                 let nome = document.getElementById('nome').value;
                 let preco = document.getElementById('preco').value;
-                let descricao = document.getElementById('descricao').value;
+                let descricao = document.getElementById('descricao').value;               
 
-                let fotoInput = document.querySelector('#foto');        
-
-                let fotoBase64 = getBase64(fotoInput.files[0]);     
+                let fotoEmBase64 = base64string.slice(23);
 
                 let quantidade = document.getElementById('quantidade').value;
                 let desconto = document.getElementById('desconto').value;
                 let idCategoria = document.getElementById('idCategoria').value;
 
 
-                product = new Produto(nome, preco, descricao, fotoBase64, quantidade, desconto,idCategoria);
+                product = new Produto(nome, preco, descricao, fotoEmBase64, quantidade, desconto, idCategoria);
 
                 try {
                     addres = await executePostWithAuthentication({ route: 'products', data: product })
-                    console.log(product)
-                   // window.location.href = "../Usuario/Perfil.html";
+                    alert("Sucesso ao cadastrar")
                 }
                 catch (err) {
-                    alert(`Erro: ${err}`)
+                    alert("Falha ao cadastrar")
+
                 }
             }
 
         }
 
-        function getBase64(file) {
-        var reader = new FileReader();
-        
-        reader.readAsDataURL(file);
-        //reader.readAsText(file);
-        reader.onload = function () {
+        function getBase64() {
+            let fotoInput = document.querySelector('#foto');
+            var reader = new FileReader();
+
+            reader.readAsDataURL(fotoInput.files[0]);
+            //reader.readAsText(file);
+            reader.onload = function () {
+                console.log(reader.result);
+                document.getElementById('img').src = reader.result;
+                document.getElementById('img').style.display = 'block';
+                CreateProduct(reader.result);
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            };
+
             console.log(reader.result);
-            document.getElementById('img').src = reader.result;
-            document.getElementById('img').style.display = 'block';
-        };
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };
+            //return reader.result;
+        }
 
-        console.log(reader.result);
-        return reader.result;
-    }
+        function displayImage() {
+            let fotoInput = document.querySelector('#foto');
+            var reader = new FileReader();
 
-    function displayImage(){
-        let fotoInput = document.querySelector('#foto');  
-        var reader = new FileReader();
-        
-        reader.readAsDataURL(fotoInput.files[0]);
-        //reader.readAsText(file);
-        reader.onload = function () {
+            reader.readAsDataURL(fotoInput.files[0]);
+            //reader.readAsText(file);
+            reader.onload = function () {
+                console.log(reader.result);
+                document.getElementById('img').src = reader.result;
+                document.getElementById('img').style.display = 'block';
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            };
+
             console.log(reader.result);
-            document.getElementById('img').src = reader.result;
-            document.getElementById('img').style.display = 'block';
-        };
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };
-
-        console.log(reader.result);
-    }
+        }
 
 
         function showError(msg) {
@@ -124,48 +122,49 @@
 <body>
     <section class="painel">
         <h2></h2>
-
-        <div class="row">
+        <div class="campos">
             <div class="col-lg-3">
-                <div>
-
-                    <div class="campos">
-                        <label for="nome" class="control-label"></label>
-                        <input id="nome" type="text" name="nome" class="form-control camposDetalhes" required
-                            placeholder='nome...' />
-
-                        <label for="preco" class="control-label"></label>
-                        <input id="preco" type="number" step="0.01" name="preco" class="form-control camposDetalhes"
-                            required />
-
-                        <label for="descricao" class="control-label"></label>
-                        <input id="descricao" type="text" name="descricao" class="form-control camposDetalhes" required
-                            placeholder='descricao...' />
-
-                        <label for="quantidade" class="control-label"></label>
-                        <input id="quantidade" type="number" min="0" step="1" name="quantidade"
-                            class="form-control camposDetalhes" required />
-
-                        <label for="desconto" class="control-label"></label>
-                        <input id="desconto" type="number" step="0.01" name="desconto" class="form-control camposDetalhes"
-                            required />
-
-                        <label for="idCategoria" class="control-label"></label>
-                        <input id="idCategoria" type="text" name="idCategoria.." class="form-control camposDetalhes"
-                            required placeholder='idCategoria...' />
-
-                        <label for="foto" class="control-label"></label>
-                        <input type="file" accept="image/*" id="foto" class="form-control" onchange="displayImage()">
-
-                        <img id="img" src="#" style="display: none" width="300px" height="300px">
-
-                        <input type="submit" value="Cadastrar" class="btn btn-success entrar"
-                            onclick="CreateProduct()" />
-                        <span class="text-danger" id="mensagemErro"></span>
-                        
-                    </div>
+                <div class="row">
+                    <label for="nome" class="control-label"></label>
+                    <input id="nome" type="text" name="nome" class="form-control camposDetalhes" required
+                        placeholder='nome...' />
                 </div>
+                <div class="row">
+                    <label for="preco" class="control-label"></label>
+                    <input id="preco" type="number" step="0.01" name="preco" class="form-control camposDetalhes"
+                        required />
+                </div>
+                <div class="row">
+                    <label for="descricao" class="control-label"></label>
+                    <input id="descricao" type="text" name="descricao" class="form-control camposDetalhes" required
+                        placeholder='descricao...' />
+                </div>
+                <div class="row">
+                    <label for="quantidade" class="control-label"></label>
+                    <input id="quantidade" type="number" min="0" step="1" name="quantidade"
+                        class="form-control camposDetalhes" required />
+                </div>
+                <div class="row">
+                    <label for="desconto" class="control-label"></label>
+                    <input id="desconto" type="number" step="0.01" name="desconto" class="form-control camposDetalhes"
+                        required />
+                </div>
+                <div class="row">
+                    <label for="idCategoria" class="control-label"></label>
+                    <input id="idCategoria" type="text" name="idCategoria.." class="form-control camposDetalhes"
+                        required placeholder='idCategoria...' />
+                </div>
+                <div class="row">
+                    <label for="foto" class="control-label"></label>
+                    <input type="file" accept="image/*" id="foto" class="form-control" onchange="displayImage()">
+                </div>
+                <img id="img" src="#" style="display: none; margin-top: 10px;" width="300px" height="300px">
+                <br>
+                <br>
+                <input type="submit" value="Cadastrar" class="btn btn-success entrar" onclick="getBase64()" />
+                <span class="text-danger" id="mensagemErro"></span>
             </div>
+        </div>
     </section>
 
 </body>

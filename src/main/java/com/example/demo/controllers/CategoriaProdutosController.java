@@ -37,6 +37,7 @@ public class CategoriaProdutosController {
 			} else {
 				
 				CategoriaProdutoDAO cdao= new CategoriaProdutoDAO();
+				cat.GenerateID();
 				cdao.insert(cat);
 				return ResponseEntity.ok(cat);
 			}

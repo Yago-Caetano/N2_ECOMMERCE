@@ -53,7 +53,6 @@ public class ProdutosController {
 	
 		
 		@GetMapping("/products")
-		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 		public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 			try
 			{
