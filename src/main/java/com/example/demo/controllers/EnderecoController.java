@@ -221,10 +221,10 @@ public class EnderecoController {
 					OrdensDAO odao= new OrdensDAO();
 					var ordens =odao.findAllByUserAndStatus(userTemp.getId(), "aoiuhwda23");
 					
-					if(!ordens.isEmpty())
+					if(ordens!=null && !ordens.isEmpty())
 						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço ainda possui ordens"
 								+ " pendentes!");
-					
+					edao= new EnderecoDAO();
 					edao.delete(id);			
 					return ResponseEntity.status(HttpStatus.OK).body("Endereço deletado!");
 				}

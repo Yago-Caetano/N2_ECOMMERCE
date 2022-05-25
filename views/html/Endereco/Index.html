@@ -11,6 +11,22 @@
             fillAddres();
         }
 
+
+        async function apagarRegistro(mId)
+        {
+            console.log(mId)
+            console.log("apagarRegistro")
+            try{
+                await executeDelteWithAuthentication({route:'addres',id:mId});
+                alert("Sucesso ao apagar")
+            }
+            catch{
+                alert("Falha ao apagar")
+
+            }
+        }
+
+
         async function fillAddres() {
 
 
@@ -51,7 +67,8 @@
 
 
                     remLink = document.createElement("a")
-                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Endereco')")
+
+                    remLink.setAttribute("onclick",`apagarRegistro('${end.id}')`)
                     remLink.className = "btn btn-danger"
                     remLink.innerHTML = "Apagar"
 

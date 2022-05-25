@@ -141,3 +141,41 @@
     
  }
  
+
+ async function executeDelteWithAuthentication(params)
+ {
+    return new Promise(
+        function(resolve,reject){
+                let token=localStorage.getItem('accessToken');
+                if (token==null)
+                {
+                    reject('Usuário não autenticado!')
+                   
+                }
+                fetch(`http://localhost:8081/${params.route}?id=${params.id}`,   {
+                            method: 'DELETE',
+                            headers: {
+                               
+                                'Authorization': 'Bearer '+token,
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            
+                        }).then(resp=>{
+                            if (!resp.ok) {
+                                throw new Error(`HTTP error: ${resp.status}`);
+                              }
+       
+                            const json = resp.json();
+                            resolve(json)
+
+                        }).catch(err=>{
+                            reject(err)
+
+                        })                   
+            
+        }
+        
+    ) 
+    
+ }

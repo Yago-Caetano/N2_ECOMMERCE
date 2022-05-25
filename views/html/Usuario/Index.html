@@ -14,12 +14,29 @@
             fillUsers();
         }
 
+        async function apagarRegistro(mId)
+        {
+            console.log(mId)
+            console.log("apagarRegistro")
+            try{
+                await executeDelteWithAuthentication({route:'user',id:mId});
+                alert("Sucesso ao apagar")
+            }
+            catch{
+                alert("Falha ao apagar")
+
+            }
+        }
+
+
+
         async function fillUsers() {
             try {
                 data = await executeGetWithAuthentication({ route: 'user' })
 
 
-                  table = document.getElementById("table-users")
+                table = document.getElementById("table-users")
+                
                 if(data.length == 0)
                 {
                     divNoData = document.createElement("div")
@@ -41,7 +58,7 @@
 
 
                     remLink = document.createElement("a")
-                    remLink.setAttribute("href","javascript:apagarRegistro(@a.Id, 'Usuario')")
+                    remLink.setAttribute("onclick",`apagarRegistro('${usr.id}')`)
                     remLink.className = "btn btn-danger"
                     remLink.innerHTML = "Apagar"
 
