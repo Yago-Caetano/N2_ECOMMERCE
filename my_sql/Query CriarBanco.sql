@@ -107,3 +107,24 @@ insert into tbTipoUsuario (id,Tipo) Values ('aiwbduaoia','Usuario');
 insert into tbStatusPedido (id,PedidoStatus) values ('aoiuhwda23','Pendente');
 insert into tbStatusPedido (id,PedidoStatus) values ('aiwujhac1235','Concluído');
 insert into tbStatusPedido (id,PedidoStatus) values ('auihdbayuwidh2131313','Cancelado');
+
+
+
+
+insert into tbCategoriaProdutos (id,Categoria) values ('1','Barracas');
+insert into tbCategoriaProdutos (id,Categoria) values ('2','Baioneta');
+insert into tbCategoriaProdutos (id,Categoria) values ('3','Ferramentas');
+insert into tbCategoriaProdutos (id,Categoria) values ('4','Cantil');
+insert into tbCategoriaProdutos (id,Categoria) values ('5','Gandola');
+insert into tbCategoriaProdutos (id,Categoria) values ('6','Sacos de dormir');
+insert into tbCategoriaProdutos (id,Categoria) values ('7','Bornal');
+
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('1','Barraca 1',250.52,'Barraca 1 ','iVBORw0KGgoAAAANSUhEUgAAAJIAAACHCAYAAAD9YACmAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAILPSURBVHhe7b0FYBXX2jWcW8EhxN09wd2lVLHi7u4uxd29BUoFKFBKKbS4O4SEKEmQuLvL8ZzkrH/tSQ6luel9v972ve+992e3i5kzM2cys/fa61nPHjkGeFPelL+gvCHSm/K...'
+	,100,5.0,'1',1);
+													
+
+						       
+						       
+
+
