@@ -65,37 +65,38 @@
                 <h3 class="panel-title" style="color: white; padding: 30px;" id="title">Produto</h3>
             </div>
             <div class="panel-body">
-                    <div class="col">
+                    <div >
                         <img src="#" id="imgProd" width="450px" height="450px"
-                            style="padding-left: 60px; padding-top: 60px; display: block; border-radius: 10px;">
+                            />
                     </div>
-                    <div id="painel-esquerdo" style="display:flex; flex-direction:column">
+                    <div class="painel-esquerdo" >
                         <div style="margin-top: 25px; display:flex; flex-direction:column" id="colRight">
                             <b>Descrição:</b>
                             <p id="description"></p>
                         </div>
-                        <div class="row">
+                        <div >
                             <b>Valor</b>
-                            <p style="font-weight: bold;" id="price"></p>
+                            <h2 style="font-weight: bold;" id="price"></h2>
                         </div>
-                        <div class="row">
-                            <div class="col">
+                        <div class="painel-qnt">
+                            
                                 <p>Quantidade: </p>
                                 <div class="counter">
                                     <span class="down" onClick='decreaseCount(event, this)'>-</span>
                                     <input type="text" value="1">
                                     <span class="up" onClick='increaseCount(event, this)'>+</span>
                                 </div>
+                            
+                            <div>
+                                <button class="btn btn-success entrar" onclick="efetuaCompra()"><span>Comprar </span></button>
+                    
                             </div>
-                            <div class="col">
+
+                            <div class="painel-qnt">
                                 <p>Disponível: </p>
                                 <span class="roundNumber" id="spanEstoque">999</span>
                             </div>
 
-                            <div>
-                                <button class="buttonProd" onclick="efetuaCompra()"><span>Comprar </span></button>
-                    
-                            </div>
 
                         </div>
                     </div>

@@ -1,3 +1,32 @@
 .panel-body{
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel-body div{
+    padding: 16px;
+}
+
+.painel-qnt{
+    display: flex;
+    flex-direction: column;
+  
+    justify-content: center;
+    align-items: center;
+}
+.counter{
+    text-align: center;
+    align-self: center;
+}
+
+.painel-esquerdo{
+    margin: 32px;
+    display: flex;
+    flex-direction: column;
+    border-color: black;
+    border-style: solid;
+    border-radius: 16px;
+    border-width: 1px;
 }
