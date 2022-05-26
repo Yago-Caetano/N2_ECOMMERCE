@@ -122,6 +122,31 @@ insert into tbCategoriaProdutos (id,Categoria) values ('7','Bornal');
 insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
 Values ('1','Barraca 1',250.52,'Barraca 1 ','iVBORw0KGgoAAAANSUhEUgAAAJIAAACHCAYAAAD9YACmAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAILPSURBVHhe7b0FYBXX2jWcW8EhxN09wd2lVLHi7u4uxd29BUoFKFBKKbS4O4SEKEmQuLvL8ZzkrH/tSQ6luel9v972ve+992e3i5kzM2cys/fa61nPHjkGeFPelL+gvCHSm/K...'
 	,100,5.0,'1',1);
+	
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('2','Barraca 2',300.52,'Barraca 2 ','iVBORw0KGgoAAAANSUhEUgAAAIsAAACECAYAAACgT9gqAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAIaGSURBVHhe7b0HQFXntrWNgr0riHSQJk3EXrH33hsKFuwFlN57b9JUUBREFBWxgr0kamJJYjTFxBhrjCbRGCvW8Y+5NtsQT3JO7rnf/e/33etrZlbdG9jvs8Yc811la+B9e9/...'
+	,100,3.0,'1',1);
+
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('3','Barraca 3',900.10,'Barraca 3 ','iVBORw0KGgoAAAANSUhEUgAAAOQAAADHCAYAAAAJb/8VAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAP+lSURBVHhe7P13dFVXmu0N1/3G9/YNb9+u7r7dXdkuJ7JyzjnrKOdAFFkEAco5ZwkUQCLnILCNEwZMziKDkBAgchKgHP+c33z20QGBZbvarrp29ccZY459cthn/dacz95rr/0...'
+	,100,2.0,'1',1);
+	
+	
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('4','Saco de dormir 1',150.10,'Saco de dormir 1','iVBORw0KGgoAAAANSUhEUgAAAI4AAABnCAYAAADWtnpCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAADw0SURBVHhe7b13dGTVnS3Mt95b71vr/fGtb82Mx29mbIOBhg50DlJLrZxzjqVQqipVUJWkUi7lnHPOWS211DnRpCYZg20wBmMDNhgDNpluOimre799rrpAQLfHaLw8tqmf+qd...'
+	,100,0.0,'6',1);
+	
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('5','Saco de dormir duplo',350.10,'Saco de dormir duplo','iVBORw0KGgoAAAANSUhEUgAAAJIAAADFCAYAAAC/8KvBAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAANo3SURBVHhe7L11eF3nlT3c6UBhZprCpCEnMduymJl1xVfMzHjFzBZZZFmSxcxggW0Z40BTmrbpQGGm0045SZOYZVmy9ef61j7XSsnz+5qMZ77v9zzV8+znnHv43e/aa6/9nqN...'
+	,100,0.0,'6',1);
+	
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('6','Saco de dormir 2',450.10,'Saco de dormir 2','iVBORw0KGgoAAAANSUhEUgAAAIsAAACXCAYAAAAlDagfAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAHiXSURBVHhe7b1lnB3Xte2bD+/Tfff9fhfezT3nnXuS3BxI4iRmkCxsZtzNzMwgZnWLugWtFjMzM1iymGVJtpOck5hiJtkWNUvjjbFqr+4t2Y59YuvGTlT2VMGuXVVd819jzrl...'
+	,100,0.0,'6',1);
+	
+insert into tbProdutos (id,Nome,Preco,Descricao,Foto,Quantidade,Desconto,idCategoria,statusEnd) 
+Values ('7','Cantil 1', 50.10,'Cantil 1','iVBORw0KGgoAAAANSUhEUgAAAIMAAACsCAYAAABYZx+FAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAD/JSURBVHhe7d152HZdOfjxEGl8K0PmOfOQeQhlnscSoShlLspYMkWGBpFSKSmvKFMJB/EiUSGUZA4pMsvQ5PfP/vXZh+99rPa7r+u+rvu57ue5bz1/nMfee+1prfP8rvM819r...'
+	,100,0.0,'4',1);
 													
 
 						       
