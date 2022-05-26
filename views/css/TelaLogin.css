@@ -1,5 +1,5 @@
 ﻿body {
-    background: #E5E5E5;
+    background: #dddddd96;
 }
 
 .painel {
@@ -16,8 +16,10 @@
 .campos {
     width: 548px;
     margin-top: 25px;
-    margin-right: 70px;
-    margin-left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .camposDetalhes {
@@ -37,10 +39,7 @@
 }
 
 .entrar {
-    margin-right: 70px;
-    margin-left: 70px;
-    width: 548px;
-    height: 60px;
+
     background: #236B56;
     border-radius: 18px;
     border-color: #236B56;
@@ -53,13 +52,11 @@
 
 .cadastro {
     margin-top:20px;
-    margin-left: 194px;
     font-family: Roboto;
     font-style: normal;
     font-size: 18px;
     line-height: 21px;
     color: #000000;
-    width: 350px;
 }
 
 .cadastro a {

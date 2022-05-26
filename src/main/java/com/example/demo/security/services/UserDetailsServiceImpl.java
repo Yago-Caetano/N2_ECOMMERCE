@@ -28,6 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	if (user==null)
+		throw new UsernameNotFoundException(username);
+	
     return UserDetailsImpl.build(user);
   }
 

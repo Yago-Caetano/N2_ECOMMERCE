@@ -1,0 +1,8 @@
+.card:hover{
+    border-color: green;
+    transform: scale(1.1);
+}
+
+.card{
+    transition: all .2s ease-in-out;
+}

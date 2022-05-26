@@ -37,6 +37,7 @@ public class CategoriaProdutosController {
 			} else {
 				
 				CategoriaProdutoDAO cdao= new CategoriaProdutoDAO();
+				cat.GenerateID();
 				cdao.insert(cat);
 				return ResponseEntity.ok(cat);
 			}
@@ -48,7 +49,7 @@ public class CategoriaProdutosController {
 	
 		
 		@GetMapping("/catProduct")
-		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+		//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 		public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 			try
 			{

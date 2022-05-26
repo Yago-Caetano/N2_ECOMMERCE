@@ -17,7 +17,7 @@ import com.example.demo.DAO.UserDAO;
 import com.example.demo.models.CategoriaProduto;
 import com.example.demo.models.ProdutosModel;
 import com.example.demo.models.User;
-
+import com.example.demo.controllers.services.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -32,6 +32,11 @@ public class ProdutosController {
 			} else {
 				CategoriaProdutoDAO dao= new CategoriaProdutoDAO();
 				CategoriaProduto cat= dao.find(prod.getIdCategoria());
+				
+				if (!prod.getFotoEmBase64().equals(null) && !prod.getFotoEmBase64().equals(""))
+				{				
+					prod.setFoto(ImageConversionService.convertToBlob(prod.getFotoEmBase64()));
+				}
 				
 				if (cat==null)
 					return ResponseEntity.notFound().build();
@@ -48,7 +53,6 @@ public class ProdutosController {
 	
 		
 		@GetMapping("/products")
-		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 		public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 			try
 			{
@@ -56,15 +60,28 @@ public class ProdutosController {
 			    if (id.equals("") || id.equals(null)) {
 			    	ProdutosDAO dao = new ProdutosDAO();
 			    	var itens=dao.findAll();
-			    	for(ProdutosModel prods:itens)
+			    	if (itens!=null)
 			    	{
-			    		CategoriaProdutoDAO cdao = new CategoriaProdutoDAO();
-			    		CategoriaProduto cat = new CategoriaProduto();
-			    		cat=cdao.find(prods.getIdCategoria());
-			    		prods.setCategoria(cat);
+				    	for(ProdutosModel prods:itens)
+				    	{
+				    		CategoriaProdutoDAO cdao = new CategoriaProdutoDAO();
+				    		CategoriaProduto cat = new CategoriaProduto();
+				    		cat=cdao.find(prods.getIdCategoria());
+				    		prods.setCategoria(cat);
+				    		
+				    		if (prods.getFoto()!=null)
+				    		{
+				    			prods.setFotoEmBase64(ImageConversionService.convertToBase64(prods.getFoto()));
+				    		}
+				    	}
+				    	
 			    	}
 			    	
-			    	return ResponseEntity.ok(itens);
+			    	if(itens==null)
+			    		return ResponseEntity.status(HttpStatus.OK).body("{}");
+			    	
+			    	else
+			    		return ResponseEntity.ok(itens);
 			    	
 			    } else {
 
@@ -79,6 +96,12 @@ public class ProdutosController {
 			    		CategoriaProduto cat = new CategoriaProduto();
 			    		cat=cdao.find(prod.getIdCategoria());
 			    		prod.setCategoria(cat);
+			    		
+			    		if (prod.getFoto()!=null)
+			    		{
+			    			prod.setFotoEmBase64(ImageConversionService.convertToBase64(prod.getFoto()));
+			    		}
+			    		
 			    		return ResponseEntity.ok(prod);
 			    	}
 			    		
@@ -104,6 +127,11 @@ public class ProdutosController {
 					
 					if (cat==null)
 						return ResponseEntity.notFound().build();
+					
+					if (!prod.getFotoEmBase64().equals(null) && !prod.getFotoEmBase64().equals(""))
+					{				
+						prod.setFoto(ImageConversionService.convertToBlob(prod.getFotoEmBase64()));
+					}
 					
 					ProdutosDAO pdao = new ProdutosDAO();
 					pdao.update(prod);			

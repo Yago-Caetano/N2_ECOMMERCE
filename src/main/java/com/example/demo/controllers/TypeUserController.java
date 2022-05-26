@@ -41,7 +41,6 @@ public class TypeUserController {
 	}
 	
 	@GetMapping("/typeUser")
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<?> GetData(@RequestParam(value = "id", defaultValue = "") String id) {
 		try
 		{

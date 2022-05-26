@@ -143,3 +143,10 @@ function finalizaPed() {
 	//	/Carrinho/EfetuarPedido
 }
 
+function Login(login,senha) {
+
+	console.log("login: " + login);
+	console.log("senha: " + senha);
+}
+
+

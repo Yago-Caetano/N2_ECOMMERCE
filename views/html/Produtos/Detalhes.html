@@ -1,52 +1,160 @@
-﻿@model ProdutosViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<head>
+    <link href="../../css/TelaLogin.css" rel="stylesheet" />
+    <link href="../../css/common.css" rel="stylesheet" />
+    <script src="../../js/api.js"></script>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/DetalheProduto.css" />
 
 
+    <script type="text/javascript">
 
+        function increaseCount(a, b) {
+            var input = b.previousElementSibling;
+            var value = parseInt(input.value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            input.value = value;
+        }
 
-<table class="table table-responsive table-striped">
-
-    <div class="row container-detalhes">
-        <div class="col-8 produto-detalhes">
-
-            <img class="imagem-detalhes" src="data:image/jpeg;base64,@Model.FotoEmBase64">
-
-        </div>
-
-        <div class="col-4 descricao-detalhes">
-
-            <h3 style="font-size: 24px">@Model.Nome</h3>
-            <p>@Model.Descricao</p>
-            @*//<p>@Model.idCategoria</p>*@
-
-            @if (@Model.Desconto > 0)
-            {
-                <p style="font-size:30px" class="card-price"> <b> De R$ @Model.Preço, 00</b> </p>
-                <p> Por apenas <b>R$ @Model.Desconto,00</b></p>
+        function decreaseCount(a, b) {
+            var input = b.nextElementSibling;
+            var value = parseInt(input.value, 10);
+            if (value > 1) {
+                value = isNaN(value) ? 0 : value;
+                value--;
+                input.value = value;
             }
-            else
-            {
-                <p style="font-size:30px" class="card-price"><b>R$ @Model.Preço,00</b></p>
+        }
+
+        class Produto {
+            constructor(nome, preco, descricao, fotoEmBase64, quantidade, desconto, idCategoria) {
+                this.nome = nome;
+                this.preco = preco;
+                this.descricao = descricao;
+                this.fotoEmBase64 = fotoEmBase64;
+                this.quantidade = quantidade;
+                this.desconto = desconto;
+                this.idCategoria = idCategoria;
             }
+        }
 
-            <p>Quantidade em estoque:</p> <p style="color: green;"> @Model.Quantidade</p>
+        function showError(msg) {
+
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
+
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
 
 
-            <div class="botoes-detalhes">
-                <a href="#" style="position: sticky; margin-top: 60px;" class="btn-detalhes btn btn-secondary">Comprar agora</a>
-                <br />
-                <a href="/Carrinho/AdicionarCarrinho?ProdutoId=@Model.Id&Quantidade=1" class="btn-comprar btn btn-success">Adicionar ao carrinho</a>
+
+
+    </script>
+</head>
+
+
+<body>
+    <header>
+        <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
+
+    </header>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #236B56;">
+                <h3 class="panel-title" style="color: white; padding: 30px;" id="title">Produto</h3>
             </div>
+            <div class="panel-body">
+                    <div >
+                        <img src="#" id="imgProd" width="450px" height="450px"
+                            />
+                    </div>
+                    <div class="painel-esquerdo" >
+                        <div style="margin-top: 25px; display:flex; flex-direction:column" id="colRight">
+                            <b>Descrição:</b>
+                            <p id="description"></p>
+                        </div>
+                        <div >
+                            <b>Valor</b>
+                            <h2 style="font-weight: bold;" id="price"></h2>
+                        </div>
+                        <div class="painel-qnt">
+                            
+                                <p>Quantidade: </p>
+                                <div class="counter">
+                                    <span class="down" onClick='decreaseCount(event, this)'>-</span>
+                                    <input type="text" value="1">
+                                    <span class="up" onClick='increaseCount(event, this)'>+</span>
+                                </div>
+                            
+                            <div>
+                                <button class="btn btn-success entrar" onclick="efetuaCompra()"><span>Comprar </span></button>
+                    
+                            </div>
+
+                            <div class="painel-qnt">
+                                <p>Disponível: </p>
+                                <span class="roundNumber" id="spanEstoque">999</span>
+                            </div>
 
 
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
         </div>
+
     </div>
 
-    
+    <script>
 
+        (async function () {
+            let produto = await executeGetWithProductID({ route: "products" });
+            console.log(produto);
+            document.getElementById('title').innerText = produto.nome;
+            document.getElementById('imgProd').src = "data:image/webp;base64," + produto.fotoEmBase64;
+            document.getElementById('description').innerText = produto.descricao;
+            document.getElementById('price').innerText = "R$ " + produto.preco;
+            document.getElementById('spanEstoque').innerText = produto.quantidade;
 
+        })();
 
+        async function executeGetWithProductID(params) {
+            return new Promise(
+                function (resolve, reject) {
 
-</table>
+                    let idProd = sessionStorage.getItem('produtoClicado');
+                    fetch(`http://localhost:8081/${params.route}?` + new URLSearchParams({
+                        id: idProd
+                    }), {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(resp => {
+                        if (!resp.ok) {
+                            throw new Error(`HTTP error: ${resp.status}`);
+                        }
+
+                        const json = resp.json();
+                        resolve(json)
+
+                    }).catch(err => {
+                        reject(err)
+
+                    })
+
+                }
+
+            )
+
+        }
+
+        function efetuaCompra() {
+
+        }
+
+    </script>
+</body>

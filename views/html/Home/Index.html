@@ -1,41 +1,112 @@
-﻿
-
 <head>
     <link rel="stylesheet" href="../../css/Filtro.css" />
     <link rel="stylesheet" href="../../css/paginacao.css" />
-    <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/home.css" />
+
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        function onLoad() {
+            sessionStorage.removeItem('produtoClicado');
+            console.log("onLoad");
+            fillProducts();
+        }
+
+        async function fillProducts() {
+            try {
+                produtos = await executeGet({ route: 'products' })
+                console.log(produtos)
+                console.log(produtos.length);
+
+                if (produtos.length > 0) {
+                    divContainer = document.getElementById("conteudo")
+                    divContainer.style = "margin-left: 60px; margin-top: 60px;";
+                                       
+                    // produtos.map(produto => {
+
+                    //     console.log(produto)
+                    //     divCard = document.createElement("div")
+                    //     p = document.createElement("p")
+                    //     p.innerText = produto.nome
+                    //     divCard.appendChild(p)
+                    //     divContainer.appendChild(divCard)
+
+                    // })
+
+                    let contador = 0;
+
+                    while (contador < produtos.length){
+                        let linhaHTML = document.createElement("div");
+                        linhaHTML.className = "row";
+                        linhaHTML.style = "margin-top: 45px;"
+
+                        for (let coluna = 0; coluna < 4; coluna++){
+
+                            if (contador == produtos.length){
+                                divContainer.appendChild(linhaHTML);
+                                return;
+                            }
+
+                            let colunaHTML = document.createElement("div");
+                            colunaHTML.className = "col";
+                            let divCard = document.createElement("div");
+                            divCard.className = "card";
+                            divCard.style = "width: 20rem;";
+                            let cardImage = document.createElement("img");
+                            cardImage.className = "card-img-top";
+                            cardImage.src = "data:image/webp;base64," + produtos[contador].fotoEmBase64;
+                            //cardImage.style = "width: 300px; height: 300px;";
+                            let cardTitle = document.createElement("h5");
+                            cardTitle.className = "card-title p-2";
+                            cardTitle.innerText = produtos[contador].nome;
+                            let cardParagraph = document.createElement("p");
+                            cardParagraph.className = "card-text p-2 fs-3 fw-bold text-success";
+                            cardParagraph.innerText = "R$ " + produtos[contador].preco;
+
+                            divCard.appendChild(cardImage);
+                            divCard.appendChild(cardTitle);
+                            divCard.appendChild(cardParagraph);
+                            divCard.style.cursor = 'pointer';
+                            divCard.setAttribute('data-identificador', produtos[contador].id);
+                            divCard.addEventListener('click', function(event){
+                            console.log(divCard);
+                                
+                                let idProduto = divCard.dataset.identificador;         
+                                sessionStorage.setItem('produtoClicado', idProduto);            
+                                window.location.href = '../Produtos/Detalhes.html';
+                            })
+
+                            colunaHTML.appendChild(divCard);
+
+                            linhaHTML.appendChild(colunaHTML);                           
+
+                            
+                            contador = contador + 1;
+                        }
+                        divContainer.appendChild(linhaHTML);
+                    }
+                   // document.append
+                }
+            }
+            catch (err) {
+                alert(`Falha ao carregar produtos: ${err}`)
+            }
+        }
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
 </head>
 <header>
     <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
 
 </header>
+
 <body>
-    <div class="filtros-container">
-        <div class="filtros-title"><p>Filtros</p></div>
-        <div class="filtros-item-group">
-            <div class="filtro-item-subgroup">
-                <label>Valor Inicial:</label>
-                <input  id="input-val-ini" type="number" placeholder="10,00" />
-                <label>Valor Final:</label>
-                <input id="input-val-fim" type="number" placeholder="1000,00" />
-            </div>
-            <div class="filtro-item-subgroup">
-                <label>Nome:</label>
-                <input id="input-txt-nome" type="text" placeholder="Barraca Maravilha" />
-            </div>
-            <button id="btn-relat" onclick="efetuaFiltroProdutos(@ViewBag.catProduto)">Pesquisar</button>
-
-        </div>
-
-    </div>
-
     <div id="conteudo">
-        @{
-            Html.RenderPartial("pvHomeProdutos");
-        }
+
     </div>
 </body>
-
-
-
-

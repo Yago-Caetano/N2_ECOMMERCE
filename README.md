@@ -35,3 +35,24 @@ A documentação da API foi realizada com o Postman, a collection foi disponibil
 
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/14841183-4945c031-39ed-42e9-a30b-7554e7bbba1f?action=collection%2Ffork&collection-url=entityId%3D14841183-4945c031-39ed-42e9-a30b-7554e7bbba1f%26entityType%3Dcollection%26workspaceId%3D1bae3059-ed5e-4bf0-a2c6-14fd63afcb4b)
+
+# Frontend
+
+O front-end da aplicação foi desenvolvido com Java-Script e CSS puros. Não foram utilizados frameworks de desenvolvimento web.
+
+## Como acessar a página principal
+
+A página inicial do site pode ser encontrada [aqui](./views/html/Home/Index.html)
+
+
+![Home](./home.png)
+
+# Banco de dados
+
+## Script populado
+
+[Aqui](./my_sql/dados-populados/) você pode encontrar o script do banco de dados popuado
+
+## Script para criação
+
+[Aqui](./my_sql/) você pode encontrar o script de criação do banco de dados.

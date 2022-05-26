@@ -1,24 +1,187 @@
-﻿@model CategoriaProdutoViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<h2>Cadastro de Categorias de Produto</h2>
+﻿<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-<form asp-action="Save" method="post">
-    <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
+    <link href="../../css/TelaLogin.css" rel="stylesheet" />
+    <link href="../../css/common.css" rel="stylesheet" />
+    <script src="../../js/api.js"></script>
 
 
-  
- <input type="hidden" Name="Id" value="@Model.Id" class="form-control disabled" readonly />
- <span asp-validation-for="Id" class="text-danger"></span>
 
-<label for="Categoria" class="control-label">Tipo de Produto</label>
-    <input type="text" Name="Categoria" value="@Model.Categoria" class="form-control" />
-    <span asp-validation-for="Categoria" class="text-danger"></span>
+    <script type="text/javascript">
 
-    <br />
-    <input type="submit" value="Salvar dados" class="btn-info" />
-    &nbsp;&nbsp;&nbsp;
-    <a href="/" class="btn-light">Voltar</a>
-    <br />
-</form>
+        class Categoria {
+            constructor(id, categoria) {
+                this.id = id;
+                this.categoria = categoria;
+            }
+        }
+        //function login(theForm) {
+        //console.log(theForm);
+        //console.log("login" + theForm.usuario);
+        //console.log("senha" + theForm.senha);
+        //}
+
+        async function CreateCategorie() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                categoria = getData();
+
+                try {
+                    cati = await executePostWithAuthentication({ route: 'catProduct', data: categoria })
+                    console.log(cati)
+                    // window.location.href = "../Usuario/Perfil.html";
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+        }
+
+
+        function showError(msg) {
+
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
+
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
+
+
+        function onLoad() {
+            let spanErro = document.getElementById("mensagemErro");
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            console.log(`Editar: ${Editar}`);
+            if (id.length == 2) {
+                console.log(`Alterando tela`);
+                ChangeScreenToEdit(id[1]);
+            }
+            spanErro.className = "hide"
+
+        }
+
+        async function ChangeScreenToEdit(id) {
+            if (localStorage.getItem('id') == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+
+            categoria = await fillCategoria(id)
+            document.getElementById("categoria").setAttribute('value', categoria.categoria);
+            document.getElementById("btn").setAttribute('value', "Editar");
+        }
+
+        async function fillCategoria(id) {
+            try {
+                users = await executeGetWithAuthentication({ route: 'catProduct?id=' + id })
+                return users;
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+        async function EditCategoria() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                categoria = getData();
+
+                try {
+                    catAlt = await executePutWithAuthentication({ route: 'catProduct', data: categoria })
+                    console.log(catAlt)
+                    alert("alteração concluída!")
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+        function getData() {
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            let categoria = document.getElementById('categoria').value;
+
+            if (id.length != 2)
+                id = '';
+            else
+                id = id[1];
+
+            return new Categoria(id, categoria);
+        }
+
+        async function CreateEditCategoria() {
+            try{
+                var Editar = location.search.substring(1);
+                var id = Editar.split("Editar=");
+
+                if (id.length == 2) {
+                    console.log(`Alterando tela`);
+                    await EditCategoria();
+
+                }
+                else {
+                    await CreateCategorie();
+                }
+                alert("Registro alterado com sucesso")
+
+            }
+            catch{
+                alert("falha ao cadastrar")
+            }
+
+
+
+        }
+
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+</head>
+
+<body>
+<header class="customHeader">
+
+    <object style="overflow: hidden;width: 101%;height: 20vh;" type="text/html" data="../Shared/Header.html"></object>
+
+</header>
+    <section class="container">
+        <h2></h2>
+
+       
+
+                    <div class="card">
+                        <label for="categoria" class="control-label"></label>
+                        <input id="categoria" type="text" name="categoria" class="form-control input-field" required
+                            placeholder='categoria' />
+
+                        <input type="submit" value="Cadastrar" class="btn btn-success m-4"
+                            onclick="CreateCategorie()" />
+                        <span class="text-danger" id="mensagemErro"></span>
+
+                    </div>
+               
+    </section>
+
+</body>

@@ -1,71 +1,247 @@
-﻿@model UsuarioViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-<h2 class="titulo-formularios">Cadastro de Usuário</h2>
-<form class="formulario col-md-8" asp-action="Save" method="post">
-    <input type="hidden" name="Operacao" value="@ViewBag.Operacao" />
-
-    <input type="hidden" Name="Id" value="@Model.Id" class="form-control disabled" readonly />
-    <span asp-validation-for="Id" class="text-danger"></span>
-
-    <label for="Nome" class="control-label">Nome</label>
-    <input type="text" Name="Nome" value="@Model.Nome" class="form-control" />
-    <span asp-validation-for="Nome" class="text-danger"></span>
-    <br/>
-
-    <label for="CPF" class="control-label">CPF</label>
-    <input type="text" Name="CPF" value="@Model.CPF" class="form-control" />
-    <span asp-validation-for="CPF" class="text-danger"></span>
-    <br />
-
-    <div>
-        <div class="row">
-            <div class="col-6">
-                <label for="Email" class="control-label">Email</label>
-                <input type="text" Name="Email" value="@Model.Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="col-6">
-                <label for="Nascimento" class="control-label">Data de Nascimento</label>
-                <input type="date" Name="Nascimento" value="@Model.Nascimento.ToString("yyyy-MM-dd")" class="form-control" />
-                <span asp-validation-for="Nascimento" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-
-
-    <label for="senha" class="control-label">Senha</label>
-    <input type="password" name="senha" class="form-control" />
-    <span asp-validation-for="senha" class="text-danger"></span>
-    <br />
-
-    <label for="senhaRepetida" class="control-label">Repetir Senha</label>
-    <input type="password" name="senhaRepetida" class="form-control" />
-    <span asp-validation-for="senhaRepetida" class="text-danger"></span>
-    <br />
+    <link href="../../css/common.css" rel="stylesheet" />
+    <script src="../../js/api.js"></script>
 
 
 
-    @if (ViewBag.Tipo == "Gerente")
-    {
-        <label for="idTipoUsuario" class="control-label">Categoria</label>
-        <select asp-for="idTipoUsuario" asp-items="ViewBag.Categorias" class="form-control"> </select>
-        <span asp-validation-for="idTipoUsuario" class="text-danger"></span>
-        <br />
-    }
-    else
-    {
-        <label for="idTipoUsuario" class="control-label" hidden>Categoria</label>
-        <select asp-for="idTipoUsuario" asp-items="ViewBag.Categorias" class="form-control" hidden> </select>
-        <span asp-validation-for="idTipoUsuario" class="text-danger"></span>
-        <br />
-    }
-    <input type="submit" value="Salvar dados" class="btn btn-info" />
-    &nbsp;&nbsp;&nbsp;
+    <script type="text/javascript">
 
-    <a href="#" onclick='javascript:history.back(-1);' class="btn btn-light">Voltar</a>
+        class Usuario {
+            constructor(id,nome, email, senha, cpf, idTipoUsuario) {
+                this.id=id;
+                this.nome = nome;
+                this.email = email;
+                this.senha = senha;
+                this.cpf = cpf;
+                this.idTipoUsuario = idTipoUsuario;
+            }
+        }
+        //function login(theForm) {
+        //console.log(theForm);
+        //console.log("login" + theForm.usuario);
+        //console.log("senha" + theForm.senha);
+        //}
 
-    <br />
-</form>
+        function getData ()
+        {
+            let username = document.getElementById('us').value;
+            let password = document.getElementById('pw').value;
+            let passwordConfirmacao = document.getElementById('pw2').value;
+            let nome = document.getElementById('nome').value;
+            let cpf = document.getElementById('cpf').value;
+            let idTipoUsuario = document.getElementById('tipoUser').value;
+
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+            if (id.length != 2)
+                id = '';
+            else
+                id = id[1];
+
+            const user = new Usuario(id,nome, username, password, cpf, idTipoUsuario);
+
+            return user;
+        }
+
+        async function NewUser()
+        {
+            user =getData();
+
+
+            try {
+                const response = await fetch(`http://localhost:8081/register`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(user)
+
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+
+                const json = await response.json();
+
+                alert("Sucesso ao cadastrar!")
+
+                window.location.href = "../Home/index.html";
+
+
+            }
+            catch (error) {
+                showError("Usuário ou senha inválidos");
+            }
+
+        }
+
+
+        async function CreateEditUser() {
+            try{
+                var Editar = location.search.substring(1);
+                var id = Editar.split("Editar=");
+
+                if (id.length == 2) {
+                    console.log(`Alterando tela`);
+                    await EditUser();
+                    
+                }
+                else
+                {
+                    await NewUser();
+                
+                }
+
+                alert("Registrado com sucesso!")
+                window.location = "../Home/Index.html"
+            }
+            catch{
+                alert("Falha ao registrar !")
+
+            }
+
+
+        }
+
+        async function EditUser() {
+
+            let idUsuario = localStorage.getItem('id');
+            if (idUsuario == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+            else {
+
+                user =getData();
+
+                try {
+                    userAlt = await executePutWithAuthentication({ route: 'user', data: user })
+                    console.log(userAlt)
+                    localStorage.setItem('username',user.nome);
+                    //window.location.href = "../Usuario/Perfil.html";
+                    alert('Dados alteradors !')
+                }
+                catch (err) {
+                    alert(`Erro: ${err}`)
+                }
+            }
+
+
+
+        }
+
+        async function loadTipos(){
+            //load category data
+           tipos = await executeGetWithAuthentication({route:"typeUser"})
+           console.log(tipos)
+           selTipo = document.getElementById("selTipoUser")
+           tipos.map(tipo => {
+               option = document.createElement("option")
+               option.setAttribute("value",`${tipo.id}`)
+               option.innerHTML = tipo.tipo
+               selTipo.appendChild(option)
+           })
+        }
+
+
+        function showError(msg) {
+
+            let spanErro = document.getElementById("mensagemErro");
+            spanErro.className = "text-danger"
+
+            //texto a ser mostrado
+            spanErro.innerHTML = msg
+        }
+
+        async function fillUser(id) {
+            try {
+                users = await executeGetWithAuthentication({ route: 'user?id=' + id })
+                return users;
+            }
+            catch (err) {
+                alert(`Erro: ${err}`)
+            }
+        }
+
+
+        async function ChangeScreenToEdit() {
+            if (localStorage.getItem('id') == null) {
+                alert("Faça login!");
+                window.location.href = "../Login/index.html";
+            }
+
+            user = await fillUser(localStorage.getItem('id'))
+
+            document.getElementById("us").setAttribute('value', user.email);
+            document.getElementById("nome").setAttribute('value', user.nome);
+            document.getElementById("cpf").setAttribute('value', user.cpf);
+            document.getElementById("tipoUser").setAttribute('value', user.idTipoUsuario);
+            document.getElementById("tipoUser").setAttribute('value', user.idTipoUsuario);
+            document.getElementById("btn").setAttribute('value', "Editar");
+        }
+
+        function onLoad() {
+            let spanErro = document.getElementById("mensagemErro");
+            var Editar = location.search.substring(1);
+            var id = Editar.split("Editar=");
+
+            loadTipos()
+
+            if (id.length == 2) {
+                console.log(`Alterando tela`);
+                ChangeScreenToEdit();
+            }
+            spanErro.className = "hide"
+        }
+
+
+        //evento de on load
+        window.addEventListener('load', onLoad);
+
+    </script>
+</head>
+<header class="customHeader">
+
+    <object style="overflow: hidden;width: 101%;height: 20vh;" type="text/html" data="../Shared/Header.html"></object>
+
+</header>
+<body>
+    <section class="container">
+        <h2></h2>
+
+                    <div class="card">
+                        <label for="usuario" class="control-label"></label>
+                        <input id="us" type="text" name="usuario" class="form-control input-field" required
+                            placeholder='Email' />
+
+                        <label for="senha" class="control-label"></label>
+                        <input id="pw" type="password" name="senha" class="form-control input-field" required
+                            placeholder='Senha' />
+
+                        <label for="senhaConfirmacao" class="control-label"></label>
+                        <input id="pw2" type="password" name="senhaConfirmacao" class="form-control input-field"
+                            required placeholder='Confirme sua senha' />
+
+                        <label for="nome" class="control-label"></label>
+                        <input id="nome" type="text" name="Nome" class="form-control input-field" required
+                            placeholder='Nome' />
+
+                        <label for="cpf" class="control-label"></label>
+                        <input id="cpf" type="text" name="cpf" class="form-control input-field" required
+                            placeholder='cpf' />
+
+                        <label for="tipoUser" class="control-label"></label>
+                        <select id="selTipoUser" type="text" name="selTipoUser" class="form-control input-field" required
+                            placeholder='tipo de usuário' ><option selected disabled hidden >Selecione o tipo de usuário</option></select>
+
+                        <input id="btn" type="submit" value="Cadastrar" class="btn btn-success m-4"
+                            onclick="CreateEditUser()" />
+                        <span class="text-danger" id="mensagemErro"></span>
+                    </div>
+            
+    </section>
+
+</body>

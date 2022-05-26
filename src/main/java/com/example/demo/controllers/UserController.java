@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,10 @@ import com.example.demo.models.TypeUser;
 import com.example.demo.models.User;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.DAO.EnderecoDAO;
+import com.example.demo.DAO.OrdensDAO;
 import com.example.demo.DAO.TypeUserDAO;
 import com.example.demo.DAO.UserDAO;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class UserController {
 	
@@ -45,6 +47,8 @@ public class UserController {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de usuário inválido");
 				
 				UserDAO udao = new UserDAO();
+				user.GenerateID();
+				user.setIdTipoUsuario("aiwbduaoia");
 				user.setSenha(encoder.encode(user.getSenha()));
 				user.setStatusUsuario(true);
 				udao.insert(user);
@@ -74,8 +78,11 @@ public class UserController {
 				    	var itens=dao.findAll();
 				    	for(User user:itens)
 				    		user.setSenha("");
-
-				    	return ResponseEntity.ok(itens);
+				    	
+				    	if(itens==null)
+				    		return ResponseEntity.status(HttpStatus.OK).body("{}");
+				    	else
+				    		return ResponseEntity.ok(itens);
 				    	
 				    } else {
 
@@ -91,6 +98,8 @@ public class UserController {
 				    		EnderecoDAO edao= new EnderecoDAO();
 				    		usuario.setEnderecos(edao.findAllAdressUser(usuario.getId()));
 				    		usuario.setSenha("");
+				    		OrdensDAO Odao= new OrdensDAO();
+				    		Odao.findAllByUser(id);
 				    		return ResponseEntity.ok(usuario);
 				    	}
 				    		
@@ -103,8 +112,27 @@ public class UserController {
 					UserDetailsImpl user = (UserDetailsImpl)auth.getPrincipal();
 					User usuario=dao.find(user.getId());
 					usuario.setSenha("");
+		    		OrdensDAO Odao= new OrdensDAO();
+		    		Odao.findAllByUser(id);
+		    		TypeUserDAO tdao= new TypeUserDAO();
+		    		usuario.setTipoUsuario(tdao.find(usuario.getIdTipoUsuario()));
 					return ResponseEntity.ok(usuario);
 				}
+				
+			}
+			catch(Exception e)
+			{
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			}
+		}
+		@GetMapping("/userPermissions")
+		@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+		public ResponseEntity<?> getPermissions() {
+			try
+			{
+				
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				return ResponseEntity.status(HttpStatus.OK).body(auth.getAuthorities().stream());
 				
 			}
 			catch(Exception e)

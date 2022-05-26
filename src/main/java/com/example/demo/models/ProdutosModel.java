@@ -9,6 +9,8 @@ public class ProdutosModel extends PadraoModel {
 	private String descricao;
 
 	private byte[] foto;
+	
+	private String fotoEmBase64;
 
 	private int quantidade;
 
@@ -76,6 +78,16 @@ public class ProdutosModel extends PadraoModel {
 		}
 	}
 	
+	public String getFotoEmBase64() {
+		return fotoEmBase64;
+	}
+
+
+	public void setFotoEmBase64(String fotoEmBase64) {
+		this.fotoEmBase64 = fotoEmBase64;
+	}
+
+
 	public int getQuantidade() {
 		return this.quantidade;
 	}

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Barracão Store</title>
-    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/detalhes.css" />
     <link rel="stylesheet" href="../../css/produtos.css" />
     <link rel="stylesheet" href="../../css/site.css" />
@@ -13,12 +13,170 @@
     <link rel="stylesheet" href="../../css/paginacao.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <script src="../../js/api.js"></script>
+
+    <script type="text/javascript">
+
+        async function isAdmin()
+        {
+            try{
+
+                if(localStorage.getItem('accessToken')==null)
+                    return false
+
+
+                admin = await executeGetWithAuthentication({route:'userPermissions'})
+
+                if(admin.length > 0)
+                {
+                    let found = false
+                    admin.map(adm => {
+                        if(adm.authority === "ROLE_ADMIN")
+                        {
+                            found = true
+                        }
+                    })
+
+                    return found
+                }
+                else
+                {
+                    return false
+                }
+                
+            }
+            catch{
+                return false
+            }
+
+        }
+
+        async function loadHeader(){
+            try{
+                
+
+                console.log("load header")
+                categories = await executeGet({route:'catProduct'})  
+                profileLink = document.getElementById("user-profile-link");
+
+                logado = true
+
+                //verifica se usuário está logado
+                if(localStorage.getItem('accessToken')===null)
+                {
+                    logado = false
+                }
+
+                //verifica se usuário é administrador
+                isManager = await isAdmin()
+                if(isManager === true)
+                {
+                    profileLink.setAttribute("href","../Gerencia/Index.html")
+                    profileLink.setAttribute("target","_blank")
+                    profileLink.innerHTML = "Opções de Gerência"
+                }
+                else
+                {
+                    if(logado)
+                    {
+                        profileLink.setAttribute("href","../Usuario/Perfil.html")
+                        profileLink.setAttribute("target","_blank")
+                        profileLink.innerHTML = "Meu Perfil"   
+                    }
+                    else{
+                        profileLink.innerHTML = "Usuário não logado" 
+                    }
+
+                }
+
+                userSignedLink = document.getElementById("aLogin")
+
+
+                if(logado)
+                {
+                    userSignedLink.innerHTML = "Sair"
+                }
+                else{
+                    userSignedLink.innerHTML = "Entrar"
+                    userSignedLink.setAttribute("href","../Login/Index.html")
+                    userSignedLink.setAttribute("target","_blank")
+                }
+
+
+
+
+                console.log(categories)
+                //fill categories links
+                if(categories.length > 0)
+                {
+                    
+/*<div class="dropdown">
+  
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @for (int j = 5; j < ViewBag.CategoriasHeader.Count; j++)
+                            {
+                                <a class="dropdown-item" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[j].Id">@ViewBag.CategoriasHeader[j].Categoria</a>
+
+                            }
+                        </div>
+                    </div>*/
+
+
+ 
+
+                    select = document.createElement('select')
+                    select.setAttribute("style","background-color: #236B56; color:white;")
+                    
+                    divHeaderCont = document.getElementById("cat-containers")
+                    categories.forEach((cat,index) => {
+                        if(index < 5)
+                        {
+                            a = document.createElement('a')
+                            a.setAttribute('href',cat.id);
+                            a.innerHTML = cat.categoria
+                            a.className = "text-white"
+
+                            divHeaderCont.appendChild(a)
+                        }
+                        else{
+
+                            //criar lista para montar dropdown
+                            option = document.createElement("option")
+                            a = document.createElement('a')
+                            a.setAttribute('href',cat.id);
+                            a.innerHTML = cat.categoria
+                            a.className = "dropdown-item"
+                            option.appendChild(a)
+
+                            select.appendChild(option)
+
+                        }
+                    })
+
+                    if(categories.length > 5)
+                    {
+                        divHeaderCont.appendChild(select)
+                    }
+
+                }
+                
+            }
+            catch(err){
+            }
+        }
+
+        window.addEventListener('load',loadHeader)
+
+    </script>
+
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-light bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="/Home">
+                <a class="navbar-brand" href="../Home/Index.html" target="_blank">
                     <img src="../../images/logo_1.svg" width="100" />
                 </a>
 
@@ -35,9 +193,9 @@
                     }
                     else
                     {-->
-                        <a class="text-white p-1" asp-area="" asp-controller="Usuario" asp-action="CarregarPerfil">Meu Perfil</a>
+                        <a id="user-profile-link" class="text-white p-1">Meu Perfil</a>
                         
-                        <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="LogOff">LogOff</a>
+                        <a class="text-white p-1" asp-area="" id="aLogin" asp-controller="Login" asp-action="LogOff">LogOff</a>
                    <!--}-->
                     <a class="p-2" asp-area="" asp-controller="Carrinho" asp-action="Visualizar">
                         <img src="../../images/carrinho.svg" width="20px">
@@ -47,13 +205,8 @@
             </div>
         </nav>
         <nav class="navbar " style=" background-color: #236B56">
-            <div class="container">
-                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 1 </a>
-                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 2 </a>
-                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 3 </a>
-                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 4 </a>
-                <a class="text-white" href="/Home/AplicaFiltro?newPage=true&idCategoria=@ViewBag.CategoriasHeader[i].Id">CAT 5 </a>
-
+            <div class="container" id="cat-containers">
+               
               <!--
                     @if (ViewBag.CategoriasHeader.Count > 5)
                 {
@@ -88,7 +241,6 @@
                 }
               -->  
 
-                <a class="text-white" asp-area="" asp-controller="Sobre" asp-action="Index">Sobre Nós</a>
             </div>
     </nav>
     </header>
