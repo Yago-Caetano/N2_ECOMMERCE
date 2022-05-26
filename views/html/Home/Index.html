@@ -2,6 +2,8 @@
     <link rel="stylesheet" href="../../css/Filtro.css" />
     <link rel="stylesheet" href="../../css/paginacao.css" />
     <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../css/home.css" />
+
     <script src="../../js/api.js"></script>
 
     <script type="text/javascript">
@@ -57,11 +59,11 @@
                             cardImage.src = "data:image/webp;base64," + produtos[contador].fotoEmBase64;
                             //cardImage.style = "width: 300px; height: 300px;";
                             let cardTitle = document.createElement("h5");
-                            cardTitle.className = "card-title";
+                            cardTitle.className = "card-title p-2";
                             cardTitle.innerText = produtos[contador].nome;
                             let cardParagraph = document.createElement("p");
-                            cardParagraph.className = "card-text";
-                            cardParagraph.innerText = produtos[contador].descricao + "\n" + "\n" + "Preço: " + produtos[contador].preco;
+                            cardParagraph.className = "card-text p-2 fs-3 fw-bold text-success";
+                            cardParagraph.innerText = "R$ " + produtos[contador].preco;
 
                             divCard.appendChild(cardImage);
                             divCard.appendChild(cardTitle);

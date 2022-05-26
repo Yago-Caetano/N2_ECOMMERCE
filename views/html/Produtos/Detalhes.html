@@ -56,33 +56,8 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-light bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="/Home">
-                    <img src="../../images/logo_1.svg" width="100" />
-                </a>
+        <object style="width: 100%;height: fit-content;" type="text/html" data="../Shared/Header.html"></object>
 
-
-                <div class="d-flex align-items-center">
-
-                    <a class="text-white p-1" asp-area="" asp-controller="Usuario" asp-action="CarregarPerfil">Meu
-                        Perfil</a>
-
-                    <a class="text-white p-1" asp-area="" asp-controller="Login" asp-action="LogOff">LogOff</a>
-
-                    <a class="p-2" asp-area="" asp-controller="Carrinho" asp-action="Visualizar">
-                        <img src="../../images/carrinho.svg" width="20px">
-                    </a>
-
-                </div>
-            </div>
-        </nav>
-        <nav class="navbar " style=" background-color: #236B56">
-            <div class="container" id="cat-containers">
-
-                <a class="text-white" asp-area="" asp-controller="Sobre" asp-action="Index">Sobre Nós</a>
-            </div>
-        </nav>
     </header>
     <div class="container">
         <div class="panel panel-default">
@@ -90,26 +65,18 @@
                 <h3 class="panel-title" style="color: white; padding: 30px;" id="title">Produto</h3>
             </div>
             <div class="panel-body">
-                <div class="row">
                     <div class="col">
                         <img src="#" id="imgProd" width="450px" height="450px"
                             style="padding-left: 60px; padding-top: 60px; display: block; border-radius: 10px;">
                     </div>
-                    <div class="col" style="margin-top: 25px; overflow: auto;" id="colRight">
-                        <div class="row">
-                            <p id="description">descriçãoLorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Vivamus justo sem,
-                                luctus quis diam a, condimentum convallis leo. Nam eu tincidunt leo, vehicula venenatis
-                                felis. Etiam pretium, turpis at convallis condimentum, neque sapien tempor mi, feugiat
-                                tincidunt libero sem non velit. Praesent maximus, risus eu placerat rutrum, magna nulla
-                                lobortis ante, vel viverra tortor ipsum eget lorem. Integer lacinia semper faucibus.
-                                Vestibulum hendrerit ut erat et tincidunt. In sed viverra magna. Vestibulum eget
-                                accumsan lorem. Nam viverra urna id dui venenatis, sed fermentum metus finibus. Etiam
-                                sit amet massa diam. Duis volutpat maximus vulputate. Curabitur metus nulla, vulputate
-                                et rutrum.</p>
+                    <div id="painel-esquerdo" style="display:flex; flex-direction:column">
+                        <div style="margin-top: 25px; display:flex; flex-direction:column" id="colRight">
+                            <b>Descrição:</b>
+                            <p id="description"></p>
                         </div>
                         <div class="row">
-                            <p style="font-weight: bold;" id="price">preço</p>
+                            <b>Valor</b>
+                            <p style="font-weight: bold;" id="price"></p>
                         </div>
                         <div class="row">
                             <div class="col">
@@ -124,11 +91,17 @@
                                 <p>Disponível: </p>
                                 <span class="roundNumber" id="spanEstoque">999</span>
                             </div>
+
+                            <div>
+                                <button class="buttonProd" onclick="efetuaCompra()"><span>Comprar </span></button>
+                    
+                            </div>
+
                         </div>
                     </div>
+                    </div>
+
                 </div>
-                <button class="buttonProd" onclick="efetuaCompra()"><span>Comprar </span></button>
-            </div>
         </div>
 
     </div>
